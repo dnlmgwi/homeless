@@ -4,6 +4,7 @@ export 'dart:io';
 export 'package:flutter/services.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter/widgets.dart';
+export 'dart:async';
 
 //Plugins
 export 'package:url_launcher/url_launcher.dart';
@@ -13,6 +14,8 @@ export 'package:flutter_rave/flutter_rave.dart';
 
 //Root
 export 'package:homeless/dashboard.dart';
+export 'package:homeless/auth_state.dart';
+export 'package:homeless/routes.dart';
 
 //Screens
 export 'package:homeless/screens/feedbackScreen.dart';
@@ -27,6 +30,7 @@ export 'package:homeless/screens/quizPage.dart';
 export 'package:homeless/model/appTheme.dart';
 export 'package:homeless/model/tabIconData.dart';
 export 'package:homeless/model/question.dart';
+export 'package:homeless/model/user/user.dart';
 
 //Views
 export 'package:homeless/view/bottomBarView.dart';

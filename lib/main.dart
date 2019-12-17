@@ -1,4 +1,3 @@
-import 'package:homeless/login.dart';
 import 'package:homeless/packages.dart';
 
 void main() {
@@ -33,32 +32,19 @@ class MyApp extends StatelessWidget {
       title: 'Homeless App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
       home: _handleCurrentScreen(),
-      routes: {
-        '/about': (BuildContext context) => AboutScreen(),
-        '/donate': (BuildContext context) => Donate(),
-//        '/learn': (BuildContext context) => Learn(),
-
-        '/profile': (BuildContext context) => ProfileScreen(),
-        '/login': (BuildContext context) => LoginScreen(),
-        '/dash': (BuildContext context) => Dashboard(),
-        '/feedback': (BuildContext context) => FeedbackScreen(),
-        '/terms': (BuildContext context) => TermsScreen(),
-        '/logout': (BuildContext context) => OnBoardingScreen(),
-        '/share': (BuildContext context) => InviteFriend(),
-        '/game': (BuildContext context) => QuizPage(),
-      },
+      routes: routes,
     );
   }
 
   Widget _handleCurrentScreen() {
     bool seen = (prefs.getBool('seen') ?? false);
     if (seen) {
-      return LoginScreen();
+      return Dashboard();
     } else {
       return OnBoardingScreen(prefs: prefs);
     }

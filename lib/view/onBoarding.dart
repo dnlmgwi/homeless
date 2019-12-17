@@ -152,7 +152,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   textColor: AppTheme.white,
                   onPressed: () {
                     widget.prefs.setBool('seen', true);
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushNamed(context, '/dash');
                   },
                   splashColor: AppTheme.nearlyWhite,
                   color: AppTheme.nearlyBlack,
