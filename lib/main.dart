@@ -2,20 +2,26 @@ import 'package:homeless/packages.dart';
 
 void main() {
   //Forces the App to only be used in Portrait.
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]).then((_) => SharedPreferences.getInstance().then((prefs) {
-        runApp(MyApp(
-          prefs: prefs,
-        )); //Shared Preferences allows us to view the onboarding once, and once it is seen it will not be seen again.
-      }));
+//  SystemChrome.setPreferredOrientations([
+//    DeviceOrientation.portraitUp,
+//    DeviceOrientation.portraitDown,
+//  ]).then((_) => SharedPreferences.getInstance().then((prefs) {
+//        runApp(MyApp(
+//          prefs: prefs,
+//        )); //Shared Preferences allows us to view the onboarding once, and once it is seen it will not be seen again.
+//      }));
+
+  runApp(MyApp(
+//    prefs: prefs,
+      ));
 }
 
 class MyApp extends StatelessWidget {
-  final SharedPreferences prefs;
+//  final SharedPreferences prefs;
 
-  MyApp({this.prefs});
+  MyApp(
+//      {this.prefs}
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +38,24 @@ class MyApp extends StatelessWidget {
       title: 'Homeless App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.deepPurple,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: _handleCurrentScreen(),
+      home: Dashboard(),
+//      _handleCurrentScreen(),
       routes: routes,
     );
   }
 
-  Widget _handleCurrentScreen() {
-    bool seen = (prefs.getBool('seen') ?? false);
-    if (seen) {
-      return Dashboard();
-    } else {
-      return OnBoardingScreen(prefs: prefs);
-    }
-  }
+//  Widget _handleCurrentScreen() {
+//    bool seen = (prefs.getBool('seen') ?? false);
+//    if (seen) {
+//      return Dashboard();
+//    } else {
+//      return OnBoardingScreen(prefs: prefs);
+//    }
+//  }
 }
 
 class HexColor extends Color {
