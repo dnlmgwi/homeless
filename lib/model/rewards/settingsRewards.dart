@@ -1,9 +1,10 @@
+import 'package:homeless/model/rewards/fields.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'settingsRewards.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SettingsRewards {
-  List fields;
+  Fields fields;
   String active;
 
   SettingsRewards({this.fields, this.active});
@@ -13,6 +14,11 @@ class SettingsRewards {
   /// The constructor is named after the source class, in this case, User.
   factory SettingsRewards.fromJson(Map<String, dynamic> json) =>
       _$SettingsRewardsFromJson(json);
+
+//  factory SettingsRewards.fromJson(Map<String,dynamic> json) {
+//    return SettingsRewards(
+//        fields: json.map(f) => Fields.fromJson(f as Map<String, dynamic>));
+//  }
 
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated

@@ -1,4 +1,4 @@
-
+import 'package:homeless/model/rewards/settingsRewards.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'rewards.g.dart';
 
@@ -6,12 +6,14 @@ part 'rewards.g.dart';
 class Rewards {
   String status;
   String message;
-  String shortcode;
+
+  @JsonKey(name: 'shortcode')
+  String shortCode;
 
   @JsonKey(name: 'settings_rewards')
-  List settingsRewards;
+  List<SettingsRewards> settingsRewards;
 
-  Rewards({this.status, this.message, this.shortcode, this.settingsRewards});
+  Rewards({this.status, this.message, this.shortCode, this.settingsRewards});
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
