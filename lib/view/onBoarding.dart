@@ -1,9 +1,9 @@
 import 'package:homeless/packages.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  final SharedPreferences prefs;
+//  final SharedPreferences prefs;
 
-  OnBoardingScreen({this.prefs});
+//  OnBoardingScreen({this.prefs});
 
   final List<OnBoardingModel> pages = [
     OnBoardingModel(
@@ -121,11 +121,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Icon(
-                FontAwesomeIcons.qrcode,
-                size: 125.0,
-                color: AppTheme.nearlyBlack,
-              ),
+//              Icon(
+//                FontAwesomeIcons.qrcode,
+//                size: 125.0,
+//                color: AppTheme.nearlyBlack,
+//              ),
+              Image.asset('', height: 125.0, width: 125.0),
               Padding(
                 padding:
                     const EdgeInsets.only(top: 50.0, right: 15.0, left: 15.0),
@@ -142,11 +143,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     borderRadius: new BorderRadius.circular(50.0),
                   ),
                   child: Text(
-                    "Get Started",
+                    "Start",
                   ),
                   textColor: AppTheme.white,
                   onPressed: () {
-                    widget.prefs.setBool('seen', true);
+//                    widget.prefs.setBool('seen', true);
                     Navigator.pushNamed(context, '/dash');
                   },
                   splashColor: AppTheme.nearlyWhite,

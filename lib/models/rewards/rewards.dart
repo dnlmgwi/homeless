@@ -1,5 +1,4 @@
-import 'package:homeless/models/rewards/settingsRewards.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:homeless/packages.dart';
 part 'rewards.g.dart';
 
 @JsonSerializable(explicitToJson: true)

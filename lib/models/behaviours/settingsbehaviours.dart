@@ -1,16 +1,18 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:homeless/packages.dart';
 
 //Models
 import 'package:homeless/models/behaviours/settings_behaviours/basicpunch/basicpunch.dart';
-import 'package:homeless/models/behaviours/broughtfriend.dart';
-import 'package:homeless/models/behaviours/visitsregularly.dart';
-import 'package:homeless/models/behaviours/mostfrequent.dart';
-import 'package:homeless/models/behaviours/longabsence.dart';
-import 'package:homeless/models/behaviours/employeepromoter.dart';
-import 'package:homeless/models/behaviours/firstcustomer.dart';
-import 'package:homeless/models/behaviours/dailyrepeater.dart';
-import 'package:homeless/models/behaviours/visitslocations.dart';
-import 'package:homeless/models/behaviours/mytreat.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/broughtfriend/broughtfriend.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/visitsregularly/visitsregularly.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/mostfrequent/mostfrequent.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/longabsence/longabsence.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/employeepromoter/employeepromoter.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/firstcustomer/firstcustomer.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/dailyrepeater/dailyrepeater.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/visitslocations/visitslocations.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/mytreat/mytreat.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/registerer/registerer.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/visitsLocations/visitsLocations.dart';
 
 part 'settingsbehaviours.g.dart';
 
@@ -67,4 +69,15 @@ class SettingsBehaviours {
     this.myTreat,
     this.opportunist,
   });
+
+  /// A necessary factory constructor for creating a new User instance
+  /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
+  /// The constructor is named after the source class, in this case, User.
+  factory SettingsBehaviours.fromJson(Map<String, dynamic> json) =>
+      _$SettingsBehavioursFromJson(json);
+
+  /// `toJson` is the convention for a class to declare support for serialization
+  /// to JSON. The implementation simply calls the private, generated
+  /// helper method `_$UserToJson`.
+  Map<String, dynamic> toJson() => _$SettingsBehavioursToJson(this);
 }

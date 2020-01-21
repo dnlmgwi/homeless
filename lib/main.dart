@@ -42,7 +42,8 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: Dashboard(),
+      home: OnBoardingScreen(),
+//      Dashboard()
 //      _handleCurrentScreen(),
       routes: routes,
     );

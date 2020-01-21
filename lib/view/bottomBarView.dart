@@ -1,14 +1,5 @@
-import 'package:homeless/models/appTheme.dart';
-import 'package:homeless/models/tabIconData.dart';
-import 'package:flutter/material.dart';
+import 'package:homeless/packages.dart';
 import 'dart:math' as math;
-
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import 'package:rich_alert/rich_alert.dart';
-import 'dart:async';
 
 class BottomBarView extends StatefulWidget {
   final Function(int index) changeIndex;
@@ -88,7 +79,7 @@ class _BottomBarViewState extends State<BottomBarView>
   _launchURL(qrCode) async {
     // canLaunch(String urlString) Checks whether the specified URL can be handled by some app installed on the device.
     if (await canLaunch(qrCode)) {
-      // Checks whether the specified URL contains the link before launching.
+      // Checks whether the specified URL contains the link before launching. (Temporary Validation)
       qrCode.contains('https://loyalty.whisqr.com/card/')
           ? await launch(qrCode)
           : throw 'Could not launch $qrCode';

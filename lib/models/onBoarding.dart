@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:homeless/packages.dart';
 
 class OnBoardingModel {
   final String heroAssetPath;

@@ -1,13 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:homeless/api/network.dart';
-import 'package:homeless/models/rewards/rewards.dart';
 import 'package:homeless/packages.dart';
 
 class RewardsScreen extends StatefulWidget {
-  RewardsScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _RewardsScreenState createState() => _RewardsScreenState();
 }
@@ -26,8 +19,30 @@ class _RewardsScreenState extends State<RewardsScreen> {
     getRewardData();
   }
 
+  //This Method Launches the alert Dialogue for an API Error
+  _alert({context, error}) {
+    showDialog(
+        context: context, //builds a context of its own
+        builder: (BuildContext context) {
+          return RichAlertDialog(
+            //uses the custom alert dialog imported
+            alertTitle: richTitle("Network Error"),
+            alertSubtitle: richSubtitle("$error"),
+            alertType: RichAlertType.ERROR,
+            actions: <Widget>[
+              RaisedButton(
+                child: Text('Try Again'),
+                onPressed: () => Navigator.pop(context), //closes the dialogue
+              )
+            ],
+          );
+        });
+  }
+
   void getRewardData() async {
-    var onValue = await api.getRewardData();
+    var onValue = await api.getRewardData().catchError((onError) {
+      _alert(context: context, error: onError);
+    });
     setState(() {
       rewardsList = Rewards.fromJson(onValue);
       return rewardsList.settingsRewards;

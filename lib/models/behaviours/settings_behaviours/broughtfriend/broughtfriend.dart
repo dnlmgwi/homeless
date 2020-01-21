@@ -1,12 +1,8 @@
 import 'package:homeless/packages.dart';
-part '../behaviours.g.dart';
+part 'broughtfriend.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class BasicPunch {
-  String active;
-  Fields fields;
-  Punch punch;
-
+class BroughtFriend {
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
   /// The constructor is named after the source class, in this case, User.

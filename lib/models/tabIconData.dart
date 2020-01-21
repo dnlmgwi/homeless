@@ -18,12 +18,12 @@ class TabIconData {
   static List<TabIconData> tabIconsList = [
     TabIconData(
       icon: Icon(
-        Icons.menu,
+        Icons.list,
         color: AppTheme.deactivatedText,
         size: 23.0,
       ),
       iconSelected: Icon(
-        Icons.menu,
+        Icons.list,
         color: AppTheme.nearlyBlack,
         size: 30.0,
       ),
