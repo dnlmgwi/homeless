@@ -1,4 +1,6 @@
 import 'package:homeless/models/behaviours/settings_behaviours/opportunist/fields/speciallist/seasonlist/seasonlist.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/opportunist/fields/speciallist/timeofdaylist/timeofdaylist.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/opportunist/fields/speciallist/weekdaylist/weekdaylist.dart';
 import 'package:homeless/packages.dart';
 part 'speciallist.g.dart';
 

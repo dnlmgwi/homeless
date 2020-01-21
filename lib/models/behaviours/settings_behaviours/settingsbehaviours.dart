@@ -12,6 +12,8 @@ import 'package:homeless/models/behaviours/settings_behaviours/dailyrepeater/dai
 import 'package:homeless/models/behaviours/settings_behaviours/luckiest/luckiest.dart';
 import 'package:homeless/models/behaviours/settings_behaviours/registerer/registerer.dart';
 import 'package:homeless/models/behaviours/settings_behaviours/opportunist/opportunist.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/mytreat/mytreat.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/visitslocations/visitslocations.dart';
 
 part 'settingsbehaviours.g.dart';
 
@@ -44,12 +46,12 @@ class SettingsBehaviours {
   Registerer registerer;
 
   @JsonKey(name: 'visitslocations')
-  VisitsLocatons visitsLocations;
+  VisitsLocations visitsLocations;
 
   Luckiest luckiest;
 
   @JsonKey(name: 'mytreat')
-  Mytreat myTreat;
+  MyTreat myTreat;
 
   Opportunist opportunist;
 
