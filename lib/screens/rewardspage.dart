@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:homeless/api/network.dart';
-import 'package:homeless/model/BlockWidgetModel.dart';
-import 'package:homeless/model/rewards/rewards.dart';
-import 'package:homeless/model/rewards/settingsRewards.dart';
+import 'package:homeless/models/rewards/rewards.dart';
 import 'package:homeless/packages.dart';
 
 class RewardsScreen extends StatefulWidget {
@@ -17,7 +13,7 @@ class RewardsScreen extends StatefulWidget {
 }
 
 class _RewardsScreenState extends State<RewardsScreen> {
-  String _currText = '';
+//  String _currText = '';
 
   Network api = Network();
 
@@ -31,18 +27,11 @@ class _RewardsScreenState extends State<RewardsScreen> {
   }
 
   void getRewardData() async {
-    var onValue = await api.getData();
-    if (onValue == null) {
-      CircularProgressIndicator(
-        backgroundColor: AppTheme.dark_grey,
-        strokeWidth: 5,
-      );
-    } else {
-      setState(() {
-        rewardsList = Rewards.fromJson(onValue);
-        return rewardsList.settingsRewards;
-      });
-    }
+    var onValue = await api.getRewardData();
+    setState(() {
+      rewardsList = Rewards.fromJson(onValue);
+      return rewardsList.settingsRewards;
+    });
   }
 
   @override
@@ -58,6 +47,13 @@ class _RewardsScreenState extends State<RewardsScreen> {
             titleSpacing: 1.2,
             centerTitle: false,
             backgroundColor: AppTheme.dark_grey,
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () {
+                    getRewardData();
+                  })
+            ],
             title: Text(
               "Rewards",
               textAlign: TextAlign.left,
@@ -72,18 +68,46 @@ class _RewardsScreenState extends State<RewardsScreen> {
           ),
           body: Padding(
             padding: EdgeInsets.all(10.0),
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (context, int) {
+                return Divider();
+              },
               itemBuilder: (context, int) {
+                bool active = rewardsList.settingsRewards[int].active == 'true';
+
                 return ListTile(
-                  trailing: Text(
-                      'HL: ${rewardsList.settingsRewards[int].fields.punchCost}',
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontName,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16,
-                        letterSpacing: 1.2,
-                        color: AppTheme.dark_grey,
-                      )),
+                  enabled: active,
+                  onTap: () {},
+                  leading: active
+                      ? Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                        )
+                      : Icon(
+                          Icons.cancel,
+                          color: Colors.red,
+                        ),
+                  trailing: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                          '${rewardsList.settingsRewards[int].fields.punchCost}',
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 32,
+                            color: AppTheme.dark_grey,
+                          )),
+                      Text('HL Points',
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10,
+                            letterSpacing: 1.2,
+                            color: AppTheme.lightText,
+                          )),
+                    ],
+                  ),
                   subtitle: Text(
                       '${rewardsList.settingsRewards[int].fields.description}',
                       style: TextStyle(
@@ -91,15 +115,15 @@ class _RewardsScreenState extends State<RewardsScreen> {
                         fontWeight: FontWeight.normal,
                         fontSize: 12,
                         letterSpacing: 1.2,
-                        color: AppTheme.dark_grey,
+                        color: AppTheme.deactivatedText,
                       )),
                   title: Text(
                       "${rewardsList.settingsRewards[int].fields.rewardName}",
                       style: TextStyle(
                         fontFamily: AppTheme.fontName,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         fontSize: 20,
-                        letterSpacing: 1.2,
+                        letterSpacing: 1.7,
                         color: AppTheme.darkerText,
                       )),
                 );

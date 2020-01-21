@@ -1,4 +1,4 @@
-import 'package:homeless/model/rewards/fields.dart';
+import 'package:homeless/models/rewards/fields.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'settingsRewards.g.dart';
 

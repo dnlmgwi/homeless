@@ -1,5 +1,5 @@
-import 'package:homeless/model/appTheme.dart';
-import 'package:homeless/model/tabIconData.dart';
+import 'package:homeless/models/appTheme.dart';
+import 'package:homeless/models/tabIconData.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 

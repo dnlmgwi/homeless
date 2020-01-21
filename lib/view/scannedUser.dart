@@ -1,5 +1,4 @@
-import 'package:homeless/model/appTheme.dart';
-import 'package:flutter/material.dart';
+import 'package:homeless/packages.dart';
 
 class UserView extends StatelessWidget {
   final AnimationController animationController;

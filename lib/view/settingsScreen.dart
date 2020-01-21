@@ -1,6 +1,4 @@
-import 'package:homeless/view/titleView.dart';
-import 'package:flutter/material.dart';
-import 'package:homeless/model/appTheme.dart';
+import 'package:homeless/packages.dart';
 
 class SettingsScreen extends StatefulWidget {
   final AnimationController animationController;

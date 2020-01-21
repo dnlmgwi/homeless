@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import "package:flutter_swiper/flutter_swiper.dart";
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:homeless/model/onBoarding.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:homeless/model/appTheme.dart';
+import 'package:homeless/packages.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   final SharedPreferences prefs;

@@ -1,7 +1,4 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:homeless/view/titleView.dart';
-import 'package:homeless/model/appTheme.dart';
-import 'package:flutter/material.dart';
+import 'package:homeless/packages.dart';
 
 class MenuScreen extends StatefulWidget {
   final AnimationController animationController;
@@ -135,7 +132,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
       TitleView(
         route: '/rewards',
         icon: Icon(
-          Icons.beenhere,
+          Icons.local_activity,
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'Rewards',

@@ -1,28 +1,29 @@
-import 'package:homeless/model/rewards/settingsRewards.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'rewards.g.dart';
+import 'package:homeless/models/behaviours/settingsbehaviours.dart';
+part '../behaviours.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Rewards {
+class Behaviours {
   String status;
   String message;
 
   @JsonKey(name: 'shortcode')
   String shortCode;
 
-  @JsonKey(name: 'settings_rewards')
-  List<SettingsRewards> settingsRewards;
+  @JsonKey(name: 'settings_behaviours')
+  SettingsBehaviours settingsBehaviours;
 
-  Rewards({this.status, this.message, this.shortCode, this.settingsRewards});
+  Behaviours(
+      {this.status, this.message, this.shortCode, this.settingsBehaviours});
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
   /// The constructor is named after the source class, in this case, User.
-  factory Rewards.fromJson(Map<String, dynamic> json) =>
-      _$RewardsFromJson(json);
+  factory Behaviours.fromJson(Map<String, dynamic> json) =>
+      _$BehavioursFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$UserToJson`.
-  Map<String, dynamic> toJson() => _$RewardsToJson(this);
+  Map<String, dynamic> toJson() => _$BehavioursToJson(this);
 }
