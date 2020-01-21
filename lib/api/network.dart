@@ -5,39 +5,40 @@ import 'dart:convert';
 class Network {
   Dio dio = Dio();
 
+  //Fetches Reward Data From The Api
   Future getRewardData() async {
     Response response = await dio.get(
       rewards_Settings,
       options: Options(
         headers: {
+          //The Public Key is Constant and in sorted in a separate file.
           "X-Public": keyPublic,
         },
-        responseType: ResponseType.plain,
+        responseType: ResponseType.plain, //Plain Text is converted into json.
       ),
     );
 
-//    var rewards = Rewards.fromJson(response.data);
-
     Map<dynamic, dynamic> rewardMap = json.decode(response.data);
 
-//    Map<dynamic, dynamic> rewardMap = json.decode(rewards);
-
-    return rewardMap;
+    return rewardMap; //Returned as a Map<?,?>
   }
 
+  //Fetches Behaviour Data From The Api
   Future getBehaviourData() async {
     Response response = await dio.get(
       behaviour_Settings,
       options: Options(
         headers: {
+          //The Public Key is Constant and in sorted in a separate file.
           "X-Public": keyPublic,
         },
+        //Plain Text is converted into json.
         responseType: ResponseType.plain,
       ),
     );
 
     Map<dynamic, dynamic> behaviourMap = json.decode(response.data);
 
-    return behaviourMap;
+    return behaviourMap; //Returned as a Map<?,?>
   }
 }

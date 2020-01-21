@@ -1,20 +1,5 @@
 import 'package:homeless/packages.dart';
-
-//Models
-import 'package:homeless/models/behaviours/settings_behaviours/basicpunch/basicpunch.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/broughtfriend/broughtfriend.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/visitsregularly/visitsregularly.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/mostfrequent/mostfrequent.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/longabsence/longabsence.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/employeepromoter/employeepromoter.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/firstcustomer/firstcustomer.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/dailyrepeater/dailyrepeater.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/luckiest/luckiest.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/registerer/registerer.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/opportunist/opportunist.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/mytreat/mytreat.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/visitslocations/visitslocations.dart';
-
+import 'package:homeless/models/behaviours/settings_behaviours/models.dart';
 part 'settingsbehaviours.g.dart';
 
 @JsonSerializable(explicitToJson: true)

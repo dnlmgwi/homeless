@@ -1,8 +1,10 @@
+//Endpoint Data
 const loginEndpoint = "https://loyalty.whisqr.com/api/v1.2/user/login";
 const isMemberEndpoint = "https://whisqr.com/api/v1.2/user/ismember";
 const rewards_Settings = "https://whisqr.com/api/v1.2/business/rewards";
 const behaviour_Settings = "https://whisqr.com/api/v1.2/business/behaviours";
 
+//Must Be Changed After Every release.
 const keySecret =
     "sk_live_11a0e076526ab0d83bca14fc04d416afbb478912729377227ee9b8b9b2689ab8";
 const keyPublic =

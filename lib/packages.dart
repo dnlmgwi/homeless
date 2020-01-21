@@ -17,9 +17,7 @@ export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart'; //QR Code Scanner
 export 'package:rich_alert/rich_alert.dart'; //Alert Dialogue
 
-//Root
-export 'package:homeless/dashboard.dart';
-export 'package:homeless/auth_state.dart';
+//Routes
 export 'package:homeless/routes.dart'; //Contains all named routes
 
 //Screens
@@ -30,6 +28,7 @@ export 'package:homeless/screens/termsScreen.dart';
 export 'package:homeless/screens/profileScreen.dart';
 export 'package:homeless/screens/donateScreen.dart';
 export 'package:homeless/screens/quizPage.dart';
+export 'package:homeless/dashboard.dart'; //
 
 //Models
 export 'package:homeless/data/appTheme.dart';
@@ -44,7 +43,7 @@ export 'package:homeless/models/rewards/settingsRewards.dart';
 export 'package:homeless/view/bottomBarView.dart';
 export 'package:homeless/view/settingsScreen.dart';
 export 'package:homeless/view/menuScreen.dart';
-export 'package:homeless/view/onBoarding.dart';
+export 'package:homeless/screens/onBoarding.dart';
 export 'package:homeless/view/titleView.dart';
 
 //services
