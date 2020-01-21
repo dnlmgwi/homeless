@@ -1,8 +1,14 @@
+import 'package:homeless/models/behaviours/settings_behaviours/opportunist/fields/speciallist/speciallist.dart';
 import 'package:homeless/packages.dart';
-part '../behaviours.g.dart';
+part 'fields.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Punch {
+class Fields {
+  @JsonKey(name: 'speciallist')
+  List<SpecialList> specialList;
+
+  Fields({this.specialList});
+
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
   /// The constructor is named after the source class, in this case, User.

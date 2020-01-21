@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:homeless/models/behaviours/settingsbehaviours.dart';
-part '../behaviours.g.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/settingsbehaviours.dart';
+part 'behaviours.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Behaviours {

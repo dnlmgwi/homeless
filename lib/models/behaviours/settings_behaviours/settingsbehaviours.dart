@@ -9,10 +9,9 @@ import 'package:homeless/models/behaviours/settings_behaviours/longabsence/longa
 import 'package:homeless/models/behaviours/settings_behaviours/employeepromoter/employeepromoter.dart';
 import 'package:homeless/models/behaviours/settings_behaviours/firstcustomer/firstcustomer.dart';
 import 'package:homeless/models/behaviours/settings_behaviours/dailyrepeater/dailyrepeater.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/visitslocations/visitslocations.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/mytreat/mytreat.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/luckiest/luckiest.dart';
 import 'package:homeless/models/behaviours/settings_behaviours/registerer/registerer.dart';
-import 'package:homeless/models/behaviours/settings_behaviours/visitsLocations/visitsLocations.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/opportunist/opportunist.dart';
 
 part 'settingsbehaviours.g.dart';
 

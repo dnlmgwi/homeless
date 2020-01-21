@@ -1,8 +1,16 @@
+import 'package:homeless/models/behaviours/settings_behaviours/visitsregularly/fields/fields.dart';
+import 'package:homeless/models/behaviours/settings_behaviours/visitsregularly/punch/punch.dart';
 import 'package:homeless/packages.dart';
-part '../behaviours.g.dart';
+part 'visitsregularly.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class VisitsRegularly {
+  Fields fields;
+  Punch punch;
+  String active;
+
+  VisitsRegularly({this.fields, this.punch, this.active});
+
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
   /// The constructor is named after the source class, in this case, User.

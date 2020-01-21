@@ -1,22 +1,20 @@
-import 'package:homeless/models/behaviours/settings_behaviours/registerer/fields/fields.dart';
 import 'package:homeless/packages.dart';
-part 'registerer.g.dart';
+part 'punches.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Registerer {
-  String active;
-  Fields fields;
+class Punches {
+  int index;
 
-  Registerer({this.active, this.fields});
+  Punches({this.index});
 
   /// A necessary factory constructor for creating a new User instance
   /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
   /// The constructor is named after the source class, in this case, User.
-  factory Registerer.fromJson(Map<String, dynamic> json) =>
-      _$RegistererFromJson(json);
+  factory Punches.fromJson(Map<String, dynamic> json) =>
+      _$PunchesFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$UserToJson`.
-  Map<String, dynamic> toJson() => _$RegistererToJson(this);
+  Map<String, dynamic> toJson() => _$PunchesToJson(this);
 }
