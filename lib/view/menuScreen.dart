@@ -116,7 +116,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
       TitleView(
         route: '/behaviours',
         icon: Icon(
-          Icons.star_border,
+          Icons.star,
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'Benefits',
@@ -153,7 +153,6 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'Rewards',
-        subTxt: 'Testing',
         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:

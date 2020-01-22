@@ -17,6 +17,8 @@ export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart'; //QR Code Scanner
 export 'package:rich_alert/rich_alert.dart'; //Alert Dialogue
 export 'package:flutter_svg/flutter_svg.dart'; //Loading Svg Assests
+export 'package:keyboard_avoider/keyboard_avoider.dart';
+export 'package:animated_splash/animated_splash.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes

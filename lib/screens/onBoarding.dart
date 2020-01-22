@@ -125,7 +125,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 //                color: AppTheme.nearlyBlack,
 //              ),
               SvgPicture.asset(
-                'assets/images/HelpingPerson-01.svg',
+                'assets/images/Human-Standing-01.svg',
                 width: 300,
                 height: 300,
               ),

@@ -55,6 +55,9 @@ class _DonateState extends State<Donate> {
       onFailure: (err) {
         print("$err");
         print("Transaction failed");
+        SnackBar(
+          content: Text('$err'),
+        );
       },
       onClosed: () {
         print("Transaction closed");

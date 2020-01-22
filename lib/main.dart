@@ -42,7 +42,12 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: OnBoardingScreen(),
+      home: AnimatedSplash(
+        imagePath: 'assets/images/Logo.png',
+        home: OnBoardingScreen(),
+        duration: 5000,
+        type: AnimatedSplashType.StaticDuration,
+      ),
 //      Dashboard()
 //      _handleCurrentScreen(),
       routes: routes,

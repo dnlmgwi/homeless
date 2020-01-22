@@ -8,7 +8,7 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   final summary = [
-    'Our Mobile App is still under development and we have come a long way, currently it is only available on Android but the future looks bright...'
+    'Our Mobile App is still under development and we have come a long way, but the future looks bright...'
   ];
 
   String feedback = '';
@@ -24,125 +24,114 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.nearlyWhite,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: AppTheme.chipBackground,
-          resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-              titleSpacing: 1.2,
-              centerTitle: false,
-              backgroundColor: AppTheme.dark_grey,
-              title: Text("Feedback",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22,
-                    letterSpacing: 1.2,
-                    color: AppTheme.nearlyWhite,
-                  ))),
-          body: SingleChildScrollView(
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 500,
-                        height: 155,
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).padding.top,
-                            left: 16,
-                            right: 16),
-                        child: SvgPicture.asset(
-                            'assets/images/feedbackImage-01.svg'),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Text(
-                          'We Value Your FeedBack',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Text(
-                          'This feature uses whatsapp',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Text(
-                          "${summary[0]}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            letterSpacing: 0.5,
-                            color: AppTheme.nearlyBlack,
-                          ),
-                        ),
-                      ),
-                      _buildComposer(),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Center(
-                          child: Container(
-                            width: 120,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: AppTheme.nearlyBlack,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4.0)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.grey.withOpacity(0.6),
-                                    offset: Offset(4, 4),
-                                    blurRadius: 8.0),
-                              ],
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {
-                                  _launchMail();
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                },
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Send',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: AppTheme.notWhite,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+    return Scaffold(
+      backgroundColor: AppTheme.chipBackground,
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+          titleSpacing: 1.2,
+          centerTitle: false,
+          backgroundColor: AppTheme.dark_grey,
+          title: Text("Feedback",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: AppTheme.fontName,
+                fontWeight: FontWeight.w700,
+                fontSize: 22,
+                letterSpacing: 1.2,
+                color: AppTheme.nearlyWhite,
+              ))),
+      body: KeyboardAvoider(
+        autoScroll: true,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 500,
+              height: 155,
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top, left: 16, right: 16),
+              child: SvgPicture.asset('assets/images/feedbackImage-01.svg'),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 8),
+              child: Text(
+                'We Value Your FeedBack',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 8),
+              child: Text(
+                'This feature uses whatsapp',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+              ),
+              child: Text(
+                "${summary[0]}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: AppTheme.fontName,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  letterSpacing: 0.5,
+                  color: AppTheme.nearlyBlack,
+                ),
+              ),
+            ),
+            _buildComposer(),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Center(
+                child: Container(
+                  width: 120,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppTheme.nearlyBlack,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          offset: Offset(4, 4),
+                          blurRadius: 8.0),
                     ],
                   ),
-                )),
-          ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        _launchMail();
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'Send',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: AppTheme.notWhite,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
