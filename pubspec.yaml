@@ -19,6 +19,8 @@ dependencies:
   flutter_rave: ^0.0.5
   rich_alert: ^0.1.32
   flutter_login: ^1.0.10+1
+  flutter_svg: ^0.13.1
+  flutter_open_whatsapp: ^0.1.2
   #  quick_actions: ^0.4.0+1
 
   cupertino_icons: ^0.1.2

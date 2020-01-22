@@ -52,22 +52,22 @@ class _SettingsScreenState extends State<SettingsScreen>
   void addAllListData() {
     var count = 9;
 
-    listViews.add(
-      TitleView(
-        route: '/profile',
-        icon: Icon(
-          Icons.person,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Profile',
-//        subTxt: 'more',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+//    listViews.add(
+//      TitleView(
+//        route: '/profile',
+//        icon: Icon(
+//          Icons.person,
+//          color: AppTheme.dark_grey,
+//        ),
+//        titleTxt: 'Profile',
+////        subTxt: 'more',
+//        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+//            parent: widget.animationController,
+//            curve:
+//                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
+//        animationController: widget.animationController,
+//      ),
+//    );
 
     listViews.add(
       TitleView(
@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen>
           Icons.info_outline,
           color: AppTheme.dark_grey,
         ),
-        titleTxt: 'About Us',
+        titleTxt: 'About',
 //        subTxt: 'Details',
         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
@@ -110,7 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen>
           Icons.security,
           color: AppTheme.dark_grey,
         ),
-        titleTxt: 'Privacy Policies',
+        titleTxt: 'Privacy',
 //        subTxt: 'more',
         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,

@@ -8,6 +8,7 @@ final routes = {
   '/dash': (BuildContext context) => Dashboard(),
   '/feedback': (BuildContext context) => FeedbackScreen(),
   '/rewards': (BuildContext context) => RewardsScreen(),
+  '//behaviours': (BuildContext context) => BehavioursScreen(),
   '/terms': (BuildContext context) => TermsScreen(),
   '/logout': (BuildContext context) => OnBoardingScreen(),
   '/share': (BuildContext context) => InviteFriend(),

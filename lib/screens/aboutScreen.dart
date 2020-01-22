@@ -7,10 +7,10 @@ class AboutScreen extends StatefulWidget {
 
 class _AboutScreenState extends State<AboutScreen> {
   final String about =
-      'This app was co-designed with the Youth in Walvis Bay, was aimed to sensitize the community towards the homeless living with in the Walvis Bay area.';
+      'This app was co-designed with the Youth in Walvis Bay, aimed to sensitize the community towards the homeless living within the Walvis Bay area.';
   static final String email = 'info@homeless.com';
   final String phone = '+264850000000';
-  final String version = '2.0.3-Beta';
+  final String version = '2.1.0-Beta';
 
   @override
   void initState() {
@@ -64,6 +64,7 @@ class _AboutScreenState extends State<AboutScreen> {
           body: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
                   width: 500,
@@ -72,7 +73,8 @@ class _AboutScreenState extends State<AboutScreen> {
                       top: MediaQuery.of(context).padding.top,
                       left: 16,
                       right: 16),
-                  child: Image.asset("assets/images/helpImage.png"),
+                  child:
+                      SvgPicture.asset("assets/images/Human-Standing-01.svg"),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 8),

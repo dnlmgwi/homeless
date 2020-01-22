@@ -1,13 +1,12 @@
 import 'package:homeless/packages.dart';
 
-QuizBrain quizBrain = QuizBrain();
-
 class QuizPage extends StatefulWidget {
   @override
   _QuizPageState createState() => _QuizPageState();
 }
 
 class _QuizPageState extends State<QuizPage> {
+  QuizBrain quizBrain = QuizBrain();
   List<Widget> scoreKeeper = [];
 
   @override

@@ -1,4 +1,5 @@
 import 'package:homeless/packages.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -7,7 +8,7 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   final summary = [
-    'Our Mobile App is still under production and we have come a long way, currently it is only available on Android but the future looks bright...'
+    'Our Mobile App is still under development and we have come a long way, currently it is only available on Android but the future looks bright...'
   ];
 
   String feedback = '';
@@ -18,13 +19,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   _launchMail() async {
-    String url =
-        'mailto:<info@homeless.com>?subject=Homeless App Info&body=$feedback';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    FlutterOpenWhatsapp.sendSingleMessage("+27722326766", "$feedback");
   }
 
   @override
@@ -55,6 +50,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         width: 500,
@@ -63,7 +59,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             top: MediaQuery.of(context).padding.top,
                             left: 16,
                             right: 16),
-                        child: Image.asset("assets/images/feedbackImage.png"),
+                        child: SvgPicture.asset(
+                            'assets/images/feedbackImage-01.svg'),
                       ),
                       Container(
                         padding: EdgeInsets.only(top: 8),
@@ -72,6 +69,16 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 8),
+                        child: Text(
+                          'This feature uses whatsapp',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),

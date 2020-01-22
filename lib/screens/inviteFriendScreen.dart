@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:homeless/packages.dart';
 
 class InviteFriend extends StatefulWidget {
@@ -42,13 +43,18 @@ class _InviteFriendState extends State<InviteFriend> {
           ),
           backgroundColor: AppTheme.chipBackground,
           body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).padding.top,
                     left: 16,
                     right: 16),
-                child: Image.asset("assets/images/inviteImage.png"),
+                child: SvgPicture.asset(
+                  'assets/images/invite-01.svg',
+                  width: 150,
+                  height: 150,
+                ),
               ),
               Container(
                 padding: EdgeInsets.only(top: 8),

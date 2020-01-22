@@ -43,7 +43,7 @@ class _TermsScreenState extends State<TermsScreen> {
             centerTitle: false,
             backgroundColor: AppTheme.dark_grey,
             title: Text(
-              "Terms of Service",
+              "Privacy",
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppTheme.fontName,
@@ -57,6 +57,7 @@ class _TermsScreenState extends State<TermsScreen> {
           body: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
                   width: 500,
@@ -65,7 +66,7 @@ class _TermsScreenState extends State<TermsScreen> {
                       top: MediaQuery.of(context).padding.top,
                       left: 16,
                       right: 16),
-                  child: Image.asset("assets/images/helpImage.png"),
+                  child: SvgPicture.asset('assets/images/helpImage-01.svg'),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 8),

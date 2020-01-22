@@ -97,22 +97,6 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
     listViews.add(
       TitleView(
-        route: '/game',
-        icon: Icon(
-          Icons.games,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Games',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
-
-    listViews.add(
-      TitleView(
         route: '/news',
         icon: Icon(
           Icons.view_compact,
@@ -130,12 +114,46 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
     listViews.add(
       TitleView(
+        route: '/behaviours',
+        icon: Icon(
+          Icons.star_border,
+          color: AppTheme.dark_grey,
+        ),
+        titleTxt: 'Benefits',
+        subTxt: 'Coming Soon',
+        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    listViews.add(
+      TitleView(
+        route: '/game',
+        icon: Icon(
+          Icons.games,
+          color: AppTheme.dark_grey,
+        ),
+        titleTxt: 'Games',
+        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    listViews.add(
+      TitleView(
         route: '/rewards',
         icon: Icon(
           Icons.local_activity,
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'Rewards',
+        subTxt: 'Testing',
         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:

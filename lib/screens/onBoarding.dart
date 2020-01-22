@@ -10,31 +10,31 @@ class OnBoardingScreen extends StatefulWidget {
       title: 'The Homeless App',
       body:
           'Are you a community member who loves helping the community, use the Homeless app and help remove the less in homeless',
-      heroAssetPath: 'assets/images/Human-Standing.png',
+      heroAssetPath: SvgPicture.asset('assets/images/useApp-01.svg'),
     ),
     OnBoardingModel(
       title: 'Need Help?',
       body:
-          'Have you got a job that may require small effort for youth, or manual labour for older beneficiaries.',
-      heroAssetPath: 'assets/images/Human-Standing.png',
+          'Have you got a job that may require small effort for youth, or manual labour for our older beneficiaries.',
+      heroAssetPath: SvgPicture.asset('assets/images/work-01.svg'),
     ),
     OnBoardingModel(
       title: 'Security',
       body:
           'Verify registered  beneficiaries of the homeless app by scanning the QR Code on their ID Cards, and reward them for helping you',
-      heroAssetPath: 'assets/images/Human-Standing.png',
+      heroAssetPath: SvgPicture.asset('assets/images/Security-01.svg'),
     ),
     OnBoardingModel(
       title: 'Tips & Advice',
       body:
           'Our app will give you access to relavent Tips & Advice about the Homeless community in your area',
-      heroAssetPath: 'assets/images/Human-Standing.png',
+      heroAssetPath: SvgPicture.asset('assets/images/advice-01.svg'),
     ),
     OnBoardingModel(
       title: 'Donate',
       body:
           'Or if you just want to give, you can use our in app payment option to donate at any time. and we will use the money we raise to change lives.',
-      heroAssetPath: 'assets/images/Human-Standing.png',
+      heroAssetPath: SvgPicture.asset('assets/images/gifts-01.svg'),
     ),
   ];
 
@@ -49,7 +49,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Swiper.children(
-        autoplay: true,
         index: 0,
         loop: false,
         pagination: new SwiperPagination(
@@ -80,11 +79,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 150.0),
-                child: Image.asset(
-                  page.heroAssetPath,
+                child: SizedBox(
+                  child: page.heroAssetPath,
                   width: 250.0,
                   height: 250.0,
-                  fit: BoxFit.contain,
                 ),
               ),
               Padding(
@@ -126,11 +124,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 //                size: 125.0,
 //                color: AppTheme.nearlyBlack,
 //              ),
-              Image.asset('', height: 125.0, width: 125.0),
+              SvgPicture.asset(
+                'assets/images/HelpingPerson-01.svg',
+                width: 300,
+                height: 300,
+              ),
               Padding(
                 padding:
                     const EdgeInsets.only(top: 50.0, right: 15.0, left: 15.0),
-                child: Text("Jump straight into the action.",
+                child: Text("Do Your Part, using the homeless app",
                     softWrap: true,
                     textAlign: TextAlign.center,
                     style: AppTheme.body2),

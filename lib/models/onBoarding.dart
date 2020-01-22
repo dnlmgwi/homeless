@@ -1,7 +1,7 @@
 import 'package:homeless/packages.dart';
 
 class OnBoardingModel {
-  final String heroAssetPath;
+  final Widget heroAssetPath;
   final String title;
   final String body;
   Widget widget;
