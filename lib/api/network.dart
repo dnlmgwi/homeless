@@ -41,4 +41,36 @@ class Network {
 
     return behaviourMap; //Returned as a Map<?,?>
   }
+
+  //Fetches isMember From The Api
+  Future getIsMember() async {
+    Response response = await dio.get(
+      rewards_Settings,
+      options: Options(
+        headers: {
+          //The Public Key is Constant and in sorted in a separate file.
+          "X-Public": keyPublic,
+        },
+        responseType: ResponseType.plain, //Plain Text is converted into json.
+      ),
+    );
+
+    Map<dynamic, dynamic> rewardMap = json.decode(response.data);
+
+    return rewardMap; //Returned as a Map<?,?>
+  }
+
+  //Fetches News From The Api
+  Future getNews() async {
+    Response response = await dio.get(
+      news,
+      options: Options(
+        responseType: ResponseType.json, //Plain Text is converted into json.
+      ),
+    );
+
+    Map<dynamic, dynamic> newsMap = json.decode(response.data);
+
+    return newsMap; //Returned as a Map<?,?>
+  }
 }

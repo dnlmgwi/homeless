@@ -3,6 +3,7 @@ const loginEndpoint = "https://loyalty.whisqr.com/api/v1.2/user/login";
 const isMemberEndpoint = "https://whisqr.com/api/v1.2/user/ismember";
 const rewards_Settings = "https://whisqr.com/api/v1.2/business/rewards";
 const behaviour_Settings = "https://whisqr.com/api/v1.2/business/behaviours";
+const news = "http://sketchdm.co.za/feed.json";
 
 //Must Be Changed After Every release.
 const keySecret =

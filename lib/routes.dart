@@ -1,5 +1,4 @@
 import 'package:homeless/packages.dart';
-import 'package:homeless/screens/rewardspage.dart';
 
 final routes = {
   '/about': (BuildContext context) => AboutScreen(),
@@ -8,6 +7,7 @@ final routes = {
   '/dash': (BuildContext context) => Dashboard(),
   '/feedback': (BuildContext context) => FeedbackScreen(),
   '/rewards': (BuildContext context) => RewardsScreen(),
+  '/news': (BuildContext context) => NewsScreen(),
   '//behaviours': (BuildContext context) => BehavioursScreen(),
   '/terms': (BuildContext context) => TermsScreen(),
   '/logout': (BuildContext context) => OnBoardingScreen(),

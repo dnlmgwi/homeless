@@ -103,7 +103,6 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'News',
-        subTxt: 'Coming Soon',
         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController,
             curve:

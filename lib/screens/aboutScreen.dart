@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:homeless/packages.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -8,9 +10,9 @@ class AboutScreen extends StatefulWidget {
 class _AboutScreenState extends State<AboutScreen> {
   final String about =
       'This app was co-designed with the Youth in Walvis Bay, aimed to sensitize the community towards the homeless living within the Walvis Bay area.';
-  static final String email = 'info@homeless.com';
-  final String phone = '+264850000000';
-  final String version = '2.1.0-Beta';
+  static const String email = 'design@sketchdm.co.za';
+  static const String phone = '+27722326766';
+  static const String version = '2.1.0-Beta';
 
   @override
   void initState() {
@@ -19,7 +21,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
   _launchMail() async {
     const String url =
-        'mailto:<info@homeless.com>?subject=Homeless App Info&body=More Info Required on you App';
+        'mailto:<$email>?subject=Homeless App Info Request&body=More Info Required on you App';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -28,7 +30,7 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 
   _launchCall() async {
-    const String url = 'tel:<+264850000000>';
+    const String url = 'tel:<$phone>';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -67,7 +69,7 @@ class _AboutScreenState extends State<AboutScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 500,
+                  width: 600,
                   height: 155,
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).padding.top,
