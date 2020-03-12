@@ -3,6 +3,7 @@ import 'package:homeless/data/constants.dart';
 import 'dart:convert';
 
 class Network {
+  //Package handling Http Calls
   Dio dio = Dio();
 
   //Fetches Reward Data From The Api

@@ -43,6 +43,8 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
+
+  //Handle all the onBoarding screens.
   List<OnBoardingModel> pages = OnBoardingModel.pages;
 
   List<Widget> widgets = [];

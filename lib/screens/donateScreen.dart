@@ -18,6 +18,7 @@ class _DonateState extends State<Donate> {
 
   int _value = 10;
 
+  //Allows you to share addess and bank details.
   shareAdd() {
     Share.share('$address');
   }

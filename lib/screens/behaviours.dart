@@ -40,6 +40,7 @@ class _BehavioursScreenState extends State<BehavioursScreen> {
         });
   }
 
+  //This Method getBehaviour data using the API and Changes the UI State.
   void getBehaviourData() async {
     var onValue = await api.getRewardData().catchError((onError) {
       _alert(context: context, error: onError);

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:homeless/packages.dart';
 
 class AboutScreen extends StatefulWidget {

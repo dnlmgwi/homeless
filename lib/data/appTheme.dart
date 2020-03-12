@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  //Custom theme
   AppTheme._();
 
   static const Color notWhite = Color(0xFFEDF0F2);

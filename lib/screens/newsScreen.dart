@@ -26,6 +26,7 @@ class _NewsScreenState extends State<NewsScreen> {
     showDialog(
         context: context, //builds a context of its own
         builder: (BuildContext context) {
+          print('$error');
           return RichAlertDialog(
             //uses the custom alert dialog imported
             alertTitle: richTitle("Network Error"),

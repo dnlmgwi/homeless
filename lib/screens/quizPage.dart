@@ -6,6 +6,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+
+  //TODO: Quiz Page Bug
   QuizBrain quizBrain = QuizBrain();
   List<Widget> scoreKeeper = [];
 

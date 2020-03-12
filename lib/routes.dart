@@ -1,5 +1,6 @@
 import 'package:homeless/packages.dart';
 
+//Contains all in app navigation code.
 final routes = {
   '/about': (BuildContext context) => AboutScreen(),
   '/donate': (BuildContext context) => Donate(),

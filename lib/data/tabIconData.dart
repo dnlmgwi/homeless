@@ -15,6 +15,7 @@ class TabIconData {
     this.iconSelected,
   });
 
+  //Bottom Tab Icons Settings and Menu
   static List<TabIconData> tabIconsList = [
     TabIconData(
       icon: Icon(
