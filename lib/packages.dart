@@ -55,6 +55,7 @@ export 'package:homeless/view/settingsScreen.dart';
 export 'package:homeless/view/menuScreen.dart';
 export 'package:homeless/screens/onBoarding.dart';
 export 'package:homeless/widgets/titleView.dart';
+export 'package:homeless/view/UserView.dart';
 
 //services
 export 'package:homeless/services/brain.dart';

@@ -18,7 +18,6 @@ class _BottomBarViewState extends State<BottomBarView>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
   double topBarOpacity = 0.0;
-  String qrCode = "";
 
   Future<bool> getData() async {
     await Future.delayed(const Duration(milliseconds: 50));

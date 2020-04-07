@@ -23,7 +23,7 @@ dependencies:
   flutter_open_whatsapp: ^0.1.2
   keyboard_avoider: ^0.1.2
   animated_splash: ^1.0.0
-  graphql: ^3.0.0
+  graphql_flutter: ^3.0.0
   #  quick_actions: ^0.4.0+1
 
   cupertino_icons: ^0.1.2

@@ -1,4 +1,5 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/screens/userProfile.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   Future<bool> getData() async {
-    await Future.delayed(const Duration(milliseconds: 10));
+    await Future.delayed(const Duration(milliseconds: 6));
     return true;
   }
 
