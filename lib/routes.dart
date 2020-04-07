@@ -14,6 +14,7 @@ final routes = {
   '/logout': (BuildContext context) => OnBoardingScreen(),
   '/share': (BuildContext context) => InviteFriend(),
   '/game': (BuildContext context) => QuizPage(),
+  '/scan': (BuildContext context) => ScanScreen(),
 //'/login': (BuildContext context) => LoginScreen(),
 //'/learn': (BuildContext context) => Learn(),
 };

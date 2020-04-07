@@ -29,7 +29,7 @@ class Items {
 
   Author author;
 
-  List<Tags> tags;
+  List<String> tags;
 
   @JsonKey(name: 'date_published')
   String datePublished;

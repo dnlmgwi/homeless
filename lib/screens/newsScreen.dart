@@ -10,7 +10,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
   Network api = Network();
 
-  News newsList = News();
+  List newsList;
 
   bool isLoading = true;
 
@@ -51,8 +51,7 @@ class _NewsScreenState extends State<NewsScreen> {
     });
     setState(() {
       isLoading = false;
-      newsList = News.fromJson(onValue);
-      return newsList.items;
+      newsList = onValue.items;
     });
   }
 
@@ -72,7 +71,7 @@ class _NewsScreenState extends State<NewsScreen> {
         itemBuilder: (context, int) {
           return ListTile(
             onTap: () {},
-            subtitle: Text('${newsList.items[int].url}',
+            subtitle: Text('${newsList[int].url}',
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.normal,
@@ -80,7 +79,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   letterSpacing: 1.2,
                   color: AppTheme.deactivatedText,
                 )),
-            title: Text("${newsList.items[int].title}",
+            title: Text("${newsList[int].title}",
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w700,
@@ -90,11 +89,10 @@ class _NewsScreenState extends State<NewsScreen> {
                 )),
           );
         },
-        itemCount: (newsList == null ||
-                newsList.items == null ||
-                newsList.items.length == 0)
-            ? 0
-            : newsList.items.length,
+        itemCount:
+            (newsList == null || newsList == null || newsList.length == 0)
+                ? 0
+                : newsList.length,
       );
     }
   }

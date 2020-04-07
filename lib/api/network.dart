@@ -2,6 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:homeless/data/constants.dart';
 import 'dart:convert';
 
+import 'package:homeless/packages.dart';
+
+// flutter pub run build_runner build
+
 class Network {
   //Package handling Http Calls
   Dio dio = Dio();
@@ -62,7 +66,7 @@ class Network {
   }
 
   //Fetches News From The Api
-  Future getNews() async {
+  Future<News> getNews() async {
     Response response = await dio.get(
       news,
       options: Options(
@@ -70,8 +74,8 @@ class Network {
       ),
     );
 
-    Map<dynamic, dynamic> newsMap = json.decode(response.data);
+    News newsMap = json.decode(response.data);
 
-    return newsMap; //Returned as a Map<?,?>
+    return newsMap; //Returned as a News
   }
 }

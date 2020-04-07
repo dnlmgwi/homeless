@@ -35,6 +35,7 @@ export 'package:homeless/screens/newsScreen.dart';
 export 'package:homeless/screens/quizPage.dart';
 export 'package:homeless/screens/behaviours.dart';
 export 'package:homeless/dashboard.dart';
+export 'package:homeless/screens/ScanScreen.dart';
 
 //Models
 export 'package:homeless/data/appTheme.dart';
@@ -47,7 +48,6 @@ export 'package:homeless/models/rewards/settingsRewards.dart';
 export 'package:homeless/models/news/author/author.dart';
 export 'package:homeless/models/news/news.dart';
 export 'package:homeless/models/news/items/items.dart';
-export 'package:homeless/models/news/items/tags/tags.dart';
 
 //Views
 export 'package:homeless/widgets/bottomBarView.dart';
