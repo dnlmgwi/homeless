@@ -1,5 +1,4 @@
 import 'package:homeless/packages.dart';
-import 'package:homeless/screens/userProfile.dart';
 
 class Dashboard extends StatefulWidget {
   @override

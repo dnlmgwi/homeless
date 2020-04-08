@@ -1,12 +1,23 @@
 class Queries {
   static String verifyUser() {
     return r'''query checkMember($_id: String!) {
-      MemberCollection(_id: $_id) {
-        name
-        surname
-        points
-        }
-      }''';
+    MemberCollection(_id: $_id) {
+      name
+      surname
+      age
+      points
+      _id
+      _created
+      rating
+      about
+      picture {
+        path
+      }
+      location {
+      address
+      }
+    }
+    }''';
   }
 
   // void resultsPrint({String id}) async {
