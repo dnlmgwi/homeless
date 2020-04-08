@@ -21,6 +21,28 @@ class Queries {
     }''';
   }
 
+  static String getNews() {
+    return r'''query checkMember($_id: String!) {
+    MemberCollection(_id: $_id) {
+      name
+      surname
+      age
+      joined
+      points
+      _id
+      _created
+      rating
+      about
+      picture {
+        path
+      }
+      location {
+      address
+      }
+    }
+    }''';
+  }
+
   // void resultsPrint({String id}) async {
   //   final QueryOptions options =
   //       QueryOptions(documentNode: gql(Queries.verifyUser()), variables: {

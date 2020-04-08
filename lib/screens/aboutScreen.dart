@@ -10,7 +10,7 @@ class _AboutScreenState extends State<AboutScreen> {
       'This app was co-designed with the Youth in Walvis Bay, aimed to sensitize the community towards the homeless living within the Walvis Bay area.';
   static const String email = 'design@sketchdm.co.za';
   static const String phone = '+27722326766';
-  static const String version = '2.1.0-Beta';
+  static const String version = '2.2.0-Beta';
 
   @override
   void initState() {

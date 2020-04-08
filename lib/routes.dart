@@ -4,7 +4,7 @@ import 'package:homeless/packages.dart';
 final routes = {
   '/about': (BuildContext context) => AboutScreen(),
   '/donate': (BuildContext context) => Donate(),
-  '/profile': (BuildContext context) => ProfileScreen(),
+  // '/profile': (BuildContext context) => ProfileScreen(),
   '/dash': (BuildContext context) => Dashboard(),
   '/feedback': (BuildContext context) => FeedbackScreen(),
   '/rewards': (BuildContext context) => RewardsScreen(),
@@ -13,7 +13,7 @@ final routes = {
   '/terms': (BuildContext context) => TermsScreen(),
   '/logout': (BuildContext context) => OnBoardingScreen(),
   '/share': (BuildContext context) => InviteFriend(),
-  '/game': (BuildContext context) => QuizPage(),
+  // '/game': (BuildContext context) => QuizPage(),
   '/scan': (BuildContext context) => ScanScreen(),
 //'/login': (BuildContext context) => LoginScreen(),
 //'/learn': (BuildContext context) => Learn(),

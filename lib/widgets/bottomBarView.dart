@@ -216,14 +216,12 @@ class _BottomBarViewState extends State<BottomBarView>
                           focusColor: Colors.transparent,
                           onTap: () {
                             _scan();
-
-//                            Navigator.pushNamed(context, '/scan');
                           },
                           child: Icon(
                             //This is the Icon for a QR Code
                             Icons.center_focus_weak,
                             color: AppTheme.white,
-                            size: 32,
+                            size: 42,
                           ),
                         ),
                       ),

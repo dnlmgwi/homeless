@@ -16,7 +16,7 @@ dependencies:
   share: ^0.6.2+1
   url_launcher: ^5.2.7
   flutter_barcode_scanner: ^0.1.7
-  flutter_rave: ^0.0.5
+  flutter_rave:
   rich_alert: ^0.1.32
   flutter_login: ^1.0.10+1
   flutter_svg: ^0.13.1
@@ -24,6 +24,9 @@ dependencies:
   keyboard_avoider: ^0.1.2
   animated_splash: ^1.0.0
   graphql_flutter: ^3.0.0
+  flutter_markdown:
+  shimmer:
+  auto_size_text: ^2.1.0
   rating_bar: ^0.2.0
 
   #  quick_actions: ^0.4.0+1

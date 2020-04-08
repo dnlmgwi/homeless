@@ -1,9 +1,6 @@
-import 'package:homeless/api/client.dart';
-import 'package:homeless/models/person.dart';
 import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:rating_bar/rating_bar.dart';
 
 class ScanScreen extends StatefulWidget {
   final String id;
@@ -50,7 +47,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
             alertType: RichAlertType.ERROR,
             actions: <Widget>[
               RaisedButton(
-                child: Text('Try Again'),
+                child: AutoSizeText('Try Again'),
                 onPressed: () {
                   Navigator.popAndPushNamed(context, '/dash');
                 }, //closes the dialogue
@@ -71,16 +68,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
             child: Scaffold(
               backgroundColor: AppTheme.chipBackground,
               resizeToAvoidBottomPadding: false,
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {},
-                backgroundColor: AppTheme.dark_grey,
-                child: Icon(
-                  //This is the Icon for a QR Code
-                  Icons.report_problem,
-                  color: AppTheme.white,
-                  size: 30,
-                ),
-              ),
               appBar: AppBar(
                 titleSpacing: 1.2,
                 centerTitle: false,
@@ -99,7 +86,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
 //                        });
 //                      }),
                 ],
-                title: Text(
+                title: AutoSizeText(
                   "User Profile",
                   textAlign: TextAlign.left,
                   style: TextStyle(
@@ -112,7 +99,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                 ),
               ),
               body: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(5.0),
                 child: SingleChildScrollView(
                   child: Container(
                     child: Query(
@@ -124,16 +111,19 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                         builder: (QueryResult result,
                             {VoidCallback refetch, FetchMore fetchMore}) {
                           if (result.loading) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 9,
-                                backgroundColor: AppTheme.dark_grey,
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: <Widget>[
+                                  LoadingProfile(),
+                                ],
                               ),
                             );
                           }
                           if (result.hasException) {
                             print(result.exception.toString());
-                            _alert();
+                            _alert(
+                                context: this.context,
+                                error: result.exception.toString());
                           }
 
                           if (!result.hasException) {
@@ -141,9 +131,528 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                 .data['MemberCollection'] as List<dynamic>;
 
                             for (var person in repositories) {
-                              return Container(
-                                  margin: EdgeInsets.all(20.0),
-                                  padding: EdgeInsets.all(30.0),
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.all(20.0),
+                                      padding: EdgeInsets.all(30.0),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0)),
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color: AppTheme.grey
+                                                  .withOpacity(0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                              blurRadius: 10.0),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            width: 180.0,
+                                            height: 180.0,
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.grey,
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  "http://www.sketchdm.co.za${person['picture']['path']}",
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Container(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        AutoSizeText(
+                                                            "${person['name']}, ${person['age']}",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  AppTheme
+                                                                      .fontName,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 25,
+                                                              letterSpacing: 1,
+                                                              color: AppTheme
+                                                                  .darkerText,
+                                                            )), //Name & Age
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    AutoSizeText(
+                                                        "Experience"
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              AppTheme.fontName,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 15,
+                                                          letterSpacing: 1,
+                                                          color: AppTheme
+                                                              .deactivatedText,
+                                                        )),
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.all(5),
+                                                          child: AutoSizeText(
+                                                              "${person['rating']}",
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    AppTheme
+                                                                        .fontName,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 25,
+                                                                letterSpacing:
+                                                                    1,
+                                                                color: AppTheme
+                                                                    .darkerText,
+                                                              )),
+                                                        ),
+                                                        RatingBar.readOnly(
+                                                          maxRating: 5,
+                                                          initialRating:
+                                                              double.parse(
+                                                                  "${person['rating']}"),
+                                                          filledIcon:
+                                                              Icons.star,
+                                                          emptyIcon:
+                                                              Icons.star_border,
+                                                          halfFilledIcon:
+                                                              Icons.star_half,
+                                                          isHalfAllowed: true,
+                                                          filledColor:
+                                                              AppTheme.darkText,
+                                                          emptyColor: AppTheme
+                                                              .deactivatedText,
+                                                          halfFilledColor:
+                                                              AppTheme.darkText,
+                                                          size: 35,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        AutoSizeText(
+                                                            "About Me"
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  AppTheme
+                                                                      .fontName,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 15,
+                                                              letterSpacing: 1,
+                                                              color: AppTheme
+                                                                  .deactivatedText,
+                                                            )),
+                                                        Spacer(),
+                                                        AutoSizeText(
+                                                            "Joined: ${person['joined']}"
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  AppTheme
+                                                                      .fontName,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 15,
+                                                              letterSpacing: 1,
+                                                              color: AppTheme
+                                                                  .deactivatedText,
+                                                            )), // Date Joined
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 5),
+                                                      child: AutoSizeText(
+                                                        "${person['about']}",
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              AppTheme.fontName,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 19,
+                                                          letterSpacing: 0.5,
+                                                          color: AppTheme
+                                                              .nearlyBlack,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 4,
+                                                    ),
+                                                    AutoSizeText(
+                                                      "${person['location']["address"]}",
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            AppTheme.fontName,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 17,
+                                                        letterSpacing: 0.5,
+                                                        color: AppTheme
+                                                            .deactivatedText,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Divider(),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    AutoSizeText(
+                                                        "Points".toUpperCase(),
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              AppTheme.fontName,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 15,
+                                                          letterSpacing: 1,
+                                                          color: AppTheme
+                                                              .deactivatedText,
+                                                        )),
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.all(2),
+                                                          child: AutoSizeText(
+                                                              "HL",
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    AppTheme
+                                                                        .fontName,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontSize: 25,
+                                                                letterSpacing:
+                                                                    1,
+                                                                color: AppTheme
+                                                                    .darkerText,
+                                                              )),
+                                                        ),
+                                                        AutoSizeText(
+                                                          "${person['points']}",
+                                                          style: TextStyle(
+                                                            fontFamily: AppTheme
+                                                                .fontName,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 50,
+                                                            letterSpacing: 1,
+                                                            color: AppTheme
+                                                                .darkerText,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    // Container(
+                                                    //   width:
+                                                    //       MediaQuery.of(context)
+                                                    //               .size
+                                                    //               .width /
+                                                    //           2,
+                                                    //   child: MaterialButton(
+                                                    //     onPressed: () {},
+                                                    //     elevation: 8,
+                                                    //     textColor: Colors.red,
+                                                    //     color:
+                                                    //         AppTheme.notWhite,
+                                                    //     child: AutoSizeText(
+                                                    //       "Report",
+                                                    //       style: TextStyle(
+                                                    //         fontFamily: AppTheme
+                                                    //             .fontName,
+                                                    //         fontWeight:
+                                                    //             FontWeight.w700,
+                                                    //         fontSize: 20,
+                                                    //         letterSpacing: 1,
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+//                                     Container(
+//                                       margin: EdgeInsets.all(20.0),
+//                                       padding: EdgeInsets.all(10.0),
+//                                       decoration: BoxDecoration(
+//                                         color: AppTheme.white,
+//                                         borderRadius: BorderRadius.all(
+//                                             Radius.circular(8.0)),
+//                                         boxShadow: <BoxShadow>[
+//                                           BoxShadow(
+//                                               color: AppTheme.grey
+//                                                   .withOpacity(0.2),
+// //                                         offset: Offset(1.1, 1.1),
+//                                               blurRadius: 10.0),
+//                                         ],
+//                                       ),
+//                                       child: Column(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.center,
+//                                         children: <Widget>[
+//                                           Row(
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.spaceEvenly,
+//                                             children: <Widget>[
+//                                               Container(
+//                                                 width: MediaQuery.of(context)
+//                                                         .size
+//                                                         .width /
+//                                                     2,
+//                                                 color: AppTheme.white,
+//                                                 child: MaterialButton(
+//                                                   onPressed: () {},
+//                                                   elevation: 8,
+//                                                   color: AppTheme.dark_grey,
+//                                                   textColor: AppTheme.notWhite,
+//                                                   child: AutoSizeText(
+//                                                     "Work With Me",
+//                                                     style: TextStyle(
+//                                                       fontFamily:
+//                                                           AppTheme.fontName,
+//                                                       fontWeight:
+//                                                           FontWeight.w700,
+//                                                       fontSize: 20,
+//                                                       letterSpacing: 1,
+//                                                     ),
+//                                                   ),
+//                                                 ),
+//                                               ),
+//                                               Container(
+//                                                 width: MediaQuery.of(context)
+//                                                         .size
+//                                                         .width /
+//                                                     2,
+//                                                 color: AppTheme.white,
+//                                                 child: MaterialButton(
+//                                                   onPressed: () {},
+//                                                   elevation: 8,
+//                                                   color: AppTheme.dark_grey,
+//                                                   textColor: AppTheme.notWhite,
+//                                                   child: AutoSizeText(
+//                                                     "Deducted Points",
+//                                                     style: TextStyle(
+//                                                       fontFamily:
+//                                                           AppTheme.fontName,
+//                                                       fontWeight:
+//                                                           FontWeight.w700,
+//                                                       fontSize: 20,
+//                                                       letterSpacing: 1,
+//                                                     ),
+//                                                   ),
+//                                                 ),
+//                                               ),
+//                                             ],
+//                                           ),
+//                                           Container(
+//                                             width: MediaQuery.of(context)
+//                                                     .size
+//                                                     .width /
+//                                                 2,
+//                                             child: MaterialButton(
+//                                               onPressed: () {},
+//                                               elevation: 8,
+//                                               textColor: Colors.red,
+//                                               color: AppTheme.notWhite,
+//                                               child: AutoSizeText(
+//                                                 "Report",
+//                                                 style: TextStyle(
+//                                                   fontFamily: AppTheme.fontName,
+//                                                   fontWeight: FontWeight.w700,
+//                                                   fontSize: 20,
+//                                                   letterSpacing: 1,
+//                                                 ),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ],
+//                                       ),
+//                                     )
+                                  ],
+                                ),
+                              );
+                            }
+
+                            if (repositories.isEmpty) {
+                              print('User Doesnt Exist!');
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.all(10.0),
+                                      padding: EdgeInsets.all(20.0),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0)),
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color: AppTheme.grey
+                                                  .withOpacity(0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                              blurRadius: 10.0),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Wrap(
+                                            alignment: WrapAlignment.center,
+                                            runSpacing: 20,
+                                            spacing: 20,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.report_problem,
+                                                size: 40,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: AutoSizeText(
+                                                    "This Is Not A Homeless Beneficiary."
+                                                        .toUpperCase(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontName,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      letterSpacing: 1,
+                                                      color: AppTheme
+                                                          .deactivatedText,
+                                                    )),
+                                              )
+                                            ],
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2,
+                                            color: AppTheme.white,
+                                            child: MaterialButton(
+                                              onPressed: () {},
+                                              elevation: 8,
+                                              color: AppTheme.dark_grey,
+                                              textColor: AppTheme.notWhite,
+                                              child: AutoSizeText(
+                                                "Rescan",
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                  letterSpacing: 1,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2,
+                                            child: MaterialButton(
+                                              onPressed: () {},
+                                              elevation: 8,
+                                              textColor: Colors.red,
+                                              color: AppTheme.notWhite,
+                                              child: AutoSizeText(
+                                                "Report",
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                  letterSpacing: 1,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }
+
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.all(10.0),
+                                  padding: EdgeInsets.all(20.0),
                                   decoration: BoxDecoration(
                                     color: AppTheme.white,
                                     borderRadius:
@@ -158,258 +667,82 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Container(
-                                        width: 180.0,
-                                        height: 180.0,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.grey,
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(
-                                                "http://www.sketchdm.co.za${person['picture']['path']}"),
-                                          ),
-                                        ),
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Wrap(
+                                        alignment: WrapAlignment.center,
+                                        runSpacing: 20,
+                                        spacing: 20,
                                         children: <Widget>[
-                                          SizedBox(
-                                            height: 20,
+                                          Icon(
+                                            Icons.report_problem,
+                                            size: 40,
                                           ),
-                                          Container(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Text(
-                                                        "${person['name']}, ${person['age']}",
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              AppTheme.fontName,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 25,
-                                                          letterSpacing: 1,
-                                                          color: AppTheme
-                                                              .darkerText,
-                                                        )), //Name & Age
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("Experience".toUpperCase(),
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15,
-                                                      letterSpacing: 1,
-                                                      color: AppTheme
-                                                          .deactivatedText,
-                                                    )),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: EdgeInsets.all(5),
-                                                      child: Text(
-                                                          "${person['rating']}",
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme
-                                                                .fontName,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontSize: 25,
-                                                            letterSpacing: 1,
-                                                            color: AppTheme
-                                                                .darkerText,
-                                                          )),
-                                                    ),
-                                                    RatingBar.readOnly(
-                                                      maxRating: 5,
-                                                      initialRating: double.parse(
-                                                          "${person['rating']}"),
-                                                      filledIcon: Icons.star,
-                                                      emptyIcon:
-                                                          Icons.star_border,
-                                                      halfFilledIcon:
-                                                          Icons.star_half,
-                                                      isHalfAllowed: true,
-                                                      filledColor:
-                                                          AppTheme.darkText,
-                                                      emptyColor: AppTheme
-                                                          .deactivatedText,
-                                                      halfFilledColor:
-                                                          AppTheme.darkText,
-                                                      size: 35,
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  children: <Widget>[
-                                                    Text(
-                                                        "About Me"
-                                                            .toUpperCase(),
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              AppTheme.fontName,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 15,
-                                                          letterSpacing: 1,
-                                                          color: AppTheme
-                                                              .deactivatedText,
-                                                        )),
-                                                    Spacer(),
-                                                    Text(
-                                                        "Joined: ${person['joined']}"
-                                                            .toUpperCase(),
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              AppTheme.fontName,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 15,
-                                                          letterSpacing: 1,
-                                                          color: AppTheme
-                                                              .deactivatedText,
-                                                        )), // Date Joined
-                                                  ],
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 5),
-                                                  child: Text(
-                                                    "${person['about']}",
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 19,
-                                                      letterSpacing: 0.5,
-                                                      color:
-                                                          AppTheme.nearlyBlack,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 4,
-                                                ),
-                                                Text(
-                                                  "${person['location']["address"]}",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 17,
-                                                    letterSpacing: 0.5,
-                                                    color: AppTheme
-                                                        .deactivatedText,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Divider(),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("Points".toUpperCase(),
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15,
-                                                      letterSpacing: 1,
-                                                      color: AppTheme
-                                                          .deactivatedText,
-                                                    )),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: EdgeInsets.all(2),
-                                                      child: Text("HL",
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme
-                                                                .fontName,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontSize: 25,
-                                                            letterSpacing: 1,
-                                                            color: AppTheme
-                                                                .darkerText,
-                                                          )),
-                                                    ),
-                                                    Text("${person['points']}",
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              AppTheme.fontName,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 50,
-                                                          letterSpacing: 1,
-                                                          color: AppTheme
-                                                              .darkerText,
-                                                        )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                              ],
-                                            ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: AutoSizeText(
+                                                "This Is Not A Homeless Beneficiary."
+                                                    .toUpperCase(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 1,
+                                                  color:
+                                                      AppTheme.deactivatedText,
+                                                )),
                                           )
                                         ],
                                       ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        color: AppTheme.white,
+                                        child: MaterialButton(
+                                          onPressed: () {},
+                                          elevation: 8,
+                                          color: AppTheme.dark_grey,
+                                          textColor: AppTheme.notWhite,
+                                          child: AutoSizeText(
+                                            "Rescan",
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20,
+                                              letterSpacing: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        child: MaterialButton(
+                                          onPressed: () {},
+                                          elevation: 8,
+                                          textColor: Colors.red,
+                                          color: AppTheme.notWhite,
+                                          child: AutoSizeText(
+                                            "Report",
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20,
+                                              letterSpacing: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ],
-                                  ));
-                            }
-
-                            if (repositories.isEmpty) {
-                              print('User Doesnt Exist!');
-                            }
-                          }
-
-                          return Column(
-                            children: <Widget>[
-                              RaisedButton(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("Load More"),
-                                  ],
+                                  ),
                                 ),
-                                onPressed: () {
-                                  refetch;
-                                },
-                              ),
-                            ],
+                              ],
+                            ),
                           );
                         }),
                   ),
