@@ -5,6 +5,7 @@ class Queries {
       name
       surname
       age
+      joined
       points
       _id
       _created

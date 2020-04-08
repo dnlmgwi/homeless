@@ -6,6 +6,12 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:rating_bar/rating_bar.dart';
 
 class ScanScreen extends StatefulWidget {
+  final String id;
+
+  ScanScreen({
+    Key key,
+    this.id,
+  }) : super(key: key);
   @override
   _ScanScreenState createState() => _ScanScreenState();
 }
@@ -29,43 +35,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
     );
     animationController.forward();
     super.initState();
-  }
-
-  Future _scan() async {
-    //_scan() Receives QR code String and stores value in qrCodeScanRec
-    try {
-      String scanData = await FlutterBarcodeScanner.scanBarcode(
-        "#32CD32",
-        "Back",
-        true,
-        ScanMode.QR,
-      );
-      setState(() {
-        //calling setstate to update UI with the link of the current user
-        if (scanData.isNotEmpty) {
-          this.qrCode = scanData;
-        } else {
-          _alert(context: this.context);
-          this.qrCode = 'No Data';
-        }
-      });
-      // _launchURL(qrCode); // uses barcode parameter once its a valid link.
-
-    } on PlatformException catch (e) {
-      //Permission handling is done by the QR Scanner.
-      if (e.code == qrCode) {
-        setState(() {
-          this.qrCode = 'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => this.qrCode = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => this.qrCode =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      setState(() => this.qrCode = 'Unknown error: $e');
-    }
   }
 
   //This Method Launches the alert Dialogue for an API Error
@@ -93,8 +62,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    String id = '5e8a07743335344cbe000048';
-
     return GraphQLProvider(
         client: Config.client,
         child: Container(
@@ -119,18 +86,18 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                 centerTitle: false,
                 backgroundColor: AppTheme.dark_grey,
                 actions: <Widget>[
-                  IconButton(
-                      icon: Icon(
-                        //This is the Icon for a QR Code
-                        Icons.center_focus_weak,
-                        color: AppTheme.white,
-                        size: 32,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _scan();
-                        });
-                      }),
+//                  IconButton(
+//                      icon: Icon(
+//                        //This is the Icon for a QR Code
+//                        Icons.center_focus_weak,
+//                        color: AppTheme.white,
+//                        size: 32,
+//                      ),
+//                      onPressed: () {
+//                        setState(() {
+//                          Scanner._scan();
+//                        });
+//                      }),
                 ],
                 title: Text(
                   "User Profile",
@@ -152,7 +119,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                         options: QueryOptions(
                             documentNode: gql(Queries.verifyUser()),
                             variables: {
-                              '_id': '$id',
+                              '_id': '${widget.id}',
                             }),
                         builder: (QueryResult result,
                             {VoidCallback refetch, FetchMore fetchMore}) {
@@ -166,6 +133,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                           }
                           if (result.hasException) {
                             print(result.exception.toString());
+                            _alert();
                           }
 
                           if (!result.hasException) {
@@ -191,14 +159,14 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Container(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        decoration: new BoxDecoration(
+                                        width: 180.0,
+                                        height: 180.0,
+                                        decoration: BoxDecoration(
                                           color: AppTheme.grey,
                                           shape: BoxShape.circle,
-                                          image: new DecorationImage(
+                                          image: DecorationImage(
                                             fit: BoxFit.fill,
-                                            image: new NetworkImage(
+                                            image: NetworkImage(
                                                 "http://www.sketchdm.co.za${person['picture']['path']}"),
                                           ),
                                         ),
@@ -312,7 +280,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                         )),
                                                     Spacer(),
                                                     Text(
-                                                        "Joined: ${DateTime.parse(person['_created'])}"
+                                                        "Joined: ${person['joined']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -452,80 +420,3 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
         ));
   }
 }
-
-//Widget _handleCurrentScreen(bool isLoading) {
-//  if (isLoading) {
-//    return
-//  } else {
-//    return ListView.separated(
-//      separatorBuilder: (context, int) {
-//        return Divider();
-//      },
-//      itemBuilder: (context, int) {
-//        bool active = rewardsList.settingsRewards[int].active == 'true';
-//
-//        return ListTile(
-//          enabled: active,
-//          onTap: () {},
-//          leading: active
-//              ? Icon(
-//            Icons.check_circle,
-//            color: Colors.green,
-//          )
-//              : Icon(
-//            Icons.cancel,
-//            color: Colors.red,
-//          ),
-//          trailing: Column(
-//            crossAxisAlignment: CrossAxisAlignment.center,
-//            children: <Widget>[
-//              Text('${rewardsList.settingsRewards[int].fields.punchCost}',
-//                  style: TextStyle(
-//                    fontFamily: AppTheme.fontName,
-//                    fontWeight: FontWeight.w700,
-//                    fontSize: 25,
-//                    color: AppTheme.dark_grey,
-//                  )),
-//              Text('HL Points',
-//                  style: TextStyle(
-//                    fontFamily: AppTheme.fontName,
-//                    fontWeight: FontWeight.normal,
-//                    fontSize: 10,
-//                    letterSpacing: 1.2,
-//                    color: AppTheme.lightText,
-//                  )),
-//            ],
-//          ),
-//          subtitle:
-//          Text('${rewardsList.settingsRewards[int].fields.description}',
-//              style: TextStyle(
-//                fontFamily: AppTheme.fontName,
-//                fontWeight: FontWeight.normal,
-//                fontSize: 12,
-//                letterSpacing: 1.2,
-//                color: AppTheme.deactivatedText,
-//              )),
-//          title: Text("${rewardsList.settingsRewards[int].fields.rewardName}",
-//              style: TextStyle(
-//                fontFamily: AppTheme.fontName,
-//                fontWeight: FontWeight.w700,
-//                fontSize: 20,
-//                letterSpacing: 1,
-//                color: AppTheme.darkerText,
-//              )),
-//        );
-//      },
-//      itemCount: (rewardsList == null ||
-//          rewardsList.settingsRewards == null ||
-//          rewardsList.settingsRewards.length == 0)
-//          ? 0
-//          : rewardsList.settingsRewards.length,
-//    );
-//  }
-
-//ListTile(
-//title: Text(
-//'${person['name'] + person['surname']}'),
-//trailing: Text('${person['points']}'),
-//)
-//}

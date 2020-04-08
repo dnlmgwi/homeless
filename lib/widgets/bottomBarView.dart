@@ -36,6 +36,73 @@ class _BottomBarViewState extends State<BottomBarView>
     super.initState();
   }
 
+  _alert({context, error}) {
+    showDialog(
+        context: context, //builds a context of its own
+        builder: (BuildContext context) {
+          return RichAlertDialog(
+            //uses the custom alert dialog imported
+            alertTitle: richTitle("Network Error"),
+            alertSubtitle: richSubtitle(
+                "This feature requires internet access.\n Please turn on mobile data or Wifi"),
+            alertType: RichAlertType.ERROR,
+            actions: <Widget>[
+              RaisedButton(
+                child: Text('Try Again'),
+                onPressed: () {
+                  Navigator.popAndPushNamed(context, '/dash');
+                }, //closes the dialogue
+              )
+            ],
+          );
+        });
+  }
+
+  String qrCode;
+
+  Future<String> _scan() async {
+    //_scan() Receives QR code String and stores value in qrCodeScanRec
+    String scanData = await FlutterBarcodeScanner.scanBarcode(
+      "#32CD32",
+      "Back",
+      true,
+      ScanMode.QR,
+    );
+    try {
+      setState(() {
+        //calling setstate to update UI with the link of the current user
+        if (scanData.isNotEmpty) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScanScreen(id: scanData),
+              ));
+        } else {
+          _alert(context: this.context);
+          this.qrCode = 'No Data';
+        }
+      });
+      // _launchURL(qrCode); // uses barcode parameter once its a valid link.
+
+    } on PlatformException catch (e) {
+      //Permission handling is done by the QR Scanner.
+      if (e.code == qrCode) {
+        setState(() {
+          this.qrCode = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => this.qrCode = 'Unknown error: $e');
+      }
+    } on FormatException {
+      setState(() => this.qrCode =
+          'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this.qrCode = 'Unknown error: $e');
+    }
+
+    return scanData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -148,7 +215,9 @@ class _BottomBarViewState extends State<BottomBarView>
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           onTap: () {
-                            Navigator.pushNamed(context, '/scan');
+                            _scan();
+
+//                            Navigator.pushNamed(context, '/scan');
                           },
                           child: Icon(
                             //This is the Icon for a QR Code
