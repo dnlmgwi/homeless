@@ -25,6 +25,7 @@ dependencies:
   graphql_flutter: ^3.0.0
   flutter_markdown:
   shimmer:
+  rive: ^0.0.1
   timeago:
   soundpool:
   flutter_vibrate:
@@ -46,6 +47,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/
     - assets/sounds/insight.m4r
 
   fonts:

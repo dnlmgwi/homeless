@@ -1,7 +1,8 @@
 class Queries {
   static String verifyUser() {
     return r'''query checkMember($_id: String!) {
-    MemberCollection(_id: $_id) {
+    MemberCollection(_id: $_id)
+    {
       name
       surname
       age
@@ -23,18 +24,19 @@ class Queries {
 
   static String getNews() {
     return r'''query loadNews {
-  NewsCollection {
-    image {
-      path
-      meta
-    }
-    title
-    source
-    author
-    description
-    content
-    posted
-    }
+      NewsCollection
+      {
+        image {
+          path
+          meta
+          }
+        title
+        source
+        author
+        description
+        content
+        posted
+      }
   }''';
   }
 

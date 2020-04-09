@@ -3,6 +3,8 @@ import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:soundpool/soundpool.dart';
+import 'package:rive/rive.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class ScanScreen extends StatefulWidget {
   final String id;
@@ -165,9 +167,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                               blurRadius: 10.0),
                                         ],
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                      child: Stack(
                                         children: <Widget>[
                                           Container(
                                             width: 180.0,
@@ -482,6 +482,16 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
+                                          SizedBox(
+                                            child: Rive(
+                                              filename:
+                                                  'assets/Success Check.flr',
+                                              animation: 'Untitled',
+                                              
+                                            ),
+                                            height: 50,
+                                            width: 50,
+                                          ),
                                           Wrap(
                                             alignment: WrapAlignment.center,
                                             runSpacing: 20,
