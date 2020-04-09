@@ -38,115 +38,116 @@ class _AboutScreenState extends State<AboutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.nearlyWhite,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: AppTheme.chipBackground,
-          resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-            titleSpacing: 1.2,
-            centerTitle: false,
-            backgroundColor: AppTheme.dark_grey,
-            title: Text(
-              "About",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 22,
-                letterSpacing: 1.2,
-                color: AppTheme.nearlyWhite,
+    return SingleChildScrollView(
+      child: Container(
+        color: AppTheme.nearlyWhite,
+        child: SafeArea(
+          top: false,
+          child: Scaffold(
+            backgroundColor: AppTheme.chipBackground,
+            resizeToAvoidBottomPadding: false,
+            appBar: AppBar(
+              titleSpacing: 1.2,
+              centerTitle: false,
+              backgroundColor: AppTheme.dark_grey,
+              title: Text(
+                "About",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: AppTheme.fontName,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22,
+                  letterSpacing: 1.2,
+                  color: AppTheme.nearlyWhite,
+                ),
               ),
             ),
-          ),
-          body: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 600,
-                  height: 155,
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top,
-                      left: 16,
-                      right: 16),
-                  child:
-                      SvgPicture.asset("assets/images/Human-Standing-01.svg"),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 8),
-                  child: Text(
-                    'How can we help you?',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            body: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 600,
+                    height: 155,
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top,
+                        left: 16,
+                        right: 16),
+                    child:
+                        SvgPicture.asset("assets/images/Human-Standing-01.svg"),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      'How can we help you?',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'App Version: $version',
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
-                    letterSpacing: 1.2,
-                    color: AppTheme.deactivatedText,
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Text(
-                    "$about",
-                    textAlign: TextAlign.center,
+                  Text(
+                    'App Version: $version',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontFamily: AppTheme.fontName,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      letterSpacing: 1.2,
+                      color: AppTheme.deactivatedText,
                     ),
-                    softWrap: true,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                    leading: Icon(FontAwesomeIcons.google),
-                    title: Text('Email'),
-                    subtitle: Text('$email'),
-                    onTap: _launchMail,
-                    onLongPress: () {
-                      Clipboard.setData(ClipboardData(text: email));
-                      showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                                title: Text('Text Copied'),
-                                content: Text('$email'),
-                              ));
-                    }),
-                SizedBox(
-                  height: 10,
-                ),
-                ListTile(
-                    leading: Icon(Icons.phone),
-                    title: Text('Phone'),
-                    subtitle: Text('$phone'),
-                    onTap: _launchCall,
-                    onLongPress: () {
-                      Clipboard.setData(ClipboardData(text: phone));
-                      showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                                title: Text('Text Copied'),
-                                content: Text('$phone'),
-                              ));
-                    }),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text(
+                      "$about",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                      softWrap: true,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                      leading: Icon(FontAwesomeIcons.google),
+                      title: Text('Email'),
+                      subtitle: Text('$email'),
+                      onTap: _launchMail,
+                      onLongPress: () {
+                        Clipboard.setData(ClipboardData(text: email));
+                        showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                                  title: Text('Text Copied'),
+                                  content: Text('$email'),
+                                ));
+                      }),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                      leading: Icon(Icons.phone),
+                      title: Text('Phone'),
+                      subtitle: Text('$phone'),
+                      onTap: _launchCall,
+                      onLongPress: () {
+                        Clipboard.setData(ClipboardData(text: phone));
+                        showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                                  title: Text('Text Copied'),
+                                  content: Text('$phone'),
+                                ));
+                      }),
 //                Expanded(
 //                  child: Padding(
 //                    padding: const EdgeInsets.all(8.0),
@@ -186,7 +187,8 @@ class _AboutScreenState extends State<AboutScreen> {
 //                    ),
 //                  ),
 //                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

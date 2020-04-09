@@ -1,6 +1,8 @@
 import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:soundpool/soundpool.dart';
 
 class ScanScreen extends StatefulWidget {
   final String id;
@@ -14,9 +16,21 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
-  String qrCode = '';
-
   AnimationController animationController;
+  // Choose from any of these available methods
+
+  static Soundpool pool = Soundpool(streamType: StreamType.notification);
+
+  Future play() async {
+    int soundId = await rootBundle
+        .load("assets/sounds/insight.m4r")
+        .then((ByteData soundData) {
+      return pool.load(soundData);
+    });
+    int streamId = await pool.play(soundId);
+
+    return streamId;
+  }
 
   @override
   void dispose() {
@@ -127,6 +141,8 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                           }
 
                           if (!result.hasException) {
+                            Vibrate.vibrate();
+                            play();
                             final List<dynamic> repositories = result
                                 .data['MemberCollection'] as List<dynamic>;
 
@@ -437,103 +453,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                         ],
                                       ),
                                     ),
-//                                     Container(
-//                                       margin: EdgeInsets.all(20.0),
-//                                       padding: EdgeInsets.all(10.0),
-//                                       decoration: BoxDecoration(
-//                                         color: AppTheme.white,
-//                                         borderRadius: BorderRadius.all(
-//                                             Radius.circular(8.0)),
-//                                         boxShadow: <BoxShadow>[
-//                                           BoxShadow(
-//                                               color: AppTheme.grey
-//                                                   .withOpacity(0.2),
-// //                                         offset: Offset(1.1, 1.1),
-//                                               blurRadius: 10.0),
-//                                         ],
-//                                       ),
-//                                       child: Column(
-//                                         mainAxisAlignment:
-//                                             MainAxisAlignment.center,
-//                                         children: <Widget>[
-//                                           Row(
-//                                             mainAxisAlignment:
-//                                                 MainAxisAlignment.spaceEvenly,
-//                                             children: <Widget>[
-//                                               Container(
-//                                                 width: MediaQuery.of(context)
-//                                                         .size
-//                                                         .width /
-//                                                     2,
-//                                                 color: AppTheme.white,
-//                                                 child: MaterialButton(
-//                                                   onPressed: () {},
-//                                                   elevation: 8,
-//                                                   color: AppTheme.dark_grey,
-//                                                   textColor: AppTheme.notWhite,
-//                                                   child: AutoSizeText(
-//                                                     "Work With Me",
-//                                                     style: TextStyle(
-//                                                       fontFamily:
-//                                                           AppTheme.fontName,
-//                                                       fontWeight:
-//                                                           FontWeight.w700,
-//                                                       fontSize: 20,
-//                                                       letterSpacing: 1,
-//                                                     ),
-//                                                   ),
-//                                                 ),
-//                                               ),
-//                                               Container(
-//                                                 width: MediaQuery.of(context)
-//                                                         .size
-//                                                         .width /
-//                                                     2,
-//                                                 color: AppTheme.white,
-//                                                 child: MaterialButton(
-//                                                   onPressed: () {},
-//                                                   elevation: 8,
-//                                                   color: AppTheme.dark_grey,
-//                                                   textColor: AppTheme.notWhite,
-//                                                   child: AutoSizeText(
-//                                                     "Deducted Points",
-//                                                     style: TextStyle(
-//                                                       fontFamily:
-//                                                           AppTheme.fontName,
-//                                                       fontWeight:
-//                                                           FontWeight.w700,
-//                                                       fontSize: 20,
-//                                                       letterSpacing: 1,
-//                                                     ),
-//                                                   ),
-//                                                 ),
-//                                               ),
-//                                             ],
-//                                           ),
-//                                           Container(
-//                                             width: MediaQuery.of(context)
-//                                                     .size
-//                                                     .width /
-//                                                 2,
-//                                             child: MaterialButton(
-//                                               onPressed: () {},
-//                                               elevation: 8,
-//                                               textColor: Colors.red,
-//                                               color: AppTheme.notWhite,
-//                                               child: AutoSizeText(
-//                                                 "Report",
-//                                                 style: TextStyle(
-//                                                   fontFamily: AppTheme.fontName,
-//                                                   fontWeight: FontWeight.w700,
-//                                                   fontSize: 20,
-//                                                   letterSpacing: 1,
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     )
                                   ],
                                 ),
                               );

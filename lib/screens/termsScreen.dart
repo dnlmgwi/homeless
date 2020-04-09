@@ -33,8 +33,7 @@ class _TermsScreenState extends State<TermsScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.nearlyWhite,
-      child: SafeArea(
-        top: false,
+      child: SingleChildScrollView(
         child: Scaffold(
           backgroundColor: AppTheme.chipBackground,
           resizeToAvoidBottomPadding: false,
@@ -95,13 +94,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 ListTile(
                   leading: Icon(Icons.insert_drive_file),

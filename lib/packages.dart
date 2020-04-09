@@ -4,7 +4,6 @@ export 'dart:io';
 export 'package:flutter/services.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter/widgets.dart';
-export 'package:json_annotation/json_annotation.dart';
 export 'dart:async';
 
 //Plugins
@@ -31,7 +30,6 @@ export 'package:homeless/screens/feedbackScreen.dart';
 export 'package:homeless/screens/aboutScreen.dart';
 export 'package:homeless/screens/inviteFriendScreen.dart';
 export 'package:homeless/screens/termsScreen.dart';
-export 'package:homeless/screens/profileScreen.dart';
 export 'package:homeless/screens/donateScreen.dart';
 export 'package:homeless/screens/rewardsScreen.dart';
 export 'package:homeless/screens/newsScreen.dart';
@@ -45,14 +43,7 @@ export 'package:homeless/screens/onBoarding.dart';
 //Models
 export 'package:homeless/data/appTheme.dart';
 export 'package:homeless/data/tabIconData.dart';
-export 'package:homeless/models/quiz/question.dart';
-export 'package:homeless/models/user/user.dart';
 export 'package:homeless/models/onBoarding/onBoarding.dart';
-export 'package:homeless/models/rewards/rewards.dart';
-export 'package:homeless/models/rewards/settingsRewards.dart';
-export 'package:homeless/models/news/author/author.dart';
-export 'package:homeless/models/news/news.dart';
-export 'package:homeless/models/news/items/items.dart';
 
 //Views
 export 'package:homeless/widgets/bottomBarView.dart';
@@ -61,9 +52,5 @@ export 'package:homeless/view/settingsScreen.dart';
 
 export 'package:homeless/widgets/titleView.dart';
 
-//services
-export 'package:homeless/services/brain.dart';
-
 //api
-export 'package:homeless/api/network.dart';
 export 'package:homeless/api/client.dart';

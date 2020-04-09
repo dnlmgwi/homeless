@@ -1,4 +1,7 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/data/graphqlQueries.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -6,21 +9,6 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-//  String _currText = '';
-
-  Network api = Network();
-
-  List newsList;
-
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getNewsData();
-  }
-
   //This Method Launches the alert Dialogue for an API Error
   _alert({context, error}) {
     showDialog(
@@ -45,96 +33,147 @@ class _NewsScreenState extends State<NewsScreen> {
         });
   }
 
-  void getNewsData() async {
-    var onValue = await api.getNews().catchError((onError) {
-      _alert(context: context, error: onError);
-    });
-    setState(() {
-      isLoading = false;
-      newsList = onValue.items;
-    });
-  }
-
-  Widget _handleCurrentScreen(bool isLoading) {
-    if (isLoading) {
-      return Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 9,
-          backgroundColor: AppTheme.dark_grey,
-        ),
-      );
-    } else {
-      return ListView.separated(
-        separatorBuilder: (context, int) {
-          return Divider();
-        },
-        itemBuilder: (context, int) {
-          return ListTile(
-            onTap: () {},
-            subtitle: Text('${newsList[int].url}',
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 12,
-                  letterSpacing: 1.2,
-                  color: AppTheme.deactivatedText,
-                )),
-            title: Text("${newsList[int].title}",
+  @override
+  Widget build(BuildContext context) {
+    return GraphQLProvider(
+      client: Config.client,
+      child: Container(
+        color: AppTheme.nearlyWhite,
+        child: SafeArea(
+          top: false,
+          child: Scaffold(
+            backgroundColor: AppTheme.chipBackground,
+            resizeToAvoidBottomPadding: false,
+            appBar: AppBar(
+              titleSpacing: 1.2,
+              centerTitle: false,
+              backgroundColor: AppTheme.dark_grey,
+              title: Text(
+                "News",
+                textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  letterSpacing: 1,
-                  color: AppTheme.darkerText,
-                )),
-          );
-        },
-        itemCount:
-            (newsList == null || newsList == null || newsList.length == 0)
-                ? 0
-                : newsList.length,
-      );
-    }
-  }
+                  fontSize: 22,
+                  letterSpacing: 1.2,
+                  color: AppTheme.nearlyWhite,
+                ),
+              ),
+            ),
+            body: Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Query(
+                options: QueryOptions(
+                  documentNode: gql(Queries.getNews()),
+                ),
+                builder: (QueryResult result,
+                    {VoidCallback refetch, FetchMore fetchMore}) {
+                  if (result.loading) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          // LoadingProfile(),
+                          Center(
+                            child: Text('Loading...'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.nearlyWhite,
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          backgroundColor: AppTheme.chipBackground,
-          resizeToAvoidBottomPadding: false,
-          appBar: AppBar(
-            titleSpacing: 1.2,
-            centerTitle: false,
-            backgroundColor: AppTheme.dark_grey,
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    getNewsData();
-                  })
-            ],
-            title: Text(
-              "News",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 22,
-                letterSpacing: 1.2,
-                color: AppTheme.nearlyWhite,
+                  if (result.hasException) {
+                    print(result.exception.toString());
+                    _alert(
+                        context: this.context,
+                        error: result.exception.toString());
+                  }
+
+                  if (!result.hasException) {
+                    final List<dynamic> repositories =
+                        result.data['NewsCollection'] as List<dynamic>;
+
+                    if (repositories.isEmpty) {
+                      print('No News!');
+                      return Center(
+                        child: AutoSizeText(
+                          "No News",
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 25,
+                            letterSpacing: 1,
+                            color: AppTheme.darkerText,
+                          ),
+                        ),
+                      );
+                    }
+
+                    return ListView.separated(
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(),
+                      itemCount: repositories.length,
+                      itemBuilder: (context, index) {
+                        dynamic responseData = repositories[index];
+                        return Container(
+                          margin: EdgeInsets.all(10.0),
+                          padding: EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Image.network(
+                                  "${responseData['image']['path']}",
+                                ),
+                                trailing: Icon(Icons.arrow_forward_ios),
+                                title: AutoSizeText(
+                                  "${repositories[index]['title']}",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 17,
+                                    letterSpacing: 1,
+                                    color: AppTheme.darkerText,
+                                  ),
+                                ),
+                                subtitle: AutoSizeText(
+                                  "${repositories[index]['source']} - ${timeago.format(DateTime.parse(repositories[index]['posted']))}",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 8,
+                                    color: AppTheme.grey,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: SizedBox(
+                                  child: AutoSizeText(
+                                    "${repositories[index]['description']}",
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 10,
+                                      color: AppTheme.grey,
+                                    ),
+                                  ),
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
           ),
-          body: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: _handleCurrentScreen(isLoading)),
         ),
       ),
     );
