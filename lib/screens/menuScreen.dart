@@ -145,19 +145,21 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     // );
 
     listViews.add(
-      TitleView(
-        // route: '/rewards',
-        icon: Icon(
-          Icons.local_activity,
-          color: AppTheme.dark_grey,
+      Container(
+        child: TitleView(
+          // route: '/rewards',
+          icon: Icon(
+            Icons.local_activity,
+            color: AppTheme.dark_grey,
+          ),
+          titleTxt: 'Rewards',
+          subTxt: 'Coming Soon',
+          animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController,
+              curve:
+                  Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
         ),
-        titleTxt: 'Rewards',
-        subTxt: 'Coming Soon',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
       ),
     );
   }

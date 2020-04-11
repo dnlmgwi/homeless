@@ -21,6 +21,7 @@ export 'package:animated_splash/animated_splash.dart';
 export 'package:shimmer/shimmer.dart';
 export 'package:rating_bar/rating_bar.dart';
 export 'package:auto_size_text/auto_size_text.dart';
+export 'package:flutter_markdown/flutter_markdown.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes
@@ -33,12 +34,11 @@ export 'package:homeless/screens/termsScreen.dart';
 export 'package:homeless/screens/donateScreen.dart';
 export 'package:homeless/screens/rewardsScreen.dart';
 export 'package:homeless/screens/newsScreen.dart';
-export 'package:homeless/screens/quizPage.dart';
-export 'package:homeless/screens/behaviours.dart';
-export 'package:homeless/dashboard.dart';
 export 'package:homeless/screens/ScanScreen.dart';
-export 'package:homeless/view/menuScreen.dart';
 export 'package:homeless/screens/onBoarding.dart';
+export 'package:homeless/screens/settingsScreen.dart';
+export 'package:homeless/dashboard.dart';
+export 'package:homeless/screens/menuScreen.dart';
 
 //Models
 export 'package:homeless/data/appTheme.dart';
@@ -48,8 +48,6 @@ export 'package:homeless/models/onBoarding/onBoarding.dart';
 //Views
 export 'package:homeless/widgets/bottomBarView.dart';
 export 'package:homeless/widgets/loadingProfile.dart';
-export 'package:homeless/view/settingsScreen.dart';
-
 export 'package:homeless/widgets/titleView.dart';
 
 //api

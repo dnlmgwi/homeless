@@ -25,14 +25,13 @@ dependencies:
   graphql_flutter: ^3.0.0
   flutter_markdown:
   shimmer:
+  firebase_messaging:
   rive: ^0.0.1
   timeago:
   soundpool:
   flutter_vibrate:
   auto_size_text: ^2.1.0
   rating_bar: ^0.2.0
-
-  #  quick_actions: ^0.4.0+1
 
   cupertino_icons: ^0.1.2
 

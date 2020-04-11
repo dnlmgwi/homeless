@@ -20,7 +20,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
 //Opens whatapp to share feedback message.
   _launchMail() async {
-    FlutterOpenWhatsapp.sendSingleMessage("+27722326766", "$feedback");
+    FlutterOpenWhatsapp.sendSingleMessage(
+        "+27722326766", "Homeless App Feedback: $feedback");
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/services/push_notifications.dart';
 
 void main() {
   //Forces the App to only be used in Portrait.
@@ -11,6 +12,7 @@ void main() {
 //        )); //Shared Preferences allows us to view the onboarding once, and once it is seen it will not be seen again.
 //      }));
 
+  PushNotificationsManager.init();
   runApp(MyApp(
 //    prefs: prefs,
       ));
@@ -18,9 +20,11 @@ void main() {
 
 class MyApp extends StatelessWidget {
 //  final SharedPreferences prefs;
+//final PushNotificationsManager notificationsManager;
 
   MyApp(
 //      {this.prefs}
+//      {this.notificationsManager}
       );
 
   @override

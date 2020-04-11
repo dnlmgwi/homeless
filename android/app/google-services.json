@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "297648211487",
+    "firebase_url": "https://homeless-e12cc.firebaseio.com",
+    "project_id": "homeless-e12cc",
+    "storage_bucket": "homeless-e12cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297648211487:android:b26292dc36d4b80259f72a",
+        "android_client_info": {
+          "package_name": "za.co.sketchdm.homeless"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297648211487-lqup7nsmaejhq95944e7vs7skjdjgst7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.sketchdm.homeless",
+            "certificate_hash": "d0b2ff13479e314ff4b3781660c90890e2993a57"
+          }
+        },
+        {
+          "client_id": "297648211487-smsr5pcg8hmjsis5eehtjn0pcsrcsa90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_A3Gjq4aDBRhfLvfbSpz20rWfpoI4w5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297648211487-smsr5pcg8hmjsis5eehtjn0pcsrcsa90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

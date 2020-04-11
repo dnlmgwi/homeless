@@ -6,11 +6,11 @@ class Queries {
       name
       surname
       age
+      gender
       joined
       points
       _id
       _created
-      rating
       about
       picture {
         path

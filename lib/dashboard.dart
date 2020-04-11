@@ -22,8 +22,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     tabIconsList[0].isSelected = true;
 
-    animationController = AnimationController(
-        duration: Duration(milliseconds: 1500), vsync: this);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 900), vsync: this);
     tabBody = MenuScreen(animationController: animationController);
     super.initState();
   }
@@ -60,7 +60,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   Future<bool> getData() async {
-    await Future.delayed(const Duration(milliseconds: 6));
+    await Future.delayed(const Duration(milliseconds: 4));
     return true;
   }
 

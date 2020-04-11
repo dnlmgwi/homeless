@@ -73,10 +73,13 @@ class _BottomBarViewState extends State<BottomBarView>
         //calling setstate to update UI with the link of the current user
         if (scanData.isNotEmpty) {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScanScreen(id: scanData),
-              ));
+            this.context,
+            MaterialPageRoute(
+              builder: (context) => ScanScreen(
+                id: scanData,
+              ),
+            ),
+          );
         } else {
           _alert(context: this.context);
           this.qrCode = 'No Data';
