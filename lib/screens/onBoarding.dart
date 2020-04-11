@@ -1,9 +1,9 @@
 import 'package:homeless/packages.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-//  final SharedPreferences prefs;
+  final SharedPreferences prefs;
 
-//  OnBoardingScreen({this.prefs});
+  OnBoardingScreen({this.prefs});
 
 //  static List<OnBoardingModel> pages = [
 //    OnBoardingModel(
@@ -152,8 +152,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   textColor: AppTheme.white,
                   onPressed: () {
-//                    widget.prefs.setBool('seen', true);
-                    Navigator.pushNamed(context, '/dash');
+                    widget.prefs.setBool('seen', true);
+                    Navigator.popAndPushNamed(context, '/dash');
                   },
                   splashColor: AppTheme.nearlyWhite,
                   color: AppTheme.nearlyBlack,
