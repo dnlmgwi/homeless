@@ -24,7 +24,10 @@ class Queries {
 
   static String getNews() {
     return r'''query loadNews {
-      NewsCollection
+      NewsCollection(
+      sort: {
+      posted: -1,
+      }, limit: 10)
       {
         image {
           path

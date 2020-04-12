@@ -96,15 +96,15 @@ class _NewsScreenState extends State<NewsScreen> {
                 );
               }
 
-              return ListView.separated(
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(),
+              return ListView.builder(
+//              separatorBuilder: (BuildContext context, int index) => Divider(),
                 itemCount: repositories.length,
                 itemBuilder: (context, index) {
                   dynamic responseData = repositories[index];
                   return Container(
-                    margin: EdgeInsets.all(10.0),
+                    margin: EdgeInsets.all(5.0),
                     padding: EdgeInsets.all(20.0),
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: AppTheme.white,
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -125,59 +125,65 @@ class _NewsScreenState extends State<NewsScreen> {
                           ),
                         );
                       },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        spacing: 15,
                         children: <Widget>[
                           ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: Image.network(
                               "${responseData['image']['path']}",
-                              width: MediaQuery.of(context).size.width,
+                              width: 100,
                               fit: BoxFit.cover,
-                              height: 150,
+                              height: 100,
                             ),
                           ),
                           SizedBox(
-                            height: 8,
-                          ),
-                          AutoSizeText(
-                            "${repositories[index]['title']}",
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
-                              letterSpacing: 1,
-                              color: AppTheme.darkerText,
+                            width: MediaQuery.of(context).size.width / 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                AutoSizeText(
+                                  "${repositories[index]['title']}",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    letterSpacing: 1,
+                                    color: AppTheme.darkerText,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                AutoSizeText(
+                                  "${repositories[index]['source']} • ${timeago.format(DateTime.parse(repositories[index]['posted']))}",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 9,
+                                    color: AppTheme.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  child: AutoSizeText(
+                                    "${repositories[index]['description']}",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 10,
+                                      color: AppTheme.grey,
+                                    ),
+                                  ),
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          AutoSizeText(
-                            "${repositories[index]['source']} • ${timeago.format(DateTime.parse(repositories[index]['posted']))}",
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 9,
-                              color: AppTheme.grey,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            child: AutoSizeText(
-                              "${repositories[index]['description']}",
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 10,
-                                color: AppTheme.grey,
-                              ),
-                            ),
-                            width: MediaQuery.of(context).size.width,
                           ),
                         ],
                       ),
