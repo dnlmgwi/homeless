@@ -30,17 +30,17 @@ class _NewsArticleScreenState extends State<NewsArticleScreen> {
       appBar: AppBar(
         titleSpacing: 1.2,
         centerTitle: false,
-        backgroundColor: AppTheme.dark_grey,
+        backgroundColor: AppTheme.chipBackground,
         actions: <Widget>[],
         title: AutoSizeText(
-          "${widget.title} | ${widget.source}",
+          "${widget.source}",
           textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: AppTheme.fontName,
             fontWeight: FontWeight.w700,
             fontSize: 20,
             letterSpacing: 1.2,
-            color: AppTheme.nearlyWhite,
+            color: AppTheme.dark_grey,
           ),
         ),
       ),

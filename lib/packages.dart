@@ -22,6 +22,7 @@ export 'package:shimmer/shimmer.dart';
 export 'package:rating_bar/rating_bar.dart';
 export 'package:auto_size_text/auto_size_text.dart';
 export 'package:flutter_markdown/flutter_markdown.dart';
+export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes
@@ -34,6 +35,7 @@ export 'package:homeless/screens/termsScreen.dart';
 export 'package:homeless/screens/donateScreen.dart';
 export 'package:homeless/screens/rewardsScreen.dart';
 export 'package:homeless/screens/newsScreen.dart';
+export 'package:homeless/screens/statsScreen.dart';
 export 'package:homeless/screens/ScanScreen.dart';
 export 'package:homeless/screens/onBoarding.dart';
 export 'package:homeless/screens/settingsScreen.dart';

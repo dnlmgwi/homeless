@@ -24,7 +24,7 @@ class _InviteFriendState extends State<InviteFriend> {
       appBar: AppBar(
         titleSpacing: 1.2,
         centerTitle: false,
-        backgroundColor: AppTheme.dark_grey,
+        backgroundColor: AppTheme.chipBackground,
         title: Text(
           "Share",
           textAlign: TextAlign.left,
@@ -33,7 +33,7 @@ class _InviteFriendState extends State<InviteFriend> {
             fontWeight: FontWeight.w700,
             fontSize: 22,
             letterSpacing: 1.2,
-            color: AppTheme.nearlyWhite,
+            color: AppTheme.dark_grey,
           ),
         ),
       ),

@@ -26,7 +26,9 @@ dependencies:
   flutter_markdown:
   shimmer:
   firebase_messaging:
+  charts_flutter:
   rive: ^0.0.1
+  flutter_local_notifications: ^1.4.1
   timeago:
   soundpool:
   flutter_vibrate:

@@ -32,7 +32,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       appBar: AppBar(
           titleSpacing: 1.2,
           centerTitle: false,
-          backgroundColor: AppTheme.dark_grey,
+          backgroundColor: AppTheme.chipBackground,
           title: Text("Feedback",
               textAlign: TextAlign.left,
               style: TextStyle(
@@ -40,7 +40,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 fontWeight: FontWeight.w700,
                 fontSize: 22,
                 letterSpacing: 1.2,
-                color: AppTheme.nearlyWhite,
+                color: AppTheme.dark_grey,
               ))),
       body: KeyboardAvoider(
         autoScroll: true,

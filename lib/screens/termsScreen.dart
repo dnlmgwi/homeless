@@ -37,7 +37,7 @@ class _TermsScreenState extends State<TermsScreen> {
       appBar: AppBar(
         titleSpacing: 1.2,
         centerTitle: false,
-        backgroundColor: AppTheme.dark_grey,
+        backgroundColor: AppTheme.chipBackground,
         title: Text(
           "Privacy",
           textAlign: TextAlign.left,
@@ -46,7 +46,7 @@ class _TermsScreenState extends State<TermsScreen> {
             fontWeight: FontWeight.w700,
             fontSize: 22,
             letterSpacing: 1.2,
-            color: AppTheme.nearlyWhite,
+            color: AppTheme.dark_grey,
           ),
         ),
       ),

@@ -45,7 +45,7 @@ class _NewsScreenState extends State<NewsScreen> {
         appBar: AppBar(
           titleSpacing: 1.2,
           centerTitle: false,
-          backgroundColor: AppTheme.dark_grey,
+          backgroundColor: AppTheme.chipBackground,
           title: Text(
             "News",
             textAlign: TextAlign.left,
@@ -54,7 +54,7 @@ class _NewsScreenState extends State<NewsScreen> {
               fontWeight: FontWeight.w700,
               fontSize: 22,
               letterSpacing: 1.2,
-              color: AppTheme.nearlyWhite,
+              color: AppTheme.dark_grey,
             ),
           ),
         ),

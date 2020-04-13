@@ -63,6 +63,23 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
     listViews.add(
       TitleView(
+        // route: '/stats',
+        icon: Icon(
+          FontAwesomeIcons.chartLine,
+          color: AppTheme.dark_grey,
+        ),
+        titleTxt: 'Statistics',
+        subTxt: 'Coming Soon',
+        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    listViews.add(
+      TitleView(
         route: '/job',
         icon: Icon(
           Icons.device_hub,
@@ -99,7 +116,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
       TitleView(
         route: '/news',
         icon: Icon(
-          Icons.view_compact,
+          FontAwesomeIcons.newspaper,
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'News',

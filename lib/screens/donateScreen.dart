@@ -77,7 +77,7 @@ class _DonateState extends State<Donate> {
         appBar: AppBar(
           titleSpacing: 1.2,
           centerTitle: false,
-          backgroundColor: AppTheme.dark_grey,
+          backgroundColor: AppTheme.chipBackground,
           title: Text(
             "Donate",
             textAlign: TextAlign.left,
@@ -86,7 +86,7 @@ class _DonateState extends State<Donate> {
               fontWeight: FontWeight.w700,
               fontSize: 22,
               letterSpacing: 1.2,
-              color: AppTheme.nearlyWhite,
+              color: AppTheme.dark_grey,
             ),
           ),
         ),
@@ -215,7 +215,7 @@ class _DonateState extends State<Donate> {
                     ),
                     ListTile(
                       title: Text(
-                        'Amount To Donate:',
+                        'Amount To Donate: NAD $_value',
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           fontWeight: FontWeight.w900,
@@ -230,9 +230,8 @@ class _DonateState extends State<Donate> {
                         min: 10.0,
                         max: 1000.0,
                         divisions: 1000,
-                        activeColor: AppTheme.dark_grey,
+                        activeColor: AppTheme.grey,
                         inactiveColor: AppTheme.deactivatedText,
-                        label: 'Amount NAD $_value',
                         onChanged: (double newValue) {
                           setState(() {
                             _value = newValue.round();
@@ -246,7 +245,7 @@ class _DonateState extends State<Donate> {
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(50.0),
                       ),
-                      label: Text("Donate $_value NAD"),
+                      label: Text("Donate"),
                       textColor: AppTheme.white,
                       onPressed: () {
                         _pay(context);

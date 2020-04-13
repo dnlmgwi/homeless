@@ -43,6 +43,19 @@ class Queries {
   }''';
   }
 
+  static String getStats() {
+    return r'''query loadStats {
+      StatsCollection(
+      sort: {
+      year: 1,
+      })
+      {
+        numberOfHomeless
+        year
+      }
+  }''';
+  }
+
   // void resultsPrint({String id}) async {
   //   final QueryOptions options =
   //       QueryOptions(documentNode: gql(Queries.verifyUser()), variables: {

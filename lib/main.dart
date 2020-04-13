@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
       title: 'Homeless App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.grey,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),

@@ -44,7 +44,7 @@ class _AboutScreenState extends State<AboutScreen> {
       appBar: AppBar(
         titleSpacing: 1.2,
         centerTitle: false,
-        backgroundColor: AppTheme.dark_grey,
+        backgroundColor: AppTheme.chipBackground,
         title: Text(
           "About",
           textAlign: TextAlign.left,
@@ -53,7 +53,7 @@ class _AboutScreenState extends State<AboutScreen> {
             fontWeight: FontWeight.w700,
             fontSize: 22,
             letterSpacing: 1.2,
-            color: AppTheme.nearlyWhite,
+            color: AppTheme.dark_grey,
           ),
         ),
       ),
