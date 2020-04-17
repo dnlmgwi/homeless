@@ -14,6 +14,7 @@ final routes = {
   '/terms': (BuildContext context) => TermsScreen(),
   '/logout': (BuildContext context) => OnBoardingScreen(),
   '/share': (BuildContext context) => InviteFriend(),
+  '/transact': (BuildContext context) => TransactScreen(),
   // '/game': (BuildContext context) => QuizPage(),
   '/scan': (BuildContext context) => ScanScreen(),
 //'/login': (BuildContext context) => LoginScreen(),

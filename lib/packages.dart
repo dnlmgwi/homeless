@@ -23,6 +23,7 @@ export 'package:rating_bar/rating_bar.dart';
 export 'package:auto_size_text/auto_size_text.dart';
 export 'package:flutter_markdown/flutter_markdown.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes
@@ -41,6 +42,7 @@ export 'package:homeless/screens/onBoarding.dart';
 export 'package:homeless/screens/settingsScreen.dart';
 export 'package:homeless/dashboard.dart';
 export 'package:homeless/screens/menuScreen.dart';
+export 'package:homeless/screens/transactScreen.dart';
 
 //Models
 export 'package:homeless/data/appTheme.dart';

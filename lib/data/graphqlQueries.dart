@@ -11,7 +11,6 @@ class Queries {
       points
       _id
       _created
-      about
       picture {
         path
       }

@@ -29,6 +29,7 @@ dependencies:
   charts_flutter:
   rive: ^0.0.1
   flutter_local_notifications: ^1.4.1
+  font_awesome_flutter:
   timeago:
   soundpool:
   flutter_vibrate:

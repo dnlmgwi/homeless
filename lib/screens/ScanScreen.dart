@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -126,8 +127,8 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                   child: Column(
                                     children: <Widget>[
                                       Container(
-                                        width: 180.0,
-                                        height: 180.0,
+                                        width: 120.0,
+                                        height: 120.0,
                                         decoration: BoxDecoration(
                                           color: AppTheme.grey,
                                           shape: BoxShape.circle,
@@ -143,12 +144,15 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
                                           SizedBox(
                                             height: 20,
                                           ),
                                           Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -177,27 +181,10 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                 SizedBox(
                                                   height: 1,
                                                 ),
-                                                AutoSizeText(
-                                                    "${person['gender'][0]}"
-                                                        .toUpperCase(),
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15,
-                                                      letterSpacing: 1,
-                                                      color: AppTheme
-                                                          .deactivatedText,
-                                                    )),
-                                                Divider(),
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
                                                 Row(
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "About Me"
+                                                        "${person['gender'][0]}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -225,26 +212,8 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                         )), // Date Joined
                                                   ],
                                                 ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
-                                                  child: AutoSizeText(
-                                                    "${person['about']}",
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 19,
-                                                      letterSpacing: 0.5,
-                                                      color:
-                                                          AppTheme.nearlyBlack,
-                                                    ),
-                                                  ),
-                                                ),
                                                 SizedBox(
-                                                  height: 4,
+                                                  height: 15,
                                                 ),
                                                 AutoSizeText(
                                                   "${person['location']["address"]}",
@@ -253,16 +222,168 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                     fontFamily:
                                                         AppTheme.fontName,
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 17,
+                                                    fontSize: 15,
                                                     letterSpacing: 0.5,
                                                     color: AppTheme
                                                         .deactivatedText,
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  height: 10,
+                                                  height: 15,
                                                 ),
                                                 Divider(),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: <Widget>[
+                                                    InkWell(
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            3,
+                                                        margin:
+                                                            EdgeInsets.all(5.0),
+                                                        padding: EdgeInsets.all(
+                                                            20.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppTheme
+                                                              .darkerText,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          8.0)),
+                                                          boxShadow: <
+                                                              BoxShadow>[
+                                                            BoxShadow(
+                                                                color: AppTheme
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                                                blurRadius:
+                                                                    10.0),
+                                                          ],
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              child: FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .exchangeAlt,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            Text('Transact',
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .nearlyWhite))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      onTap: () =>
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          TransactScreen(
+                                                                            image:
+                                                                                person['picture']['path'],
+                                                                            name:
+                                                                                person['name'],
+                                                                            points:
+                                                                                person['points'],
+                                                                            surname:
+                                                                                person['surname'],
+                                                                            id: person['_id'],
+                                                                          ))),
+                                                    ),
+                                                    InkWell(
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            3,
+                                                        margin:
+                                                            EdgeInsets.all(5.0),
+                                                        padding: EdgeInsets.all(
+                                                            20.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppTheme
+                                                              .nearlyWhite,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          8.0)),
+                                                          boxShadow: <
+                                                              BoxShadow>[
+                                                            BoxShadow(
+                                                                color: AppTheme
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                                                blurRadius:
+                                                                    10.0),
+                                                          ],
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              child: FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .briefcaseMedical,
+                                                                  color: AppTheme
+                                                                      .darkerText),
+                                                            ),
+                                                            Text(
+                                                              'Medicals',
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .darkerText),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+//                                                      onTap: () => Navigator.push(
+//                                                          context,
+//                                                          MaterialPageRoute(
+//                                                              builder: (context) =>
+//                                                                  TransactScreen())),
+                                                    ),
+                                                  ],
+                                                ),
                                                 SizedBox(
                                                   height: 10,
                                                 ),
@@ -315,7 +436,26 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                 ),
                                               ],
                                             ),
-                                          )
+                                          ),
+                                          RaisedButton.icon(
+                                            clipBehavior: Clip.antiAlias,
+                                            icon: FaIcon(
+                                                FontAwesomeIcons
+                                                    .exclamationTriangle,
+                                                color: Colors.red),
+                                            label: Text(
+                                              'Report User',
+                                              style: TextStyle(
+                                                color: AppTheme.darkerText,
+                                              ),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        22.0)),
+                                            color: AppTheme.nearlyWhite,
+                                            onPressed: () {},
+                                          ),
                                         ],
                                       ),
                                     ],
