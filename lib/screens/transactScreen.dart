@@ -37,6 +37,8 @@ class _TransactScreenState extends State<TransactScreen> {
   Position _currentPosition;
   String _currentAddress;
 
+  FocusNode myFocusNode;
+
   _getCurrentLocation() async {
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
@@ -59,7 +61,7 @@ class _TransactScreenState extends State<TransactScreen> {
 
       setState(() {
         _currentAddress =
-            "${place.locality}, ${place.postalCode}, ${place.country}, ${place.subLocality}";
+            "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.name}";
       });
     } catch (e) {
       print(e);
@@ -68,13 +70,18 @@ class _TransactScreenState extends State<TransactScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    // Clean up the focus node when the Form is disposed.
+    myFocusNode.dispose();
+
     super.dispose();
   }
 
   @override
   initState() {
     _getCurrentLocation();
+    super.initState();
+
+    myFocusNode = FocusNode();
   }
 
   _alert({context, result}) {
@@ -177,7 +184,7 @@ class _TransactScreenState extends State<TransactScreen> {
                     member_id: _selectedOrganisation,
                     address: _currentAddress,
                     scanDate: DateFormat("yyyy-MM-dd").format(now),
-                    scanTime: DateFormat("HH:mm:ss").format(now),
+                    scanTime: DateTime.now().millisecondsSinceEpoch,
                     //TODO: Find Default Lat, Long
                     lat: _currentPosition == null
                         ? -0
@@ -307,6 +314,8 @@ class _TransactScreenState extends State<TransactScreen> {
                                             hint: Text(
                                                 'Please choose a location'), // Not necessary for Option 1
                                             value: _selectedOrganisation,
+                                            autofocus: true,
+                                            focusNode: myFocusNode,
                                             onChanged: (newValue) {
                                               setState(() {
                                                 _selectedOrganisation =
@@ -418,11 +427,7 @@ class _TransactScreenState extends State<TransactScreen> {
                           SizedBox(
                             height: 5,
                           ),
-                          food &&
-                                      accomodation &&
-                                      healthCare &&
-                                      _selectedOrganisation == null ||
-                                  food ||
+                          food && accomodation && healthCare && food ||
                                   accomodation ||
                                   healthCare == true
                               ? Container(
@@ -466,27 +471,59 @@ class _TransactScreenState extends State<TransactScreen> {
                                             ],
                                           ),
                                         ),
-                                        subtitle: FlatButton.icon(
-                                          padding: EdgeInsets.all(15.0),
-                                          icon: Icon(Icons.payment,
-                                              color: AppTheme.white),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
-                                          ),
-                                          label: Text("Give Help",
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 15,
-                                                letterSpacing: 1,
-                                                color: AppTheme.nearlyWhite,
-                                              )),
-                                          textColor: AppTheme.white,
-                                          onPressed: () => runMutation({}),
-                                          splashColor: AppTheme.nearlyWhite,
-                                          color: AppTheme.nearlyBlack,
-                                        ),
+                                        subtitle: _selectedOrganisation == null
+                                            ? FlatButton(
+                                                padding: EdgeInsets.all(15.0),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50.0),
+                                                ),
+                                                child: Text(
+                                                  "Please Select Project",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontName,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 15,
+                                                    letterSpacing: 1,
+                                                    color: AppTheme.nearlyBlack,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  myFocusNode.requestFocus();
+                                                },
+                                                splashColor:
+                                                    AppTheme.nearlyWhite,
+                                                color: AppTheme.notWhite,
+                                              )
+                                            : FlatButton.icon(
+                                                padding: EdgeInsets.all(15.0),
+                                                icon: Icon(Icons.payment,
+                                                    color: AppTheme.white),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50.0),
+                                                ),
+                                                label: Text(
+                                                  "Give Help",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontName,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 15,
+                                                    letterSpacing: 1,
+                                                    color: AppTheme.nearlyWhite,
+                                                  ),
+                                                ),
+                                                textColor: AppTheme.white,
+                                                onPressed: () =>
+                                                    runMutation({}),
+                                                splashColor:
+                                                    AppTheme.nearlyWhite,
+                                                color: AppTheme.nearlyBlack,
+                                              ),
                                       ),
                                     ],
                                   ),

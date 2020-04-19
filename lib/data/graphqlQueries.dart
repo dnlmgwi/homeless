@@ -47,7 +47,19 @@ class Queries {
     return '''{
   collection(name:"Transactions",filter:{
     homeless_id:"$homeless_id"
-  },limit: 5)
+  },limit: 5, sort: {
+      scanTime: -1,
+      })}''';
+  }
+
+  static String getMedicalHistory({String homeless_id}) {
+    return '''{
+  collection(name:"Transactions",filter:{
+    homeless_id:"$homeless_id"
+    healthcare: true
+  },limit: 5, sort: {
+      scanTime: -1,
+      })
 }''';
   }
 

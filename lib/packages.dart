@@ -26,6 +26,7 @@ export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:flutter/services.dart';
 export 'package:geolocator/geolocator.dart';
 export 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+export 'package:time_ago_provider/time_ago_provider.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes

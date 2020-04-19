@@ -3,6 +3,7 @@ import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:homeless/screens/medicalHistory.dart';
 import 'package:homeless/screens/transactionHistoryScreen.dart';
 import 'package:soundpool/soundpool.dart';
 
@@ -380,11 +381,16 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                           ],
                                                         ),
                                                       ),
-//                                                      onTap: () => Navigator.push(
-//                                                          context,
-//                                                          MaterialPageRoute(
-//                                                              builder: (context) =>
-//                                                                  TransactScreen())),
+                                                      onTap: () =>
+                                                          Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MedicalHistoryScreen(
+                                                            id: person['_id'],
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

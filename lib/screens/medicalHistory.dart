@@ -3,24 +3,18 @@ import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/widgets/loadingNews.dart';
 
-class TransactionHistoryScreen extends StatefulWidget {
+class MedicalHistoryScreen extends StatefulWidget {
   final String id;
 
-  TransactionHistoryScreen({
+  MedicalHistoryScreen({
     Key key,
     this.id,
   }) : super(key: key);
   @override
-  _TransactionHistoryScreenState createState() =>
-      _TransactionHistoryScreenState();
+  _MedicalHistoryScreenState createState() => _MedicalHistoryScreenState();
 }
 
-class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
-  _launchReport(String report) async {
-    FlutterOpenWhatsapp.sendSingleMessage(
-        "+27722326766", "Homeless App Reporting a transaction: $report");
-  }
-
+class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
@@ -33,7 +27,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
           centerTitle: false,
           backgroundColor: AppTheme.chipBackground,
           title: Text(
-            "Transaction History",
+            "Medical History",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppTheme.fontName,
@@ -47,7 +41,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
         body: Query(
           options: QueryOptions(
             documentNode: gql(
-              Queries.getTransactionHistory(homeless_id: widget.id),
+              Queries.getMedicalHistory(homeless_id: widget.id),
             ),
           ),
           builder: (QueryResult result,
@@ -131,7 +125,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   AutoSizeText(
-                                    "${transactions[index]['member_id']}",
+                                    "Received Care",
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontName,
                                       fontWeight: FontWeight.w700,
@@ -161,7 +155,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                     children: <Widget>[
                                       Divider(),
                                       AutoSizeText(
-                                        "Benefits Received".toUpperCase(),
+                                        "${transactions[index]['location']['address']}",
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontName,
                                           fontWeight: FontWeight.w700,
@@ -179,62 +173,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                               CrossAxisAlignment.center,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
-                                          children: <Widget>[
-                                            transactions[index]['healthcare']
-                                                ? Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      FaIcon(
-                                                          FontAwesomeIcons
-                                                              .firstAid,
-                                                          color: AppTheme
-                                                              .dark_grey),
-                                                      AutoSizeText("Healthcare")
-                                                    ],
-                                                  )
-                                                : Container(),
-                                            transactions[index]['food']
-                                                ? Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      FaIcon(
-                                                          FontAwesomeIcons
-                                                              .utensils,
-                                                          color: AppTheme
-                                                              .lightText),
-                                                      AutoSizeText("Food")
-                                                    ],
-                                                  )
-                                                : Container(),
-                                            transactions[index]['accommodation']
-                                                ? Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      FaIcon(
-                                                          FontAwesomeIcons.bed,
-                                                          color: AppTheme
-                                                              .lightText),
-                                                      AutoSizeText(
-                                                          "A place to Stay")
-                                                    ],
-                                                  )
-                                                : Container(),
-                                          ],
+                                          children: <Widget>[],
                                         ),
                                       ),
                                       Divider(),

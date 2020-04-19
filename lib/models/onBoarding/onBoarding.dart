@@ -34,7 +34,7 @@ class OnBoardingModel {
     OnBoardingModel(
       title: 'Tips & Advice',
       body:
-          'Our app will give you access to relavent Tips & Advice about the Homeless community in your area',
+          'Our app will give you access to relevant Tips & Advice about the Homeless community in your area',
       heroAssetPath: SvgPicture.asset('assets/images/advice-01.svg'),
     ),
     OnBoardingModel(
