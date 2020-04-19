@@ -61,56 +61,56 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 //      ),
 //    );
 
-    listViews.add(
-      TitleView(
-        // route: '/stats',
-        icon: Icon(
-          FontAwesomeIcons.chartLine,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Statistics',
-        subTxt: 'Coming Soon',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+    // listViews.add(
+    //   TitleView(
+    //     // route: '/stats',
+    //     icon: Icon(
+    //       FontAwesomeIcons.chartLine,
+    //       color: AppTheme.dark_grey,
+    //     ),
+    //     titleTxt: 'Statistics',
+    //     subTxt: 'Coming Soon',
+    //     animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController,
+    //         curve:
+    //             Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController,
+    //   ),
+    // );
 
-    listViews.add(
-      TitleView(
-        route: '/job',
-        icon: Icon(
-          Icons.device_hub,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Jobs',
-        subTxt: 'Coming Soon',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+    // listViews.add(
+    //   TitleView(
+    //     route: '/job',
+    //     icon: Icon(
+    //       Icons.device_hub,
+    //       color: AppTheme.dark_grey,
+    //     ),
+    //     titleTxt: 'Jobs',
+    //     subTxt: 'Coming Soon',
+    //     animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController,
+    //         curve:
+    //             Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController,
+    //   ),
+    // );
 
-    listViews.add(
-      TitleView(
-        route: '/video',
-        icon: Icon(
-          FontAwesomeIcons.youtube,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Videos',
-        subTxt: 'Coming Soon',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+    // listViews.add(
+    //   TitleView(
+    //     route: '/video',
+    //     icon: Icon(
+    //       FontAwesomeIcons.youtube,
+    //       color: AppTheme.dark_grey,
+    //     ),
+    //     titleTxt: 'Videos',
+    //     subTxt: 'Coming Soon',
+    //     animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController,
+    //         curve:
+    //             Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController,
+    //   ),
+    // );
 
     listViews.add(
       TitleView(
@@ -128,22 +128,22 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
       ),
     );
 
-    listViews.add(
-      TitleView(
-        // route: '/behaviours',
-        icon: Icon(
-          Icons.star,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Benefits',
-        subTxt: 'Coming Soon',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+    // listViews.add(
+    //   TitleView(
+    //     // route: '/behaviours',
+    //     icon: Icon(
+    //       Icons.star,
+    //       color: AppTheme.dark_grey,
+    //     ),
+    //     titleTxt: 'Benefits',
+    //     subTxt: 'Coming Soon',
+    //     animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController,
+    //         curve:
+    //             Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController,
+    //   ),
+    // );
 
     // listViews.add(
     //   TitleView(
@@ -161,24 +161,24 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     //   ),
     // );
 
-    listViews.add(
-      Container(
-        child: TitleView(
-          // route: '/rewards',
-          icon: Icon(
-            Icons.local_activity,
-            color: AppTheme.dark_grey,
-          ),
-          titleTxt: 'Rewards',
-          subTxt: 'Coming Soon',
-          animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-              parent: widget.animationController,
-              curve:
-                  Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController,
-        ),
-      ),
-    );
+    // listViews.add(
+    //   Container(
+    //     child: TitleView(
+    //       // route: '/rewards',
+    //       icon: Icon(
+    //         Icons.local_activity,
+    //         color: AppTheme.dark_grey,
+    //       ),
+    //       titleTxt: 'Rewards',
+    //       subTxt: 'Coming Soon',
+    //       animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //           parent: widget.animationController,
+    //           curve:
+    //               Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+    //       animationController: widget.animationController,
+    //     ),
+    //   ),
+    // );
   }
 
   Future<bool> getData() async {

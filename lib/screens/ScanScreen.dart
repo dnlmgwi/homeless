@@ -3,6 +3,7 @@ import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:homeless/screens/transactionHistoryScreen.dart';
 import 'package:soundpool/soundpool.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -21,6 +22,15 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
   // Choose from any of these available methods
 
   static Soundpool pool = Soundpool(streamType: StreamType.notification);
+
+  _launchReport({
+    String id,
+    String name,
+    String surname,
+  }) async {
+    FlutterOpenWhatsapp.sendSingleMessage(
+        "+27722326766", "App is failing to scan");
+  }
 
   Future play() async {
     int soundId = await rootBundle
@@ -102,7 +112,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                       }
 
                       if (!result.hasException) {
-                        play();
+                        // play();
                         final List<dynamic> repositories =
                             result.data['MemberCollection'] as List<dynamic>;
 
@@ -112,7 +122,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                               children: <Widget>[
                                 Container(
                                   margin: EdgeInsets.all(20.0),
-                                  padding: EdgeInsets.all(30.0),
+                                  padding: EdgeInsets.all(20.0),
                                   decoration: BoxDecoration(
                                     color: AppTheme.white,
                                     borderRadius:
@@ -198,7 +208,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                         )),
                                                     Spacer(),
                                                     AutoSizeText(
-                                                        "Joined: ${person['joined']}"
+                                                        "Joined: ${person['joinedDate']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -236,9 +246,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                   height: 15,
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
                                                   children: <Widget>[
                                                     InkWell(
                                                       child: Container(
@@ -247,10 +254,10 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                                 .size
                                                                 .width /
                                                             3,
-                                                        margin:
+                                                        margin: EdgeInsets.all(
+                                                            10.0),
+                                                        padding:
                                                             EdgeInsets.all(5.0),
-                                                        padding: EdgeInsets.all(
-                                                            20.0),
                                                         decoration:
                                                             BoxDecoration(
                                                           color: AppTheme
@@ -309,8 +316,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                                                 person['picture']['path'],
                                                                             name:
                                                                                 person['name'],
-                                                                            points:
-                                                                                person['points'],
                                                                             surname:
                                                                                 person['surname'],
                                                                             id: person['_id'],
@@ -326,7 +331,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                         margin:
                                                             EdgeInsets.all(5.0),
                                                         padding: EdgeInsets.all(
-                                                            20.0),
+                                                            10.0),
                                                         decoration:
                                                             BoxDecoration(
                                                           color: AppTheme
@@ -359,8 +364,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                             Padding(
                                                               padding:
                                                                   EdgeInsets
-                                                                      .all(
-                                                                          10.0),
+                                                                      .all(5.0),
                                                               child: FaIcon(
                                                                   FontAwesomeIcons
                                                                       .briefcaseMedical,
@@ -384,55 +388,146 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                     ),
                                                   ],
                                                 ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    InkWell(
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            3,
+                                                        margin: EdgeInsets.all(
+                                                            10.0),
+                                                        padding:
+                                                            EdgeInsets.all(5.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppTheme
+                                                              .darkerText,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          8.0)),
+                                                          boxShadow: <
+                                                              BoxShadow>[
+                                                            BoxShadow(
+                                                                color: AppTheme
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                                                blurRadius:
+                                                                    10.0),
+                                                          ],
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              child: FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .fileInvoice,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                            Text(
+                                                                'Transaction History',
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .nearlyWhite))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      onTap: () =>
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          TransactionHistoryScreen(
+                                                                            id: person['_id'],
+                                                                          ))),
+                                                    ),
+//                                                     InkWell(
+//                                                       child: Container(
+//                                                         width: MediaQuery.of(
+//                                                                     context)
+//                                                                 .size
+//                                                                 .width /
+//                                                             3,
+//                                                         margin:
+//                                                             EdgeInsets.all(5.0),
+//                                                         padding: EdgeInsets.all(
+//                                                             10.0),
+//                                                         decoration:
+//                                                             BoxDecoration(
+//                                                           color: AppTheme
+//                                                               .nearlyWhite,
+//                                                           borderRadius:
+//                                                               BorderRadius.all(
+//                                                                   Radius
+//                                                                       .circular(
+//                                                                           8.0)),
+//                                                           boxShadow: <
+//                                                               BoxShadow>[
+//                                                             BoxShadow(
+//                                                                 color: AppTheme
+//                                                                     .grey
+//                                                                     .withOpacity(
+//                                                                         0.2),
+// //                                         offset: Offset(1.1, 1.1),
+//                                                                 blurRadius:
+//                                                                     10.0),
+//                                                           ],
+//                                                         ),
+//                                                         child: Column(
+//                                                           mainAxisAlignment:
+//                                                               MainAxisAlignment
+//                                                                   .spaceEvenly,
+//                                                           crossAxisAlignment:
+//                                                               CrossAxisAlignment
+//                                                                   .center,
+//                                                           children: <Widget>[
+//                                                             Padding(
+//                                                               padding:
+//                                                                   EdgeInsets
+//                                                                       .all(5.0),
+//                                                               child: FaIcon(
+//                                                                   FontAwesomeIcons
+//                                                                       .eye,
+//                                                                   color: AppTheme
+//                                                                       .darkerText),
+//                                                             ),
+//                                                             Text(
+//                                                               'Last Seen',
+//                                                               style: TextStyle(
+//                                                                   color: AppTheme
+//                                                                       .darkerText),
+//                                                             )
+//                                                           ],
+//                                                         ),
+//                                                       ),
+// //                                                      onTap: () => Navigator.push(
+// //                                                          context,
+// //                                                          MaterialPageRoute(
+// //                                                              builder: (context) =>
+// //                                                                  TransactScreen())),
+//                                                     ),
+                                                  ],
+                                                ),
                                                 SizedBox(
                                                   height: 10,
-                                                ),
-                                                AutoSizeText(
-                                                    "Points".toUpperCase(),
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15,
-                                                      letterSpacing: 1,
-                                                      color: AppTheme
-                                                          .deactivatedText,
-                                                    )),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      margin: EdgeInsets.all(2),
-                                                      child: AutoSizeText("HL",
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme
-                                                                .fontName,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontSize: 25,
-                                                            letterSpacing: 1,
-                                                            color: AppTheme
-                                                                .darkerText,
-                                                          )),
-                                                    ),
-                                                    AutoSizeText(
-                                                      "${person['points']}",
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            AppTheme.fontName,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 50,
-                                                        letterSpacing: 1,
-                                                        color:
-                                                            AppTheme.darkerText,
-                                                      ),
-                                                    ),
-                                                  ],
                                                 ),
                                               ],
                                             ),
@@ -454,7 +549,11 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                     BorderRadius.circular(
                                                         22.0)),
                                             color: AppTheme.nearlyWhite,
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              _launchReport();
+                                              Navigator.popAndPushNamed(
+                                                  context, '/dash');
+                                            },
                                           ),
                                         ],
                                       ),
@@ -517,7 +616,8 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                     color: AppTheme.white,
                                     child: MaterialButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        Navigator.popAndPushNamed(
+                                            context, '/dash');
                                       },
                                       elevation: 8,
                                       color: AppTheme.dark_grey,
@@ -541,7 +641,9 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                         MediaQuery.of(context).size.width / 2,
                                     child: MaterialButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        _launchReport();
+                                        Navigator.popAndPushNamed(
+                                            context, '/dash');
                                       },
                                       elevation: 8,
                                       textColor: Colors.red,
@@ -632,7 +734,8 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                               width: MediaQuery.of(context).size.width / 2,
                               child: MaterialButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.popAndPushNamed(context, '/dash');
+                                  _launchReport();
                                 },
                                 elevation: 8,
                                 textColor: Colors.red,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql/client.dart';
 
 class Config {
-  static final String token = '63be767e15f85bbf0d9882487ef712';
+  static final String token = 'account-7031140f0eff6bcd608a1b966f00e9';
 
   static final HttpLink _httpLink = HttpLink(
     uri: 'http://www.sketchdm.co.za/cockpit/api/graphql/query?token=$token',

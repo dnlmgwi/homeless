@@ -2,7 +2,6 @@ import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/widgets/loadingNews.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 class StatsScreen extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
         body: Query(
           options: QueryOptions(
-            documentNode: gql(Queries.getStats()),
+            documentNode: gql(Queries.addTransaction()),
           ),
           builder: (QueryResult result,
               {VoidCallback refetch, FetchMore fetchMore}) {
@@ -78,11 +77,3 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 }
-
-// LineSeries(
-//                       // Bind data source
-//                       dataSource: repositories,
-//                       xValueMapper: (index, _) => repositories[0]['year'],
-//                       yValueMapper: (index, _) => repositories[0]['numberOfHomeless'],
-//                       // Enable data label
-//                       dataLabelSettings: DataLabelSettings(isVisible: true))

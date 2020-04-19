@@ -1,16 +1,15 @@
 class Queries {
+  //verify users excistance
   static String verifyUser() {
     return r'''query checkMember($_id: String!) {
     MemberCollection(_id: $_id)
     {
       name
+      _id
       surname
       age
       gender
-      joined
-      points
-      _id
-      _created
+      joinedDate
       picture {
         path
       }
@@ -21,6 +20,7 @@ class Queries {
     }''';
   }
 
+//Get Recent News most recent
   static String getNews() {
     return r'''query loadNews {
       NewsCollection(
@@ -42,51 +42,52 @@ class Queries {
   }''';
   }
 
-  static String getStats() {
-    return r'''query loadStats {
-      StatsCollection(
-      sort: {
-      year: 1,
-      })
-      {
-        numberOfHomeless
-        year
-      }
-  }''';
+// Users Transaction History
+  static String getTransactionHistory({String homeless_id}) {
+    return '''{
+  collection(name:"Transactions",filter:{
+    homeless_id:"$homeless_id"
+  },limit: 5)
+}''';
   }
 
-  // void resultsPrint({String id}) async {
-  //   final QueryOptions options =
-  //       QueryOptions(documentNode: gql(Queries.verifyUser()), variables: {
-  //     '_id': '$id',
-  //   });
-
-  //   final QueryResult result = await Config.client.query(options);
-
-  //   if (result.loading) {
-  //     print('Loading...');
-  //   }
-
-  //   if (result.hasException) {
-  //     print(result.exception.toString());
-  //   }
-
-  //   if (!result.hasException) {
-  //     final List<dynamic> repositories =
-  //         result.data['MemberCollection'] as List<dynamic>;
-
-  //     showUser() {
-  //       for (var person in repositories) {
-  //         person['name'] = name;
-  //         person['surname'] = points;
-  //         person['points'] = points;
-  //         print('Name: $name');
-  //         print('Surname: $surname');
-  //         print('Points: $points');
-  //       }
-  //     }
-
-  //     repositories.isEmpty ? print('User Doesnt Exist!') : showUser();
-  //   }
-  // }
+  //add a news transaction
+  static String addTransaction({
+    homeless_id,
+    member_id,
+    scanDate,
+    scanTime,
+    address,
+    lat,
+    lng,
+    bool healthcare,
+    bool food,
+    bool accommodation,
+  }) {
+    return """mutation addTransaction
+    {
+      saveCollectionItem
+      (
+        name: "Transactions",
+        data:
+        {
+          homeless_id: "$homeless_id",
+          member_id: "$member_id",
+          scanDate: "$scanDate",
+          scanTime: "$scanTime",
+          location: {
+            address: "$address",
+            lat: "$lat",
+            lng: "$lng"
+          },
+          
+          healthcare: "$healthcare",
+          food: "$food",
+          accommodation: "$accommodation",
+        }
+      ){
+        data
+      }
+    }""";
+  }
 }

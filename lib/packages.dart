@@ -19,11 +19,13 @@ export 'package:flutter_svg/flutter_svg.dart'; //Loading Svg Assests
 export 'package:keyboard_avoider/keyboard_avoider.dart';
 export 'package:animated_splash/animated_splash.dart';
 export 'package:shimmer/shimmer.dart';
-export 'package:rating_bar/rating_bar.dart';
 export 'package:auto_size_text/auto_size_text.dart';
 export 'package:flutter_markdown/flutter_markdown.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:flutter/services.dart';
+export 'package:geolocator/geolocator.dart';
+export 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes

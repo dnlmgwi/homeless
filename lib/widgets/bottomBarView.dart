@@ -114,9 +114,9 @@ class _BottomBarViewState extends State<BottomBarView>
         AnimatedBuilder(
           animation: animationController,
           builder: (BuildContext context, Widget child) {
-            return new Transform(
-              transform: new Matrix4.translationValues(0.0, 0.0, 0.0),
-              child: new PhysicalShape(
+            return Transform(
+              transform:  Matrix4.translationValues(0.0, 0.0, 0.0),
+              child: PhysicalShape(
                 color: AppTheme.white,
                 elevation: 16.0,
                 clipper: TabClipper(
