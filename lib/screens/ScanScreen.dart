@@ -522,12 +522,12 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                                       .all(5.0),
                                                               child: FaIcon(
                                                                   FontAwesomeIcons
-                                                                      .eye,
+                                                                      .route,
                                                                   color: AppTheme
                                                                       .darkerText),
                                                             ),
                                                             Text(
-                                                              'Last Seen',
+                                                              'Where Abouts',
                                                               style: TextStyle(
                                                                   color: AppTheme
                                                                       .darkerText),

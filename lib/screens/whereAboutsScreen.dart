@@ -1,7 +1,6 @@
 import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/data/graphqlQueries.dart';
-import 'package:intl/intl.dart';
 
 class WhereAboutScreen extends StatefulWidget {
   final String id;
