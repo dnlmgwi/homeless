@@ -1,5 +1,5 @@
 class Queries {
-  //verify users excistance
+  //verify users existence
   static String verifyUser() {
     return r'''query checkMember($_id: String!) {
     MemberCollection(_id: $_id)
@@ -15,7 +15,9 @@ class Queries {
       }
       location {
       address
-      }
+      lat
+      lng
+      } 
     }
     }''';
   }

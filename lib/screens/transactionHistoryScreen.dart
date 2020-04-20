@@ -16,9 +16,9 @@ class TransactionHistoryScreen extends StatefulWidget {
 }
 
 class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
-  _launchReport(String report) async {
-    FlutterOpenWhatsapp.sendSingleMessage(
-        "+27722326766", "Homeless App Reporting a transaction: $report");
+  _launchReport({String ref, String date}) async {
+    FlutterOpenWhatsapp.sendSingleMessage("+27722326766",
+        "Homeless App Reporting a transaction: \n Ref: $ref, \n Date: $date");
   }
 
   @override
@@ -249,25 +249,40 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                       color: AppTheme.grey,
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      RaisedButton.icon(
+                                        clipBehavior: Clip.antiAlias,
+                                        icon: FaIcon(
+                                            FontAwesomeIcons
+                                                .exclamationTriangle,
+                                            color: Colors.red),
+                                        label: Text(
+                                          'Report Transaction',
+                                          style: TextStyle(
+                                            color: AppTheme.darkerText,
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(22.0)),
+                                        color: AppTheme.nearlyWhite,
+                                        onPressed: () => _launchReport(
+                                            ref: transactions[index]['_id'],
+                                            date: transactions[index]
+                                                ['scanDate']),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
-                            // RaisedButton.icon(
-                            //   clipBehavior: Clip.antiAlias,
-                            //   icon: FaIcon(FontAwesomeIcons.exclamationTriangle,
-                            //       color: Colors.red),
-                            //   label: Text(
-                            //     'Report Transaction',
-                            //     style: TextStyle(
-                            //       color: AppTheme.darkerText,
-                            //     ),
-                            //   ),
-                            //   shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(22.0)),
-                            //   color: AppTheme.nearlyWhite,
-                            //   onPressed: () =>
-                            //       _launchReport(transactions[index]['_id']),
-                            // ),
                           ],
                         ),
                       ),

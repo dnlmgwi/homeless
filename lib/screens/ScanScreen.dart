@@ -5,7 +5,9 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:homeless/screens/medicalHistory.dart';
 import 'package:homeless/screens/transactionHistoryScreen.dart';
+import 'package:homeless/screens/whereaboutsScreen.dart';
 import 'package:soundpool/soundpool.dart';
+// import 'package:encrypt/encrypt.dart';
 
 class ScanScreen extends StatefulWidget {
   final String id;
@@ -29,8 +31,8 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
     String name,
     String surname,
   }) async {
-    FlutterOpenWhatsapp.sendSingleMessage(
-        "+27722326766", "App is failing to scan");
+    FlutterOpenWhatsapp.sendSingleMessage("+27722326766",
+        "*Homeless App Reporting:* \n $name $surname \n *ID:* $id \n *Explaination:* ");
   }
 
   Future play() async {
@@ -112,12 +114,21 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                         print(result.exception.toString());
                       }
 
+                      var hiddenID;
+
+                      contentHash({reqBody}) async {
+                        var digest = reqBody;
+                        return digest.toString();
+                      }
+
                       if (!result.hasException) {
                         // play();
                         final List<dynamic> repositories =
                             result.data['MemberCollection'] as List<dynamic>;
 
                         for (var person in repositories) {
+                          contentHash(reqBody: person['_id'])
+                              .then((onValue) => hiddenID = onValue);
                           return SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
@@ -195,7 +206,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                 Row(
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "${person['gender'][0]}"
+                                                        "${person['gender']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -465,71 +476,79 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                                             id: person['_id'],
                                                                           ))),
                                                     ),
-//                                                     InkWell(
-//                                                       child: Container(
-//                                                         width: MediaQuery.of(
-//                                                                     context)
-//                                                                 .size
-//                                                                 .width /
-//                                                             3,
-//                                                         margin:
-//                                                             EdgeInsets.all(5.0),
-//                                                         padding: EdgeInsets.all(
-//                                                             10.0),
-//                                                         decoration:
-//                                                             BoxDecoration(
-//                                                           color: AppTheme
-//                                                               .nearlyWhite,
-//                                                           borderRadius:
-//                                                               BorderRadius.all(
-//                                                                   Radius
-//                                                                       .circular(
-//                                                                           8.0)),
-//                                                           boxShadow: <
-//                                                               BoxShadow>[
-//                                                             BoxShadow(
-//                                                                 color: AppTheme
-//                                                                     .grey
-//                                                                     .withOpacity(
-//                                                                         0.2),
-// //                                         offset: Offset(1.1, 1.1),
-//                                                                 blurRadius:
-//                                                                     10.0),
-//                                                           ],
-//                                                         ),
-//                                                         child: Column(
-//                                                           mainAxisAlignment:
-//                                                               MainAxisAlignment
-//                                                                   .spaceEvenly,
-//                                                           crossAxisAlignment:
-//                                                               CrossAxisAlignment
-//                                                                   .center,
-//                                                           children: <Widget>[
-//                                                             Padding(
-//                                                               padding:
-//                                                                   EdgeInsets
-//                                                                       .all(5.0),
-//                                                               child: FaIcon(
-//                                                                   FontAwesomeIcons
-//                                                                       .eye,
-//                                                                   color: AppTheme
-//                                                                       .darkerText),
-//                                                             ),
-//                                                             Text(
-//                                                               'Last Seen',
-//                                                               style: TextStyle(
-//                                                                   color: AppTheme
-//                                                                       .darkerText),
-//                                                             )
-//                                                           ],
-//                                                         ),
-//                                                       ),
-// //                                                      onTap: () => Navigator.push(
-// //                                                          context,
-// //                                                          MaterialPageRoute(
-// //                                                              builder: (context) =>
-// //                                                                  TransactScreen())),
-//                                                     ),
+                                                    InkWell(
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            3,
+                                                        margin:
+                                                            EdgeInsets.all(5.0),
+                                                        padding: EdgeInsets.all(
+                                                            10.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppTheme
+                                                              .nearlyWhite,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          8.0)),
+                                                          boxShadow: <
+                                                              BoxShadow>[
+                                                            BoxShadow(
+                                                                color: AppTheme
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                                                blurRadius:
+                                                                    10.0),
+                                                          ],
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(5.0),
+                                                              child: FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .eye,
+                                                                  color: AppTheme
+                                                                      .darkerText),
+                                                            ),
+                                                            Text(
+                                                              'Last Seen',
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .darkerText),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      onTap: () =>
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          WhereAboutScreen(
+                                                                            id: person['_id'],
+                                                                            lat:
+                                                                                person['location']['lat'],
+                                                                            lng:
+                                                                                person['location']['lng'],
+                                                                          ))),
+                                                    ),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -556,9 +575,10 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                                                         22.0)),
                                             color: AppTheme.nearlyWhite,
                                             onPressed: () {
-                                              _launchReport();
-                                              Navigator.popAndPushNamed(
-                                                  context, '/dash');
+                                              _launchReport(
+                                                  id: hiddenID,
+                                                  name: person['name'],
+                                                  surname: person['surname']);
                                             },
                                           ),
                                         ],

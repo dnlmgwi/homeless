@@ -31,8 +31,8 @@ class _TransactScreenState extends State<TransactScreen> {
 
   String member_id = '';
 
-  List<String> _organisations = ['Fight Coronavirus'];
-  String _selectedOrganisation;
+  List<String> _projects = ['Fight Coronavirus'];
+  String _selectedProject;
 
   Position _currentPosition;
   String _currentAddress;
@@ -181,7 +181,7 @@ class _TransactScreenState extends State<TransactScreen> {
                     accommodation: accomodation,
                     food: food,
                     healthcare: healthCare,
-                    member_id: _selectedOrganisation,
+                    member_id: _selectedProject,
                     address: _currentAddress,
                     scanDate: DateFormat("yyyy-MM-dd").format(now),
                     scanTime: DateTime.now().millisecondsSinceEpoch,
@@ -312,18 +312,16 @@ class _TransactScreenState extends State<TransactScreen> {
                                               )),
                                           DropdownButton(
                                             hint: Text(
-                                                'Please choose a location'), // Not necessary for Option 1
-                                            value: _selectedOrganisation,
+                                                'Please select a project'), // Not necessary for Option 1
+                                            value: _selectedProject,
                                             autofocus: true,
                                             focusNode: myFocusNode,
                                             onChanged: (newValue) {
                                               setState(() {
-                                                _selectedOrganisation =
-                                                    newValue;
+                                                _selectedProject = newValue;
                                               });
                                             },
-                                            items:
-                                                _organisations.map((location) {
+                                            items: _projects.map((location) {
                                               return DropdownMenuItem(
                                                 child: Text(location),
                                                 value: location,
@@ -471,7 +469,7 @@ class _TransactScreenState extends State<TransactScreen> {
                                             ],
                                           ),
                                         ),
-                                        subtitle: _selectedOrganisation == null
+                                        subtitle: _selectedProject == null
                                             ? FlatButton(
                                                 padding: EdgeInsets.all(15.0),
                                                 shape: RoundedRectangleBorder(
