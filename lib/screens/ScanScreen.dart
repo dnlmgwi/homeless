@@ -32,7 +32,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
     String surname,
   }) async {
     FlutterOpenWhatsapp.sendSingleMessage("+27722326766",
-        "*Homeless App Reporting:* \n $name $surname \n *ID:* $id \n *Explaination:* ");
+        "*Homeless App Reporting:* \n $name $surname \n *ID:* $id \n *Explanation:* ");
   }
 
   Future play() async {
@@ -102,6 +102,7 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                     builder: (QueryResult result,
                         {VoidCallback refetch, FetchMore fetchMore}) {
                       if (result.loading) {
+                        // play();
                         return SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
@@ -122,7 +123,6 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
                       }
 
                       if (!result.hasException) {
-                        // play();
                         final List<dynamic> repositories =
                             result.data['MemberCollection'] as List<dynamic>;
 
