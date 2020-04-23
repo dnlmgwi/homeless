@@ -30,8 +30,9 @@ class _TransactScreenState extends State<TransactScreen> {
   var now = DateTime.now();
 
   String member_id = '';
+  String member_name = '';
 
-  List<String> _projects = ['Fight Coronavirus'];
+  List<String> _project = ['Fight Coronavirus', 'MOHSS: Namibia'];
   String _selectedProject;
 
   Position _currentPosition;
@@ -81,6 +82,12 @@ class _TransactScreenState extends State<TransactScreen> {
   initState() {
     _getCurrentLocation();
     super.initState();
+    sharedPreferenceService.getMemberID().then((String memberID) {
+      this.member_id = memberID;
+    });
+    sharedPreferenceService.getName().then((String name) {
+      this.member_name = name;
+    });
 
     myFocusNode = FocusNode();
   }
@@ -123,19 +130,18 @@ class _TransactScreenState extends State<TransactScreen> {
     showDialog(
         context: context, //builds a context of its own
         builder: (BuildContext context) {
-          print('$result');
           return RichAlertDialog(
             //uses the custom alert dialog imported
-            alertTitle: richTitle("Successful"),
+            alertTitle: richTitle("Failed"),
             alertSubtitle: richSubtitle("$result"),
-            alertType: RichAlertType.SUCCESS,
+            alertType: RichAlertType.ERROR,
             actions: <Widget>[
               FlatButton(
                 padding: EdgeInsets.all(15.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.0),
                 ),
-                child: Text("Confirm",
+                child: Text("Try Again",
                     style: TextStyle(
                       fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.w700,
@@ -178,42 +184,46 @@ class _TransactScreenState extends State<TransactScreen> {
         ),
         body: Mutation(
             options: MutationOptions(
-                documentNode: gql(Queries.addTransaction(
-                    accommodation: accomodation,
-                    food: food,
-                    healthcare: healthCare,
-                    member_id: _selectedProject,
-                    address: _currentAddress,
-                    scanDate: DateFormat("yyyy-MM-dd").format(now),
-                    scanTime: DateTime.now().millisecondsSinceEpoch,
-                    //TODO: Find Default Lat, Long
-                    lat: _currentPosition == null
-                        ? -0
-                        : _currentPosition.latitude,
-                    lng: _currentPosition == null
-                        ? 0
-                        : _currentPosition.longitude,
-                    homeless_id: widget
-                        .id)), // this is the mutation string you just created
-                // you can update the cache based on results
-                update: (Cache cache, QueryResult result) {
-                  return cache;
-                },
-                // or do something with the result.data on completion
-                onCompleted: (dynamic resultData) {
-                  print(resultData);
-                  _alert(
-                      context: context,
-                      result:
-                          'Transaction Ref: ${resultData['saveCollectionItem']['data']['_id']}');
-                },
-                onError: (error) {
-                  print(error);
-                  _alertError(
-                    context: context,
-                    result: '$error',
-                  );
-                }),
+              documentNode: gql(Queries.addTransaction(
+                  accommodation: accomodation,
+                  food: food,
+                  healthcare: healthCare,
+                  member_name: member_name,
+                  member_id: member_id,
+                  project: _selectedProject,
+                  address: _currentAddress,
+                  scanDate: DateFormat("yyyy-MM-dd").format(now),
+                  scanTime: DateTime.now().millisecondsSinceEpoch,
+                  //TODO: Find Default Lat, Long
+                  lat:
+                      _currentPosition == null ? -0 : _currentPosition.latitude,
+                  lng:
+                      _currentPosition == null ? 0 : _currentPosition.longitude,
+                  homeless_id: widget
+                      .id)), // this is the mutation string you just created
+              // you can update the cache based on results
+              update: (Cache cache, QueryResult result) {
+                return cache;
+              },
+              // or do something with the result.data on completion
+              onCompleted: (dynamic resultData) {
+                resultData != null
+                    ? _alert(
+                        context: context,
+                        result:
+                            'Transaction Ref: ${resultData['saveCollectionItem']['data']['_id']}')
+                    : _alertError(
+                        context: context,
+                      );
+              },
+              onError: (error) {
+                print(error);
+                _alertError(
+                  context: context,
+                  result: error.clientException.message,
+                );
+              },
+            ),
             builder: (
               RunMutation runMutation,
               QueryResult result,
@@ -322,7 +332,7 @@ class _TransactScreenState extends State<TransactScreen> {
                                                 _selectedProject = newValue;
                                               });
                                             },
-                                            items: _projects.map((location) {
+                                            items: _project.map((location) {
                                               return DropdownMenuItem(
                                                 child: Text(location),
                                                 value: location,

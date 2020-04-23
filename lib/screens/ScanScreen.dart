@@ -20,11 +20,11 @@ class ScanScreen extends StatefulWidget {
   _ScanScreenState createState() => _ScanScreenState();
 }
 
-class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
+class _ScanScreenState extends State<ScanScreen> {
   AnimationController animationController;
   // Choose from any of these available methods
 
-  static Soundpool pool = Soundpool(streamType: StreamType.notification);
+  // static Soundpool pool = Soundpool(streamType: StreamType.notification);
 
   _launchReport({
     String id,
@@ -35,32 +35,32 @@ class _ScanScreenState extends State<ScanScreen> with TickerProviderStateMixin {
         "*Homeless App Reporting:* \n $name $surname \n *ID:* $id \n *Explanation:* ");
   }
 
-  Future play() async {
-    int soundId = await rootBundle
-        .load("assets/sounds/insight.m4r")
-        .then((ByteData soundData) {
-      return pool.load(soundData);
-    });
-    int streamId = await pool.play(soundId);
-    Vibrate.vibrate();
+  // Future play() async {
+  //   int soundId = await rootBundle
+  //       .load("assets/sounds/insight.m4r")
+  //       .then((ByteData soundData) {
+  //     return pool.load(soundData);
+  //   });
+  //   int streamId = await pool.play(soundId);
+  //   Vibrate.vibrate();
 
-    return streamId;
-  }
+  //   return streamId;
+  // }
 
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   animationController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   void initState() {
-    animationController = new AnimationController(
-      vsync: this,
-      duration: new Duration(milliseconds: 100),
-    );
-    animationController.forward();
-    super.initState();
+    // animationController = new AnimationController(
+    //   // vsync: this,
+    //   duration: new Duration(milliseconds: 100),
+    // );
+    // animationController.forward();
+    // super.initState();
   }
 
   @override

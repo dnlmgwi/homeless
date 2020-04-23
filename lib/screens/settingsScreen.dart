@@ -1,4 +1,6 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/services/sharePreferenceService.dart';
+import 'package:homeless/widgets/logout.dart';
 
 class SettingsScreen extends StatefulWidget {
   final AnimationController animationController;
@@ -16,6 +18,11 @@ class _SettingsScreenState extends State<SettingsScreen>
   List<Widget> listViews = List<Widget>();
   var scrollController = ScrollController();
   double topBarOpacity = 0.0;
+
+  Future clearToken() async {
+    sharedPreferenceService.clearToken();
+    return sharedPreferenceService.setOnBoarding();
+  }
 
   @override
   void initState() {
@@ -171,22 +178,27 @@ class _SettingsScreenState extends State<SettingsScreen>
       ),
     );
 
-//    listViews.add(
-//      TitleView(
-//        route: '/logout',
-//        icon: Icon(
-//          Icons.power_settings_new,
-//          color: AppTheme.dark_grey,
-//        ),
-//        titleTxt: 'Sign Out',
-////        subTxt: 'more',
-//        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-//            parent: widget.animationController,
-//            curve:
-//                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-//        animationController: widget.animationController,
-//      ),
-//    );
+    listViews.add(
+      InkWell(
+        child: LogoutView(
+          route: '/login',
+          icon: Icon(
+            Icons.power_settings_new,
+            color: AppTheme.dark_grey,
+          ),
+          titleTxt: 'Logout',
+//        subTxt: 'more',
+          animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController,
+              curve:
+                  Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
+        ),
+        onTap: () {
+          clearToken();
+        },
+      ),
+    );
   }
 
   Future<bool> getData() async {

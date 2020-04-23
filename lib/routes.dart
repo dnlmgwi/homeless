@@ -4,19 +4,14 @@ import 'package:homeless/packages.dart';
 final routes = {
   '/about': (BuildContext context) => AboutScreen(),
   '/stats': (BuildContext context) => StatsScreen(),
-  '/donate': (BuildContext context) => Donate(),
-  // '/profile': (BuildContext context) => ProfileScreen(),
+  '/donate': (BuildContext context) => Donate(), //TODO: Update
   '/dash': (BuildContext context) => Dashboard(),
   '/feedback': (BuildContext context) => FeedbackScreen(),
-  // '/rewards': (BuildContext context) => RewardsScreen(),
   '/news': (BuildContext context) => NewsScreen(),
-  // '//behaviours': (BuildContext context) => BehavioursScreen(),
   '/terms': (BuildContext context) => TermsScreen(),
   '/logout': (BuildContext context) => OnBoardingScreen(),
   '/share': (BuildContext context) => InviteFriend(),
   '/transact': (BuildContext context) => TransactScreen(),
-  // '/game': (BuildContext context) => QuizPage(),
   '/scan': (BuildContext context) => ScanScreen(),
-//'/login': (BuildContext context) => LoginScreen(),
-//'/learn': (BuildContext context) => Learn(),
+  '/login': (BuildContext context) => LoginScreen(),
 };

@@ -1,6 +1,9 @@
 import 'package:homeless/packages.dart';
 
 class Dashboard extends StatefulWidget {
+  Dashboard({
+    Key key,
+  }) : super(key: key);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -34,6 +37,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Future<bool> getData() async {
+    await Future.delayed(const Duration(milliseconds: 4));
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,11 +67,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 
-  Future<bool> getData() async {
-    await Future.delayed(const Duration(milliseconds: 4));
-    return true;
-  }
-
   Widget bottomBar() {
     return Column(
       children: <Widget>[
@@ -78,8 +81,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               animationController.reverse().then((data) {
                 if (!mounted) return;
                 setState(() {
-                  tabBody =
-                      MenuScreen(animationController: animationController);
+                  tabBody = MenuScreen(
+                    animationController: animationController,
+                  );
                 });
               });
             } else if (index == 1) {

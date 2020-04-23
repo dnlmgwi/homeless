@@ -69,6 +69,8 @@ class Queries {
   static String addTransaction({
     homeless_id,
     member_id,
+    member_name,
+    project,
     scanDate,
     scanTime,
     address,
@@ -87,8 +89,10 @@ class Queries {
         {
           homeless_id: "$homeless_id",
           member_id: "$member_id",
+          member_name: "$member_name",
           scanDate: "$scanDate",
           scanTime: "$scanTime",
+          project: "$project",
           location: {
             address: "$address",
             lat: "$lat",

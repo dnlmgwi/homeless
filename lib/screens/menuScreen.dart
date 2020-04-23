@@ -1,9 +1,13 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/widgets/memberProfile.dart';
 
 class MenuScreen extends StatefulWidget {
   final AnimationController animationController;
 
-  const MenuScreen({Key key, this.animationController}) : super(key: key);
+  const MenuScreen({
+    Key key,
+    this.animationController,
+  }) : super(key: key);
 
   @override
   _MenuScreenState createState() => _MenuScreenState();
@@ -15,6 +19,13 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
   List<Widget> listViews = List<Widget>();
   var scrollController = ScrollController();
   double topBarOpacity = 0.0;
+
+  String memberName, memberGroup;
+
+  @override
+  void setState(fn) {
+    super.setState(fn);
+  }
 
   @override
   void initState() {
@@ -45,21 +56,18 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
         }
       }
     });
+    sharedPreferenceService.getName().then((String name) {
+      this.memberName = name;
+    });
+
+    sharedPreferenceService.getGroup().then((String name) {
+      this.memberGroup = name;
+    });
     super.initState();
   }
 
   void addAllListData() {
     var count = 9;
-
-//    listViews.add(
-//      UserView(
-//        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-//            parent: widget.animationController,
-//            curve:
-//                Interval((1 / count) * 5, 1.0, curve: Curves.fastOutSlowIn))),
-//        animationController: widget.animationController,
-//      ),
-//    );
 
     // listViews.add(
     //   TitleView(
@@ -111,11 +119,12 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     //     animationController: widget.animationController,
     //   ),
     // );
+
     listViews.add(
       TitleView(
         // route: '/',
         icon: Icon(
-          FontAwesomeIcons.question,
+          FontAwesomeIcons.questionCircle,
           color: AppTheme.dark_grey,
         ),
         titleTxt: 'Help',
@@ -232,7 +241,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
             padding: EdgeInsets.only(
               top: AppBar().preferredSize.height +
                   MediaQuery.of(context).padding.top +
-                  24,
+                  40,
               bottom: 62 + MediaQuery.of(context).padding.bottom,
             ),
             itemCount: listViews.length,
@@ -289,7 +298,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Homeless",
+                                  "Looking Good! \n$memberName",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
@@ -299,6 +308,17 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                                     color: AppTheme.darkerText,
                                   ),
                                 ),
+                              ),
+                            ),
+                            Text(
+                              "$memberGroup",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontName,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                letterSpacing: 0.5,
+                                color: AppTheme.nearlyBlack,
                               ),
                             ),
                           ],

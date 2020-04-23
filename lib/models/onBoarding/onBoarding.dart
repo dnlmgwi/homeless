@@ -20,12 +20,6 @@ class OnBoardingModel {
       heroAssetPath: SvgPicture.asset('assets/images/useApp-01.svg'),
     ),
     OnBoardingModel(
-      title: 'Need Help?',
-      body:
-          'Have you got a job that may require small effort for youth, or manual labour for our older beneficiaries.',
-      heroAssetPath: SvgPicture.asset('assets/images/work-01.svg'),
-    ),
-    OnBoardingModel(
       title: 'Security',
       body:
           'Verify registered  beneficiaries of the homeless app by scanning the QR Code on their ID Cards, and reward them for helping you',

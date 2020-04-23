@@ -3,18 +3,10 @@ import 'package:homeless/services/push_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() {
-  //Forces the App to only be used in Portrait.
-//  SystemChrome.setPreferredOrientations([
-//    DeviceOrientation.portraitUp,
-//    DeviceOrientation.portraitDown,
-//  ]).then((_) => SharedPreferences.getInstance().then((prefs) {
-//        runApp(MyApp(
-//          prefs: prefs,
-//        )); //Shared Preferences allows us to view the onboarding once, and once it is seen it will not be seen again.
-//      }));
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
   WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   initState() {
@@ -38,16 +30,6 @@ void main() {
 
 //    _firebaseMessaging.subscribeToTopic(UIData.generalTopic);
   }
-
-  SharedPreferences.getInstance().then((prefs) {
-    runApp(MyApp(
-      prefs: prefs,
-    )); //Shared Preferences allows us to view the onboarding once, and once it is seen it will not be seen again.
-  });
-
-//  runApp(MyApp(
-//    prefs: prefs,
-//  ));
 }
 
 Future<dynamic> fcmBackgroundMessageHandler(Map<String, dynamic> message) {
@@ -65,13 +47,42 @@ Future<dynamic> fcmBackgroundMessageHandler(Map<String, dynamic> message) {
 // Or do other work.
 }
 
-class MyApp extends StatelessWidget {
-  final SharedPreferences prefs;
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-  MyApp({this.prefs});
+class _MyAppState extends State<MyApp> {
+  String member_id;
+  bool seen;
+
+  inMethod(context) async {
+    await sharedPreferenceService.getSharedPreferencesInstance();
+
+    if (member_id == null || member_id == "") {
+      Navigator.of(context).pushReplacementNamed('/login');
+    } else
+      Navigator.of(context).pushReplacementNamed('/dash');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    sharedPreferenceService.getMemberID().then((onValue) {
+      onValue = member_id;
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Forces the App to only be used in Portrait.
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -81,6 +92,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarDividerColor: Colors.blue,
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
+
     return MaterialApp(
       title: 'Homeless App',
       debugShowCheckedModeBanner: false,
@@ -91,34 +103,19 @@ class MyApp extends StatelessWidget {
       ),
       home: AnimatedSplash(
         imagePath: 'assets/images/Logo.png',
-        home: _handleCurrentScreen(),
-//        OnBoardingScreen(),
+        home: Container(
+          child: FutureBuilder<bool>(
+            future: sharedPreferenceService.getOnBoardingSeen(),
+            builder: (context, AsyncSnapshot<bool> snapshot) {
+              snapshot.data == true ? OnBoardingScreen() : inMethod(context);
+              return Container();
+            },
+          ),
+        ),
         duration: 5000,
         type: AnimatedSplashType.StaticDuration,
       ),
-//      Dashboard()
       routes: routes,
     );
   }
-
-  Widget _handleCurrentScreen() {
-    bool seen = (prefs.getBool('seen') ?? false);
-    if (seen) {
-      return Dashboard();
-    } else {
-      return OnBoardingScreen(prefs: prefs);
-    }
-  }
-}
-
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
-
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
