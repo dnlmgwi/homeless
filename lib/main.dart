@@ -4,7 +4,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((onValue) {
+    runApp(MyApp());
+  });
 
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -53,36 +58,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String member_id;
-  bool seen;
-
-  inMethod(context) async {
-    await sharedPreferenceService.getSharedPreferencesInstance();
-
-    if (member_id == null || member_id == "") {
-      Navigator.of(context).pushReplacementNamed('/login');
-    } else
-      Navigator.of(context).pushReplacementNamed('/dash');
-  }
-
   @override
   void initState() {
     // TODO: implement initState
-
-    sharedPreferenceService.getMemberID().then((onValue) {
-      member_id = onValue;
-    });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     // Forces the App to only be used in Portrait.
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -103,15 +87,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: AnimatedSplash(
         imagePath: 'assets/images/Logo.png',
-        home: Container(
-          child: FutureBuilder<bool>(
-            future: sharedPreferenceService.getOnBoardingSeen(),
-            builder: (context, AsyncSnapshot<bool> snapshot) {
-              snapshot.data == true ? OnBoardingScreen() : inMethod(context);
-              return Container();
-            },
-          ),
-        ),
+        home: LoginScreen(),
         duration: 5000,
         type: AnimatedSplashType.StaticDuration,
       ),

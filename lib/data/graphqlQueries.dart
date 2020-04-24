@@ -23,25 +23,14 @@ class Queries {
   }
 
   static String getProjects() {
-    return r'''query checkMember($_id: String!) {
-    MemberCollection(_id: $_id)
-    {
-      name
-      _id
-      surname
-      age
-      gender
-      joinedDate
-      picture {
-        path
-      }
-      location {
-      address
-      lat
-      lng
-      } 
-    }
-    }''';
+    return r'''query getProjects{
+      ProjectsCollection(
+        filter: {
+          active: true
+        }){
+          name
+          }
+        }''';
   }
 
 //Get Recent News most recent
@@ -84,7 +73,7 @@ class Queries {
   },limit: 5, sort: {
       scanTime: -1,
       })
-}''';
+    }''';
   }
 
   //add a news transaction

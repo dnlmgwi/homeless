@@ -19,7 +19,7 @@ class UserRepository {
           queryParameters: {
             "user": username,
             "password": password,
-            "token": "$serverToken" //TODO: This needs to be recieved from Server and not Stored InApp.
+            "token": serverToken, //TODO: Not Supposed to be Stored InApp.
           });
 
       LoginResponse loggedInUser = LoginResponse.fromJson(response.data);
@@ -47,7 +47,7 @@ class UserRepository {
   }
 
   static final HttpLink _httpLink = HttpLink(
-    uri: '$graphQLEndpoint?token=${apiKey ??= serverToken}',
+    uri: '$graphQLEndpoint?token=$apiKey',
   );
 
   static ValueNotifier<GraphQLClient> client = ValueNotifier(

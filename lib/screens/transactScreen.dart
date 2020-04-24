@@ -31,8 +31,6 @@ class _TransactScreenState extends State<TransactScreen> {
 
   String member_id = '';
   String member_name = '';
-
-  List<String> _project = ['Fight Coronavirus', 'MOHSS: Namibia'];
   String _selectedProject;
 
   Position _currentPosition;
@@ -74,7 +72,6 @@ class _TransactScreenState extends State<TransactScreen> {
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     myFocusNode.dispose();
-
     super.dispose();
   }
 
@@ -119,39 +116,6 @@ class _TransactScreenState extends State<TransactScreen> {
                 textColor: AppTheme.white,
                 onPressed: () =>
                     Navigator.pushReplacementNamed(context, '/dash'),
-                splashColor: AppTheme.nearlyWhite,
-                color: AppTheme.nearlyBlack,
-              ),
-            ],
-          );
-        });
-  }
-
-  _alertError({context, result}) {
-    showDialog(
-        context: context, //builds a context of its own
-        builder: (BuildContext context) {
-          return RichAlertDialog(
-            //uses the custom alert dialog imported
-            alertTitle: richTitle("Failed"),
-            alertSubtitle: richSubtitle("$result"),
-            alertType: RichAlertType.ERROR,
-            actions: <Widget>[
-              FlatButton(
-                padding: EdgeInsets.all(15.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                child: Text("Try Again",
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                      letterSpacing: 1,
-                      color: AppTheme.nearlyWhite,
-                    )),
-                textColor: AppTheme.white,
-                onPressed: () => Navigator.popAndPushNamed(context, '/dash'),
                 splashColor: AppTheme.nearlyWhite,
                 color: AppTheme.nearlyBlack,
               ),
@@ -208,21 +172,13 @@ class _TransactScreenState extends State<TransactScreen> {
               },
               // or do something with the result.data on completion
               onCompleted: (dynamic resultData) {
-                resultData != null
-                    ? _alert(
-                        context: context,
-                        result:
-                            'Transaction Ref: ${resultData['saveCollectionItem']['data']['_id']}')
-                    : _alertError(
-                        context: context,
-                      );
+                _alert(
+                    context: context,
+                    result:
+                        'Transaction Ref: ${resultData['saveCollectionItem']['data']['_id']}');
               },
               onError: (error) {
-                print(error);
-                _alertError(
-                  context: context,
-                  result: error.clientException.message,
-                );
+                print(error.clientException.message);
               },
             ),
             builder: (
@@ -236,18 +192,6 @@ class _TransactScreenState extends State<TransactScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          // ListTile(
-                          //     title: Text(
-                          //       'Use The Slider to set the Amount',
-                          //       style: TextStyle(
-                          //         fontFamily: AppTheme.fontName,
-                          //         fontWeight: FontWeight.normal,
-                          //         fontSize: 14.5,
-                          //         letterSpacing: 0.5,
-                          //         color: AppTheme.grey,
-                          //       ),
-                          //     ),
-                          //     leading: Icon(Icons.info_outline)),
                           Container(
                             margin: EdgeInsets.all(10.0),
                             padding: EdgeInsets.all(30.0),
@@ -322,24 +266,65 @@ class _TransactScreenState extends State<TransactScreen> {
                                                 letterSpacing: 1,
                                                 color: AppTheme.deactivatedText,
                                               )),
-                                          DropdownButton(
-                                            hint: Text(
-                                                'Please select a project'), // Not necessary for Option 1
-                                            value: _selectedProject,
-                                            autofocus: true,
-                                            focusNode: myFocusNode,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                _selectedProject = newValue;
-                                              });
-                                            },
-                                            items: _project.map((location) {
-                                              return DropdownMenuItem(
-                                                child: Text(location),
-                                                value: location,
-                                              );
-                                            }).toList(),
-                                          ),
+                                          Query(
+                                              options: QueryOptions(
+                                                documentNode: gql(
+                                                  Queries.getProjects(),
+                                                ),
+                                              ),
+                                              builder: (QueryResult result,
+                                                  {VoidCallback refetch,
+                                                  FetchMore fetchMore}) {
+                                                if (result.loading) {
+                                                  return Text('Loading...');
+                                                }
+
+                                                if (result.hasException) {
+                                                  print(result.exception
+                                                      .clientException.message);
+                                                }
+
+                                                if (!result.hasException) {
+                                                  List<String>
+                                                      getListOfProjects() {
+                                                    List<String>
+                                                        listedProjects = [];
+                                                    for (var project in result
+                                                            .data[
+                                                        'ProjectsCollection']) {
+                                                      listedProjects
+                                                          .add(project['name']);
+                                                      print('Project Name:' +
+                                                          project['name']);
+                                                    }
+
+                                                    return listedProjects;
+                                                  }
+
+                                                  return DropdownButton(
+                                                    hint: Text(
+                                                        'Please select a project'), // Not necessary for Option 1
+                                                    value: _selectedProject,
+                                                    autofocus: true,
+                                                    focusNode: myFocusNode,
+                                                    onChanged: (newValue) {
+                                                      setState(() {
+                                                        _selectedProject =
+                                                            newValue;
+                                                      });
+                                                    },
+                                                    items: getListOfProjects()
+                                                        .map((String project) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        child: Text(project),
+                                                        value: project,
+                                                      );
+                                                    }).toList(),
+                                                  );
+                                                }
+                                                return Container();
+                                              }),
                                           SizedBox(
                                             height: 10,
                                           ),
@@ -400,30 +385,6 @@ class _TransactScreenState extends State<TransactScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              // AutoSizeText(
-                                              //     "Location".toUpperCase(),
-                                              //     style: TextStyle(
-                                              //       fontFamily:
-                                              //           AppTheme.fontName,
-                                              //       fontWeight: FontWeight.w700,
-                                              //       fontSize: 15,
-                                              //       letterSpacing: 1,
-                                              //       color: AppTheme
-                                              //           .deactivatedText,
-                                              //     )),
-                                              //    AutoSizeText(
-                                              //       currentLocation == null
-                                              //           ? "Loading..."
-                                              //           : "Lat: ${currentLocation.latitude} Long: ${currentLocation.longitude}\n Date: ${DateFormat("yyyy-MM-dd").format(now)} \n Time: ${DateFormat("H:m:s").format(now)}",
-                                              //       style: TextStyle(
-                                              //         fontFamily:
-                                              //             AppTheme.fontName,
-                                              //         fontWeight: FontWeight.w700,
-                                              //         fontSize: 15,
-                                              //         letterSpacing: 1,
-                                              //         color: AppTheme
-                                              //             .deactivatedText,
-                                              //       )),
                                             ],
                                           ),
                                         ],

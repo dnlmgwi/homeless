@@ -112,13 +112,14 @@ class _ScanScreenState extends State<ScanScreen> {
                         );
                       }
                       if (result.hasException) {
-                        print(result.exception.toString());
+                        print(result.exception.clientException);
                       }
 
                       var hiddenID;
 
                       contentHash({reqBody}) async {
-                        var digest = reqBody;
+                        var digest =
+                            reqBody; //TODO: Encypt ID Before sending it
                         return digest.toString();
                       }
 
@@ -157,7 +158,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(
-                                              "http://www.sketchdm.co.za${person['picture']['path']}",
+                                              "$base_url${person['picture']['path']}",
                                             ),
                                           ),
                                         ),
