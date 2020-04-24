@@ -1,5 +1,4 @@
 import 'package:homeless/packages.dart';
-import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/widgets/loadingNews.dart';
 
@@ -18,7 +17,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: Config.client,
+      client: UserRepository.client,
       child: Scaffold(
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,

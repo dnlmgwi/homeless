@@ -22,6 +22,28 @@ class Queries {
     }''';
   }
 
+  static String getProjects() {
+    return r'''query checkMember($_id: String!) {
+    MemberCollection(_id: $_id)
+    {
+      name
+      _id
+      surname
+      age
+      gender
+      joinedDate
+      picture {
+        path
+      }
+      location {
+      address
+      lat
+      lng
+      } 
+    }
+    }''';
+  }
+
 //Get Recent News most recent
   static String getNews() {
     return r'''query loadNews {
@@ -102,6 +124,50 @@ class Queries {
           healthcare: "$healthcare",
           food: "$food",
           accommodation: "$accommodation",
+        }
+      ){
+        data
+      }
+    }""";
+  }
+
+  //add a news transaction
+  static String addMember(
+      {gender,
+      name,
+      surname,
+      joinedDate,
+      location,
+      dob,
+      residentialMoveInDate,
+      approximateDateStartedHomeless,
+      race,
+      ethnicity,
+      phoneNumber,
+      services_needed,
+      consent}) {
+    return """mutation addMember
+    {
+      saveCollectionItem
+      (
+        name: "Member",
+        data:
+        {
+          gender: "$gender",
+          name: "$name",
+          surname: "$surname",
+          joinedDate: "$joinedDate",
+          location: {
+            address: "$location"
+            },
+          dob: "$dob",
+          residentialMoveInDate: "$residentialMoveInDate",
+          approximateDateStartedHomeless: "$approximateDateStartedHomeless",
+          race: "$race",
+          ethnicity: "$ethnicity",
+          phoneNumber: "$phoneNumber",
+          Services_needed: "$services_needed",
+          consent:"$consent"
         }
       ){
         data

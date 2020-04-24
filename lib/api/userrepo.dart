@@ -1,33 +1,59 @@
 import 'package:dio/dio.dart';
+import 'package:graphql/client.dart';
 import 'package:homeless/data/constants.dart';
 import 'package:homeless/models/loginresponse/loginresponse.dart';
 import 'package:homeless/packages.dart';
 import 'package:homeless/services/sharePreferenceService.dart';
 
 class UserRepository {
-  Dio dio = new Dio();
-
-  Future<LoginResponse> login({
+  static Dio dio = new Dio(); //Handle Api Calls
+  static String apiKey; //ApiKey From Server
+  static Future<LoginResponse> login({
     String username,
     String password,
   }) async {
-    Response response = await dio.post(loginEndpoint,
-        options: Options(contentType: ContentType('application', 'json')),
-        queryParameters: {
-          "user": username,
-          "password": password,
-          "token": "$serverToken"
-        });
+    try {
+      //Api Call Response
+      Response response = await dio.post(loginEndpoint,
+          options: Options(contentType: ContentType('application', 'json')),
+          queryParameters: {
+            "user": username,
+            "password": password,
+            "token": "$serverToken" //TODO: This needs to be recieved from Server and not Stored InApp.
+          });
 
-    LoginResponse loggedInUser = LoginResponse.fromJson(response.data);
+      LoginResponse loggedInUser = LoginResponse.fromJson(response.data);
 
-    // await sharedPreferenceService.setApiKey(loggedInUser.apiKey);
-    // await sharedPreferenceService.setGroup(loggedInUser.group);
-    // await sharedPreferenceService.setMemberID(loggedInUser.id);
-    // await sharedPreferenceService.setName(loggedInUser.name);
+      //Storing Repsonse to SharedPrefs
+      sharedPreferenceService.setApiKey(loggedInUser.apiKey);
+      sharedPreferenceService.setGroup(loggedInUser.group);
+      sharedPreferenceService.setMemberID(loggedInUser.id);
+      sharedPreferenceService.setName(loggedInUser.name);
 
-    return loggedInUser;
+      //Get ApiKey from SharedPref and assign it to apiKey.
+      sharedPreferenceService.getApiKey().then((String value) {
+        apiKey = value;
+      });
+
+      return loggedInUser;
+    } on DioError catch (e) {
+      if (e.response.statusCode == 401 || e.response == null) {
+        print("Dio Error: ${e.response.data}");
+        return e.response.data;
+      } else {
+        print(e.message);
+      }
+    }
   }
-}
 
-UserRepository userRepo = UserRepository();
+  static final HttpLink _httpLink = HttpLink(
+    uri: '$graphQLEndpoint?token=${apiKey ??= serverToken}',
+  );
+
+  static ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      cache: InMemoryCache(),
+      link: _httpLink,
+    ),
+  );
+}

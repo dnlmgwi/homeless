@@ -117,7 +117,8 @@ class _TransactScreenState extends State<TransactScreen> {
                       color: AppTheme.nearlyWhite,
                     )),
                 textColor: AppTheme.white,
-                onPressed: () => Navigator.popAndPushNamed(context, '/dash'),
+                onPressed: () =>
+                    Navigator.pushReplacementNamed(context, '/dash'),
                 splashColor: AppTheme.nearlyWhite,
                 color: AppTheme.nearlyBlack,
               ),
@@ -162,7 +163,7 @@ class _TransactScreenState extends State<TransactScreen> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: Config.client,
+      client: UserRepository.client,
       child: Scaffold(
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,

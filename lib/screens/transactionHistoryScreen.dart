@@ -18,13 +18,13 @@ class TransactionHistoryScreen extends StatefulWidget {
 class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   _launchReport({String ref, String date}) async {
     FlutterOpenWhatsapp.sendSingleMessage("+27722326766",
-        "Homeless App Reporting a transaction: \n Ref: $ref, \n Date: $date");
+        "Homeless App Reporting a transaction: \nRef: $ref, \nDate: $date");
   }
 
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: Config.client,
+      client: UserRepository.client,
       child: Scaffold(
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,

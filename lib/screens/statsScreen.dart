@@ -12,7 +12,7 @@ class _StatsScreenState extends State<StatsScreen> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: Config.client,
+      client: UserRepository.client,
       child: Scaffold(
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,
@@ -34,7 +34,7 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
         body: Query(
           options: QueryOptions(
-            documentNode: gql(Queries.addTransaction()),
+            documentNode: gql(Queries.addMember()),
           ),
           builder: (QueryResult result,
               {VoidCallback refetch, FetchMore fetchMore}) {

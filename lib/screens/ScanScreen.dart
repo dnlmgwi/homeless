@@ -66,7 +66,7 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: Config.client,
+      client: UserRepository.client,
       child: Container(
         color: AppTheme.nearlyWhite,
         child: Scaffold(

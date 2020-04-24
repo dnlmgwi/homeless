@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
 
     sharedPreferenceService.getMemberID().then((onValue) {
-      onValue = member_id;
+      member_id = onValue;
     });
 
     super.initState();

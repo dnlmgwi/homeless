@@ -19,10 +19,10 @@ class _SettingsScreenState extends State<SettingsScreen>
   var scrollController = ScrollController();
   double topBarOpacity = 0.0;
 
-  Future clearToken() async {
-    sharedPreferenceService.clearToken();
-    return sharedPreferenceService.setOnBoarding();
-  }
+  // Future clearToken() async {
+
+  //   return sharedPreferenceService.setOnBoarding();
+  // }
 
   @override
   void initState() {
@@ -93,22 +93,22 @@ class _SettingsScreenState extends State<SettingsScreen>
       ),
     );
 
-    listViews.add(
-      TitleView(
-        route: '/donate',
-        icon: Icon(
-          Icons.attach_money,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Donate',
-//        subTxt: 'more',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+//     listViews.add(
+//       TitleView(
+//         route: '/donate',
+//         icon: Icon(
+//           Icons.attach_money,
+//           color: AppTheme.dark_grey,
+//         ),
+//         titleTxt: 'Donate',
+// //        subTxt: 'more',
+//         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+//             parent: widget.animationController,
+//             curve:
+//                 Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
+//         animationController: widget.animationController,
+//       ),
+//     );
 
     listViews.add(
       TitleView(
@@ -179,24 +179,18 @@ class _SettingsScreenState extends State<SettingsScreen>
     );
 
     listViews.add(
-      InkWell(
-        child: LogoutView(
-          route: '/login',
-          icon: Icon(
-            Icons.power_settings_new,
-            color: AppTheme.dark_grey,
-          ),
-          titleTxt: 'Logout',
-//        subTxt: 'more',
-          animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-              parent: widget.animationController,
-              curve:
-                  Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController,
+      TitleView(
+        icon: Icon(
+          FontAwesomeIcons.powerOff,
+          color: AppTheme.dark_grey,
         ),
-        onTap: () {
-          clearToken();
-        },
+        titleTxt: 'Logout',
+//        subTxt: 'more',
+        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
       ),
     );
   }
@@ -204,6 +198,14 @@ class _SettingsScreenState extends State<SettingsScreen>
   Future<bool> getData() async {
     await Future.delayed(const Duration(milliseconds: 10));
     return true;
+  }
+
+  logOut() {
+    sharedPreferenceService.clearToken().then((onValue) {
+      if (onValue == true) {
+        Navigator.of(context).popAndPushNamed('/login');
+      }
+    });
   }
 
   @override

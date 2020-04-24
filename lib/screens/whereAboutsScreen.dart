@@ -138,7 +138,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: Config.client,
+      client: UserRepository.client,
       child: Scaffold(
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,

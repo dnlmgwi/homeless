@@ -27,7 +27,7 @@ export 'package:flutter/services.dart';
 export 'package:geolocator/geolocator.dart';
 export 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 export 'package:time_ago_provider/time_ago_provider.dart';
-export 'package:states_rebuilder/states_rebuilder.dart';
+export 'package:flutter_form_builder/flutter_form_builder.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes
@@ -48,6 +48,8 @@ export 'package:homeless/dashboard.dart';
 export 'package:homeless/screens/menuScreen.dart';
 export 'package:homeless/screens/transactScreen.dart';
 export 'package:homeless/screens/loginScreen.dart';
+export 'package:homeless/screens/registerScreen.dart';
+
 
 //Models
 export 'package:homeless/data/appTheme.dart';
@@ -55,6 +57,7 @@ export 'package:homeless/data/tabIconData.dart';
 export 'package:homeless/models/onBoarding/onBoarding.dart';
 export 'package:homeless/models/loginresponse/loginresponse.dart';
 export 'package:homeless/data/constants.dart';
+export 'package:homeless/data/graphqlQueries.dart';
 
 //Services
 export 'package:homeless/services/sharePreferenceService.dart';
@@ -66,5 +69,4 @@ export 'package:homeless/widgets/titleView.dart';
 export 'package:homeless/widgets/utils.dart';
 
 //api
-export 'package:homeless/api/client.dart';
 export 'package:homeless/api/userrepo.dart';

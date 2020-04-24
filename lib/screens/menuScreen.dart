@@ -1,5 +1,4 @@
 import 'package:homeless/packages.dart';
-import 'package:homeless/widgets/memberProfile.dart';
 
 class MenuScreen extends StatefulWidget {
   final AnimationController animationController;
@@ -29,6 +28,13 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    sharedPreferenceService.getName().then((String name) {
+      this.memberName = name;
+    });
+
+    sharedPreferenceService.getGroup().then((String name) {
+      this.memberGroup = name;
+    });
     topBarAnimation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: widget.animationController,
         curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
@@ -56,13 +62,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
         }
       }
     });
-    sharedPreferenceService.getName().then((String name) {
-      this.memberName = name;
-    });
 
-    sharedPreferenceService.getGroup().then((String name) {
-      this.memberGroup = name;
-    });
     super.initState();
   }
 
@@ -119,6 +119,22 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     //     animationController: widget.animationController,
     //   ),
     // );
+
+    listViews.add(
+      TitleView(
+        route: '/register',
+        icon: Icon(
+          FontAwesomeIcons.idCard,
+          color: AppTheme.dark_grey,
+        ),
+        titleTxt: 'Register Member',
+        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
 
     listViews.add(
       TitleView(

@@ -12,9 +12,9 @@ class SharedPreferenceService {
     return true;
   }
 
-  Future<bool> setOnBoarding() async {
+  Future setOnBoarding() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('seen', false);
+    await prefs.setBool('seen', true);
   }
 
   Future<bool> getOnBoardingSeen() async {
@@ -68,8 +68,14 @@ class SharedPreferenceService {
     return name;
   }
 
-  Future clearToken() async {
-    await _prefs.clear();
+  Future<bool> clearToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove("seen");
+    await prefs.remove("member_id");
+    await prefs.remove("apiKey");
+    await prefs.remove("group");
+    await prefs.remove("name");
+    return prefs.clear();
   }
 }
 

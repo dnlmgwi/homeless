@@ -1,5 +1,4 @@
 import 'package:homeless/packages.dart';
-import 'package:homeless/services/sharePreferenceService.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -13,6 +12,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   static LoginResponse _token;
   bool busyView = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,20 +81,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             busyView = true;
                           });
 
-                          _token = await userRepo
+                          _token = await UserRepository
                               .login(
-                                password: passwordController.text,
-                                username: usernameController.text,
-                              )
-                              .catchError((onError) {});
-
-                          sharedPreferenceService.setApiKey(_token.apiKey);
-                          sharedPreferenceService.setGroup(_token.group);
-                          sharedPreferenceService.setMemberID(_token.id);
-                          sharedPreferenceService.setName(_token.name);
+                            password: passwordController.text,
+                            username: usernameController.text,
+                          )
+                              .catchError((onError) {
+                            print(onError);
+                          });
 
                           if (_token != null) {
-                            print('The Set ApiKey: ${_token.apiKey}');
                             ShowToast.showToast("Login Successful", context);
                             Navigator.pushReplacement(
                               context,
@@ -116,8 +119,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     } else {
-      return Center(
-        child: CircularProgressIndicator(),
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
   }
