@@ -31,10 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(
-                  "Homeless",
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 38),
+                Image.asset(
+                  'assets/images/Logo.png',
+                  height: 200,
                 ),
+                // Text(
+                //   "Homeless",
+                //   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 38),
+                // ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.3,
                   child: Column(
@@ -65,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: Text(
-                        "Login",
+                        "Sign In".toUpperCase(),
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           fontWeight: FontWeight.w700,
@@ -81,12 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             busyView = true;
                           });
 
-                          _token = await UserRepository
-                              .login(
+                          _token = await UserRepository.login(
                             password: passwordController.text,
                             username: usernameController.text,
-                          )
-                              .catchError((onError) {
+                          ).catchError((onError) {
                             print(onError);
                           });
 

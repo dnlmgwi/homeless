@@ -33,6 +33,7 @@ class UserRepository {
       //Get ApiKey from SharedPref and assign it to apiKey.
       sharedPreferenceService.getApiKey().then((String value) {
         apiKey = value;
+        print('API Key: $value');
       });
 
       return loggedInUser;

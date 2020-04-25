@@ -89,6 +89,11 @@ class _TransactScreenState extends State<TransactScreen> {
     myFocusNode = FocusNode();
   }
 
+  void _navDash(BuildContext context) {
+    Navigator.pop(
+        context, MaterialPageRoute(builder: (context) => Dashboard()));
+  }
+
   _alert({context, result}) {
     showDialog(
         context: context, //builds a context of its own
@@ -114,8 +119,10 @@ class _TransactScreenState extends State<TransactScreen> {
                       color: AppTheme.nearlyWhite,
                     )),
                 textColor: AppTheme.white,
-                onPressed: () =>
-                    Navigator.pushReplacementNamed(context, '/dash'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _navDash(context);
+                },
                 splashColor: AppTheme.nearlyWhite,
                 color: AppTheme.nearlyBlack,
               ),
@@ -285,10 +292,10 @@ class _TransactScreenState extends State<TransactScreen> {
                                                 }
 
                                                 if (!result.hasException) {
+                                                  List<String> listedProjects =
+                                                      [];
                                                   List<String>
                                                       getListOfProjects() {
-                                                    List<String>
-                                                        listedProjects = [];
                                                     for (var project in result
                                                             .data[
                                                         'ProjectsCollection']) {

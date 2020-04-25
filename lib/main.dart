@@ -8,48 +8,66 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((onValue) {
-    runApp(MyApp());
+    sharedPreferenceService.getSharedPreferencesInstance().then((onValue) {
+      runApp(MyApp());
+    });
   });
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  bool _initialized = false;
 
-  @override
-  initState() {
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        dynamic data = message['data'];
-        if (data == null) return;
-        String notificationType = data['notification_type'];
+  if (!_initialized) {
+    Future<void> init() async {
+      FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+      Future<dynamic> fcmBackgroundMessageHandler(
+          Map<String, dynamic> message) {
+        if (message.containsKey('data')) {
+// Handle data message
+          final dynamic data = message['data'];
+          print('Background: $data');
+        }
+
+        if (message.containsKey('notification')) {
+// Handle notification message
+          final dynamic notification = message['notification'];
+          print('Background: $notification');
+        }
+
+        _initialized = true;
+
+        return null;
+// Or do other work.
+      }
+
+      // For iOS request permission first.
+      _firebaseMessaging.requestNotificationPermissions();
+      _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print("onMessage: $message");
+          dynamic data = message['data'];
+          if (data == null) return;
+          String notificationType = data['notification_type'];
 //        if (notificationType != null ||
 //            notificationType.isEmpty ||
 //            notificationType == UIData.notificationForeground) {
 //        } else if (notificationType == UIData.notificationInAppDialog) {}
-      },
-      onBackgroundMessage: fcmBackgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-    );
+        },
+        onBackgroundMessage: fcmBackgroundMessageHandler,
+        onLaunch: (Map<String, dynamic> message) async {
+          print("onLaunch: $message");
+////          _navigateToItemDetail(message);
+        },
+        onResume: (Map<String, dynamic> message) async {
+          print("onResume: $message");
+////          _navigateToItemDetail(message);
+        },
+      );
 
-    _firebaseMessaging.getToken().then((String token) {});
-
-//    _firebaseMessaging.subscribeToTopic(UIData.generalTopic);
+      _firebaseMessaging.getToken().then((String token) {});
+      String token = await _firebaseMessaging.getToken();
+      print("FirebaseMessaging token: $token");
+    }
   }
-}
-
-Future<dynamic> fcmBackgroundMessageHandler(Map<String, dynamic> message) {
-  if (message.containsKey('data')) {
-// Handle data message
-    final dynamic data = message['data'];
-  }
-
-  if (message.containsKey('notification')) {
-// Handle notification message
-    final dynamic notification = message['notification'];
-  }
-
-  return null;
-// Or do other work.
 }
 
 class MyApp extends StatefulWidget {

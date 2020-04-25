@@ -31,7 +31,7 @@ dependencies:
   geolocator:
   firebase_messaging:
   charts_flutter:
-  rive: ^0.0.1
+  rive:
   flutter_local_notifications: ^1.4.1
   font_awesome_flutter:
   timeago:

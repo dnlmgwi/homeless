@@ -131,7 +131,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   AutoSizeText(
-                                    "${transactions[index]['member_id']}",
+                                    "${transactions[index]['member_name']}",
                                     style: TextStyle(
                                       fontFamily: AppTheme.fontName,
                                       fontWeight: FontWeight.w700,
