@@ -32,7 +32,7 @@ dependencies:
   firebase_messaging:
   charts_flutter:
   rive:
-  flutter_local_notifications: ^1.4.1
+  flutter_local_notifications:
   font_awesome_flutter:
   timeago:
   soundpool:

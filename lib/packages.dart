@@ -50,7 +50,6 @@ export 'package:homeless/screens/transactScreen.dart';
 export 'package:homeless/screens/loginScreen.dart';
 export 'package:homeless/screens/registerScreen.dart';
 
-
 //Models
 export 'package:homeless/data/appTheme.dart';
 export 'package:homeless/data/tabIconData.dart';
