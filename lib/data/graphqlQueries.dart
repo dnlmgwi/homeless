@@ -164,7 +164,7 @@ class Queries {
     }""";
   }
 
-  //sets The Card to Registed.
+  //sets The Card to Registered.
   static String registerCard({id}) {
     return """mutation registerCard
     {
@@ -182,15 +182,18 @@ class Queries {
     }""";
   }
 
-  //Checks if the card is Registed.
+  //Checks if the card is Registered.
+  //TODO: Understand whether filtering will provide better result.
   static String checkCardStatus({id}) {
-    return r"""query checkCardStatus($_id: String!)
-    {
-      CardsCollection(_id: $_id)
-      {
-        _id
-        registered
-      }
-    }""";
+    return r"""query checkCardStatus($_id: String!) {
+      CardsCollection(
+        _id: $_id
+        filter:{
+          registered: false
+          }) {
+            _id
+            registered
+          }
+        }""";
   }
 }
