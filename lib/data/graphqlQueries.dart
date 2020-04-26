@@ -163,4 +163,34 @@ class Queries {
       }
     }""";
   }
+
+  //sets The Card to Registed.
+  static String registerCard({id}) {
+    return """mutation registerCard
+    {
+      saveCollectionItem
+      (
+        name: "Cards",
+        data:
+        {
+          _id: "$id"
+          registered: true,
+        }
+      ){
+        data
+      }
+    }""";
+  }
+
+  //Checks if the card is Registed.
+  static String checkCardStatus({id}) {
+    return r"""query checkCardStatus($_id: String!)
+    {
+      CardsCollection(_id: $_id)
+      {
+        _id
+        registered
+      }
+    }""";
+  }
 }

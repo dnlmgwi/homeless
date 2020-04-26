@@ -1,6 +1,5 @@
 import 'package:homeless/packages.dart';
 import 'package:homeless/services/sharePreferenceService.dart';
-import 'package:homeless/widgets/logout.dart';
 
 class SettingsScreen extends StatefulWidget {
   final AnimationController animationController;
