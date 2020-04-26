@@ -184,7 +184,7 @@ class Queries {
 
   //Checks if the card is Registered.
   //TODO: Understand whether filtering will provide better result.
-  static String checkCardStatus({id}) {
+  static String checkCardStatus() {
     return r"""query checkCardStatus($_id: String!) {
       CardsCollection(
         _id: $_id
