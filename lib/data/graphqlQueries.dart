@@ -1,25 +1,12 @@
 class Queries {
   //verify users existence
-  static String verifyUser() {
-    return r'''query checkMember($_id: String!) {
-    MemberCollection(_id: $_id)
-    {
-      name
-      _id
-      surname
-      age
-      gender
-      joinedDate
-      picture {
-        path
-      }
-      location {
-      address
-      lat
-      lng
-      } 
-    }
-    }''';
+  static String verifyUser({homeless_id}) {
+    return '''{
+      collection(name:"Member",
+      filter:
+      {
+        homeless_id:"$homeless_id"
+      })}''';
   }
 
   static String getProjects() {
@@ -76,7 +63,7 @@ class Queries {
     }''';
   }
 
-  //add a news transaction
+  //add a new benefit transaction
   static String addTransaction({
     homeless_id,
     member_id,
@@ -121,20 +108,20 @@ class Queries {
   }
 
   //add a news transaction
-  static String addMember(
-      {gender,
-      name,
-      surname,
-      joinedDate,
-      location,
-      dob,
-      residentialMoveInDate,
-      approximateDateStartedHomeless,
-      race,
-      ethnicity,
-      phoneNumber,
-      services_needed,
-      consent}) {
+  static String addMember({
+    gender,
+    homeless_id,
+    name,
+    surname,
+    joinedDate,
+    location,
+    dob,
+    residentialMoveInDate,
+    approximateDateStartedHomeless,
+    ethnicity,
+    phoneNumber,
+    consent,
+  }) {
     return """mutation addMember
     {
       saveCollectionItem
@@ -142,6 +129,7 @@ class Queries {
         name: "Member",
         data:
         {
+          homeless_id: "$homeless_id",
           gender: "$gender",
           name: "$name",
           surname: "$surname",
@@ -152,10 +140,10 @@ class Queries {
           dob: "$dob",
           residentialMoveInDate: "$residentialMoveInDate",
           approximateDateStartedHomeless: "$approximateDateStartedHomeless",
-          race: "$race",
+          
           ethnicity: "$ethnicity",
           phoneNumber: "$phoneNumber",
-          Services_needed: "$services_needed",
+          
           consent:"$consent"
         }
       ){
@@ -164,7 +152,7 @@ class Queries {
     }""";
   }
 
-  //sets The Card to Registered.
+  //set The Card to Registered.
   static String registerCard({id}) {
     return """mutation registerCard
     {
@@ -182,18 +170,33 @@ class Queries {
     }""";
   }
 
-  //Checks if the card is Registered.
-  //TODO: Understand whether filtering will provide better result.
-  static String checkCardStatus() {
-    return r"""query checkCardStatus($_id: String!) {
+  //Checks if the card is Registered if True, who is regsistred to it if false Begin Regsitration.
+  static String registrationProcess({String homeless_id}) {
+    return """query RegistrationProcess
+    {
       CardsCollection(
-        _id: $_id
-        filter:{
-          registered: false
-          }) {
-            _id
-            registered
-          }
-        }""";
+        filter:
+        {
+          homeless_id: "$homeless_id"
+        })
+        {
+          registered
+          _id
+        } collection(name: "Cards",
+            filter:
+            {
+              homeless_id: "$homeless_id"
+            })
+            MemberCollection (filter: {
+              homeless_id: "$homeless_id"
+              })
+            {
+              homeless_id
+              name
+            } TransactionsCollection (limit: 1)
+            {
+              scanTime
+            }
+      }""";
   }
 }

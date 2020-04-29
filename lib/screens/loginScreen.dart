@@ -25,7 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     if (!busyView) {
       return Scaffold(
-        body: Center(
+          body: KeyboardAvoider(
+        child: Center(
           child: Form(
             key: _formKey,
             child: Column(
@@ -119,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      );
+      ));
     } else {
       return Scaffold(
         body: Center(

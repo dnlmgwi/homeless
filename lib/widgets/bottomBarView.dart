@@ -76,7 +76,7 @@ class _BottomBarViewState extends State<BottomBarView>
             this.context,
             MaterialPageRoute(
               builder: (context) => ScanScreen(
-                id: scanData,
+                homeless_id: scanData,
               ),
             ),
           );

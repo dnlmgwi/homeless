@@ -10,11 +10,11 @@ import 'package:soundpool/soundpool.dart';
 // import 'package:encrypt/encrypt.dart';
 
 class ScanScreen extends StatefulWidget {
-  final String id;
+  final String homeless_id;
 
   ScanScreen({
     Key key,
-    this.id,
+    this.homeless_id,
   }) : super(key: key);
   @override
   _ScanScreenState createState() => _ScanScreenState();
@@ -95,10 +95,9 @@ class _ScanScreenState extends State<ScanScreen> {
               child: Container(
                 child: Query(
                     options: QueryOptions(
-                        documentNode: gql(Queries.verifyUser()),
-                        variables: {
-                          '_id': '${widget.id}',
-                        }),
+                      documentNode: gql(
+                          Queries.verifyUser(homeless_id: widget.homeless_id)),
+                    ),
                     builder: (QueryResult result,
                         {VoidCallback refetch, FetchMore fetchMore}) {
                       if (result.loading) {
@@ -115,21 +114,12 @@ class _ScanScreenState extends State<ScanScreen> {
                         print(result.exception.clientException);
                       }
 
-                      var hiddenID;
-
-                      contentHash({reqBody}) async {
-                        var digest =
-                            reqBody; //TODO: Encypt ID Before sending it
-                        return digest.toString();
-                      }
-
+                      var response = result.data['collection'];
                       if (!result.hasException) {
-                        final List<dynamic> repositories =
-                            result.data['MemberCollection'] as List<dynamic>;
+                        for (var userProfile
+                            in result.data['collection'] as List) {
+                          print(userProfile.toString());
 
-                        for (var person in repositories) {
-                          contentHash(reqBody: person['_id'])
-                              .then((onValue) => hiddenID = onValue);
                           return SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
@@ -149,20 +139,20 @@ class _ScanScreenState extends State<ScanScreen> {
                                   ),
                                   child: Column(
                                     children: <Widget>[
-                                      Container(
-                                        width: 120.0,
-                                        height: 120.0,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.grey,
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              "$base_url${person['picture']['path']}",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   width: 120.0,
+                                      //   height: 120.0,
+                                      //   decoration: BoxDecoration(
+                                      //     color: AppTheme.grey,
+                                      //     shape: BoxShape.circle,
+                                      //     image: DecorationImage(
+                                      //       fit: BoxFit.cover,
+                                      //       image: NetworkImage(
+                                      //         "$base_url${project[0]['picture']['path']}",
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -187,7 +177,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                       CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "${person['name']} ${person['surname']}, ${person['age']}",
+                                                        "${userProfile['name']} ${userProfile['surname']}, ${userProfile['age']}",
                                                         style: TextStyle(
                                                           fontFamily:
                                                               AppTheme.fontName,
@@ -207,7 +197,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                 Row(
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "${person['gender']}"
+                                                        "${userProfile['gender']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -221,7 +211,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                         )),
                                                     Spacer(),
                                                     AutoSizeText(
-                                                        "Joined: ${person['joinedDate']}"
+                                                        "Joined: ${userProfile['joinedDate']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -239,7 +229,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                   height: 15,
                                                 ),
                                                 AutoSizeText(
-                                                  "${person['location']["address"]}",
+                                                  "${userProfile['location']["address"]}",
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontFamily:
@@ -325,13 +315,11 @@ class _ScanScreenState extends State<ScanScreen> {
                                                                   builder:
                                                                       (context) =>
                                                                           TransactScreen(
-                                                                            image:
-                                                                                person['picture']['path'],
                                                                             name:
-                                                                                person['name'],
+                                                                                userProfile['name'],
                                                                             surname:
-                                                                                person['surname'],
-                                                                            id: person['_id'],
+                                                                                userProfile['surname'],
+                                                                            id: userProfile['homeless_id'],
                                                                           ))),
                                                     ),
                                                     InkWell(
@@ -399,7 +387,9 @@ class _ScanScreenState extends State<ScanScreen> {
                                                         MaterialPageRoute(
                                                           builder: (context) =>
                                                               MedicalHistoryScreen(
-                                                            id: person['_id'],
+                                                            homeless_id:
+                                                                userProfile[
+                                                                    'homeless_id'],
                                                           ),
                                                         ),
                                                       ),
@@ -474,7 +464,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                                   builder:
                                                                       (context) =>
                                                                           TransactionHistoryScreen(
-                                                                            id: person['_id'],
+                                                                            id: userProfile['homeless_id'],
                                                                           ))),
                                                     ),
                                                     InkWell(
@@ -543,11 +533,12 @@ class _ScanScreenState extends State<ScanScreen> {
                                                                   builder:
                                                                       (context) =>
                                                                           WhereAboutScreen(
-                                                                            id: person['_id'],
+                                                                            homeless_id:
+                                                                                userProfile['homeless_id'],
                                                                             lat:
-                                                                                person['location']['lat'],
+                                                                                userProfile['location']['lat'],
                                                                             lng:
-                                                                                person['location']['lng'],
+                                                                                userProfile['location']['lng'],
                                                                           ))),
                                                     ),
                                                   ],
@@ -577,9 +568,9 @@ class _ScanScreenState extends State<ScanScreen> {
                                             color: AppTheme.nearlyWhite,
                                             onPressed: () {
                                               _launchReport(
-                                                  id: hiddenID,
-                                                  name: person['name'],
-                                                  surname: person['surname']);
+                                                  name: userProfile[0]['name'],
+                                                  surname: userProfile[0]
+                                                      ['surname']);
                                             },
                                           ),
                                         ],
@@ -592,7 +583,10 @@ class _ScanScreenState extends State<ScanScreen> {
                           );
                         }
 
-                        if (repositories.isEmpty) {
+                        // contentHash(reqBody: project['homeless_id'])
+                        //     .then((onValue) => hiddenID = onValue);
+
+                        if (response.isEmpty) {
                           print('User Doesnt Exist!');
                           return Center(
                             child: Container(

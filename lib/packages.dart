@@ -49,6 +49,7 @@ export 'package:homeless/screens/menuScreen.dart';
 export 'package:homeless/screens/transactScreen.dart';
 export 'package:homeless/screens/loginScreen.dart';
 export 'package:homeless/screens/registerScreen.dart';
+export 'package:homeless/screens/instructions.dart';
 
 //Models
 export 'package:homeless/data/appTheme.dart';

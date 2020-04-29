@@ -3,9 +3,10 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 
 class WhereAboutScreen extends StatefulWidget {
-  final String id;
+  final String homeless_id;
   final double lat, lng;
-  WhereAboutScreen({Key key, this.id, this.lat, this.lng}) : super(key: key);
+  WhereAboutScreen({Key key, this.homeless_id, this.lat, this.lng})
+      : super(key: key);
   @override
   _WhereAboutScreenState createState() => _WhereAboutScreenState();
 }
@@ -130,10 +131,9 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
             child: Container(
               child: Query(
                   options: QueryOptions(
-                      documentNode: gql(Queries.verifyUser()),
-                      variables: {
-                        '_id': '${widget.id}',
-                      }),
+                    documentNode: gql(
+                        Queries.verifyUser(homeless_id: widget.homeless_id)),
+                  ),
                   builder: (QueryResult result,
                       {VoidCallback refetch, FetchMore fetchMore}) {
                     if (result.loading) {
@@ -151,8 +151,6 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
 
                     if (!result.hasException) {
                       // play();
-                      final List<dynamic> repositories =
-                          result.data['MemberCollection'] as List<dynamic>;
 
                       distanceFromHome() async {
                         double distanceInMeters = await Geolocator()
@@ -171,7 +169,8 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                         return inKm.toStringAsFixed(3);
                       }
 
-                      for (var person in repositories) {
+                      var response = result.data['collection'];
+                      for (var person in result.data['collection'] as List) {
                         distanceFromHome().then((onValue) => home = onValue);
                         return SingleChildScrollView(
                           child: Column(
@@ -192,20 +191,20 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                 ),
                                 child: Column(
                                   children: <Widget>[
-                                    Container(
-                                      width: 120.0,
-                                      height: 120.0,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.grey,
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                            "http://www.sketchdm.co.za${person['picture']['path']}",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   width: 120.0,
+                                    //   height: 120.0,
+                                    //   decoration: BoxDecoration(
+                                    //     color: AppTheme.grey,
+                                    //     shape: BoxShape.circle,
+                                    //     image: DecorationImage(
+                                    //       fit: BoxFit.cover,
+                                    //       image: NetworkImage(
+                                    //         "http://www.sketchdm.co.za${person['picture']['path']}",
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -229,7 +228,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   AutoSizeText(
-                                                      "${person['name']} ${person['surname']}, ${person['age']}",
+                                                      "${person['name']} ${person['surname']}",
                                                       style: TextStyle(
                                                         fontFamily:
                                                             AppTheme.fontName,
@@ -250,32 +249,21 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                               Row(
                                                 children: <Widget>[
                                                   AutoSizeText(
-                                                      "${person['gender']}"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            AppTheme.fontName,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 15,
-                                                        letterSpacing: 1,
-                                                        color: AppTheme
-                                                            .deactivatedText,
-                                                      )),
+                                                    "${person['location']['address']}",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontFamily:
+                                                          AppTheme.fontName,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 15,
+                                                      letterSpacing: 0.5,
+                                                      color: AppTheme
+                                                          .deactivatedText,
+                                                    ),
+                                                  ),
                                                   Spacer(),
-                                                  AutoSizeText(
-                                                      "Joined: ${person['joinedDate']}"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            AppTheme.fontName,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 15,
-                                                        letterSpacing: 1,
-                                                        color: AppTheme
-                                                            .deactivatedText,
-                                                      )), // Date Joined
+                                                  // Date Joined
                                                 ],
                                               ),
                                               SizedBox(
@@ -345,7 +333,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                         );
                       }
 
-                      if (repositories.isEmpty) {
+                      if (response.isEmpty) {
                         print('User Doesnt Exist!');
                         return Center(
                           child: Container(

@@ -5,14 +5,14 @@ class LogoutView extends StatelessWidget {
   final String titleTxt;
   final AnimationController animationController;
   final Animation animation;
-  final String route;
+  final Function function;
 
   const LogoutView(
       {Key key,
       this.icon,
       this.titleTxt: "",
       this.animationController,
-      this.route,
+      this.function,
       this.animation})
       : super(key: key);
 
@@ -42,8 +42,7 @@ class LogoutView extends StatelessWidget {
                 child: InkWell(
                   highlightColor: AppTheme.lightText,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  onTap: () =>
-                      Navigator.pushReplacementNamed(context, this.route),
+                  onTap: () => function,
                   child: Container(
                     height: 50,
                     child: Padding(

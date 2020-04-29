@@ -215,20 +215,20 @@ class _TransactScreenState extends State<TransactScreen> {
                             ),
                             child: Column(
                               children: <Widget>[
-                                Container(
-                                  width: 120.0,
-                                  height: 120.0,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.grey,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        "http://www.sketchdm.co.za${widget.image}",
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // Container(
+                                //   width: 120.0,
+                                //   height: 120.0,
+                                //   decoration: BoxDecoration(
+                                //     color: AppTheme.grey,
+                                //     shape: BoxShape.circle,
+                                //     image: DecorationImage(
+                                //       fit: BoxFit.cover,
+                                //       image: NetworkImage(
+                                //         "http://www.sketchdm.co.za${widget.image}",
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,

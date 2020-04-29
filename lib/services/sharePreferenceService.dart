@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferenceService {
   SharedPreferences _prefs;
 
+  //Setting and getting SharedPrefs.
   Future<bool> getSharedPreferencesInstance() async {
     _prefs = await SharedPreferences.getInstance().catchError((e) {
       print("shared prefrences error : $e");

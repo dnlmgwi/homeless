@@ -3,11 +3,11 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/widgets/loadingNews.dart';
 
 class MedicalHistoryScreen extends StatefulWidget {
-  final String id;
+  final String homeless_id;
 
   MedicalHistoryScreen({
     Key key,
-    this.id,
+    this.homeless_id,
   }) : super(key: key);
   @override
   _MedicalHistoryScreenState createState() => _MedicalHistoryScreenState();
@@ -40,7 +40,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
         body: Query(
           options: QueryOptions(
             documentNode: gql(
-              Queries.getMedicalHistory(homeless_id: widget.id),
+              Queries.getMedicalHistory(homeless_id: widget.homeless_id),
             ),
           ),
           builder: (QueryResult result,
@@ -147,6 +147,15 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                                   ),
                                   SizedBox(
                                     height: 10,
+                                  ),
+                                  AutoSizeText(
+                                    "${transactions[index]['member_name']}",
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
+                                      color: AppTheme.grey,
+                                    ),
                                   ),
                                   Column(
                                     crossAxisAlignment:
