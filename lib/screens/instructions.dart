@@ -67,7 +67,6 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
             this.context,
             MaterialPageRoute(
               builder: (context) => RegisterationScreen(
-                key: UniqueKey(),
                 homeless_id: scanData,
               ),
             ),

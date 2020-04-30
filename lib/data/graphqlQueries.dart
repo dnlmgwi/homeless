@@ -111,16 +111,23 @@ class Queries {
   static String addMember({
     gender,
     homeless_id,
-    name,
+    homeless_name,
     surname,
     joinedDate,
     location,
     dob,
     residentialMoveInDate,
+    services_needed,
     approximateDateStartedHomeless,
     ethnicity,
     phoneNumber,
     consent,
+    member_name,
+    member_id,
+    registered_address,
+    join_Time,
+    registered_lat,
+    registered_lng,
   }) {
     return """mutation addMember
     {
@@ -131,20 +138,27 @@ class Queries {
         {
           homeless_id: "$homeless_id",
           gender: "$gender",
-          name: "$name",
+          name: "$homeless_name",
           surname: "$surname",
           joinedDate: "$joinedDate",
           location: {
-            address: "$location"
+            address: "$location",
             },
           dob: "$dob",
+          member_id: "$member_id",
+          member_name:"$member_name",
           residentialMoveInDate: "$residentialMoveInDate",
           approximateDateStartedHomeless: "$approximateDateStartedHomeless",
-          
           ethnicity: "$ethnicity",
           phoneNumber: "$phoneNumber",
-          
-          consent:"$consent"
+          Services_needed: "$services_needed"
+          joinTime: "$join_Time",
+          consent:"$consent",
+          registered_address: {
+            address: "$registered_address",
+            lat: "$registered_lat",
+            lng: "$registered_lng",
+            },
         }
       ){
         data
@@ -153,7 +167,13 @@ class Queries {
   }
 
   //set The Card to Registered.
-  static String registerCard({id}) {
+  static String registerCard({
+    id,
+    member_name,
+    member_id,
+    claimed_Time,
+    claimed_Date,
+  }) {
     return """mutation registerCard
     {
       saveCollectionItem
@@ -163,6 +183,10 @@ class Queries {
         {
           _id: "$id"
           registered: true,
+          member_name: "$member_name",
+          member_id: "$member_id",
+          claimed_Time: "$claimed_Time",
+          claimed_Date: "$claimed_Date",
         }
       ){
         data
