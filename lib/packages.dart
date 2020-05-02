@@ -38,7 +38,6 @@ export 'package:homeless/screens/aboutScreen.dart';
 export 'package:homeless/screens/inviteFriendScreen.dart';
 export 'package:homeless/screens/termsScreen.dart';
 export 'package:homeless/screens/donateScreen.dart';
-export 'package:homeless/screens/rewardsScreen.dart';
 export 'package:homeless/screens/newsScreen.dart';
 export 'package:homeless/screens/statsScreen.dart';
 export 'package:homeless/screens/ScanScreen.dart';
@@ -66,6 +65,8 @@ export 'package:homeless/services/sharePreferenceService.dart';
 export 'package:homeless/widgets/bottomBarView.dart';
 export 'package:homeless/widgets/loadingProfile.dart';
 export 'package:homeless/widgets/titleView.dart';
+
+//utils
 export 'package:homeless/widgets/utils.dart';
 
 //api

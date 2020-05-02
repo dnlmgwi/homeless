@@ -1,4 +1,5 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/regScreenArguments.dart';
 
 class InstructionsScreen extends StatefulWidget {
   const InstructionsScreen({
@@ -63,17 +64,10 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
       setState(() {
         //calling setstate to update UI with the link of the current user
         if (scanData.isNotEmpty) {
-          Navigator.push(
-            this.context,
-            MaterialPageRoute(
-              builder: (context) => RegisterationScreen(
-                homeless_id: scanData,
-              ),
-            ),
-          );
-        } else {
-          _alert(context: this.context);
-          this.qrCode = 'No Data';
+          Navigator.pushReplacementNamed(context, RegistrationScreen.routeName,
+              arguments: ScreenArguments(
+                scanData ??= 'none',
+              ));
         }
       });
       // _launchURL(qrCode); // uses barcode parameter once its a valid link.

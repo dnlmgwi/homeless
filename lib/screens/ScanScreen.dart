@@ -228,19 +228,19 @@ class _ScanScreenState extends State<ScanScreen> {
                                                 SizedBox(
                                                   height: 15,
                                                 ),
-                                                AutoSizeText(
-                                                  "${userProfile['location']["address"]}",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15,
-                                                    letterSpacing: 0.5,
-                                                    color: AppTheme
-                                                        .deactivatedText,
-                                                  ),
-                                                ),
+                                                // AutoSizeText(
+                                                //   "${userProfile['location']["address"]}",
+                                                //   textAlign: TextAlign.left,
+                                                //   style: TextStyle(
+                                                //     fontFamily:
+                                                //         AppTheme.fontName,
+                                                //     fontWeight: FontWeight.w400,
+                                                //     fontSize: 15,
+                                                //     letterSpacing: 0.5,
+                                                //     color: AppTheme
+                                                //         .deactivatedText,
+                                                //   ),
+                                                // ),
                                                 SizedBox(
                                                   height: 15,
                                                 ),
@@ -526,20 +526,20 @@ class _ScanScreenState extends State<ScanScreen> {
                                                           ],
                                                         ),
                                                       ),
-                                                      onTap: () =>
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          WhereAboutScreen(
-                                                                            homeless_id:
-                                                                                userProfile['homeless_id'],
-                                                                            lat:
-                                                                                userProfile['location']['lat'],
-                                                                            lng:
-                                                                                userProfile['location']['lng'],
-                                                                          ))),
+                                                      // onTap: () =>
+                                                      //     Navigator.push(
+                                                      //         context,
+                                                      //         MaterialPageRoute(
+                                                      //             builder:
+                                                      //                 (context) =>
+                                                      //                     WhereAboutScreen(
+                                                      //                       homeless_id:
+                                                      //                           userProfile['homeless_id'],
+                                                      //                       lat:
+                                                      //                           userProfile['location']['lat'],
+                                                      //                       lng:
+                                                      //                           userProfile['location']['lng'],
+                                                      //                     ))),
                                                     ),
                                                   ],
                                                 ),

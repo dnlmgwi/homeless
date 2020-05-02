@@ -1,15 +1,13 @@
 import 'package:homeless/packages.dart';
 
-
 class FeedbackScreen extends StatefulWidget {
   @override
   _FeedbackScreenState createState() => _FeedbackScreenState();
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
-  final summary = [
-    'Our Mobile App is still under development and we have come a long way, but the future looks bright...'
-  ];
+  final summary =
+      'Our Mobile App is still under development and we have come a long way, but the future looks bright...';
 
   String feedback = '';
 
@@ -81,7 +79,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 right: 20,
               ),
               child: Text(
-                "${summary[0]}",
+                "$summary",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,

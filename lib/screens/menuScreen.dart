@@ -122,7 +122,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
 
     listViews.add(
       TitleView(
-        route: '/register',
+        route: '/instructions',
         icon: Icon(
           FontAwesomeIcons.idCard,
           color: AppTheme.dark_grey,

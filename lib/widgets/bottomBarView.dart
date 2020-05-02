@@ -73,16 +73,13 @@ class _BottomBarViewState extends State<BottomBarView>
         //calling setstate to update UI with the link of the current user
         if (scanData.isNotEmpty) {
           Navigator.push(
-            this.context,
+            context,
             MaterialPageRoute(
               builder: (context) => ScanScreen(
                 homeless_id: scanData,
               ),
             ),
           );
-        } else {
-          _alert(context: this.context);
-          this.qrCode = 'No Data';
         }
       });
       // _launchURL(qrCode); // uses barcode parameter once its a valid link.
@@ -115,7 +112,7 @@ class _BottomBarViewState extends State<BottomBarView>
           animation: animationController,
           builder: (BuildContext context, Widget child) {
             return Transform(
-              transform:  Matrix4.translationValues(0.0, 0.0, 0.0),
+              transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: PhysicalShape(
                 color: AppTheme.white,
                 elevation: 16.0,

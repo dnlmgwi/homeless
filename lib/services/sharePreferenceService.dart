@@ -76,7 +76,8 @@ class SharedPreferenceService {
     await prefs.remove("apiKey");
     await prefs.remove("group");
     await prefs.remove("name");
-    return prefs.clear();
+    bool cleared = await prefs.clear();
+    return cleared;
   }
 }
 
