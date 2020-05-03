@@ -118,7 +118,7 @@ class _ScanScreenState extends State<ScanScreen> {
                       var response = result.data;
 
                       if (!result.hasException) {
-                        for (var userProfile in response['collection']) {
+                        for (var userProfile in response['MemberCollection']) {
                           print(userProfile.toString());
 
                           return SingleChildScrollView(

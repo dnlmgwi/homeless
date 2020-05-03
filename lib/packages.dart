@@ -28,6 +28,7 @@ export 'package:geolocator/geolocator.dart';
 export 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 export 'package:time_ago_provider/time_ago_provider.dart';
 export 'package:flutter_form_builder/flutter_form_builder.dart';
+export 'package:flutter_map/flutter_map.dart';
 
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes

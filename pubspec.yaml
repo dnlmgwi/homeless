@@ -28,6 +28,7 @@ dependencies:
   intl:
   json_form_generator:
   toast:
+  flutter_map:
   time_ago_provider:
   geolocator:
   firebase_messaging:

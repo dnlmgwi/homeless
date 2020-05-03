@@ -1,12 +1,45 @@
 class Queries {
   //verify users existence
   static String verifyUser({homeless_id}) {
-    return '''{
-      collection(name:"Member",
-      filter:
+    return '''query verifyUser
+    {
+      MemberCollection(filter:{homeless_id:"$homeless_id"}){
+        homeless_id
+        location {
+          address
+          lat
+          lng
+        }
+        name
+        surname
+        gender
+        age
+        joinedDate
+      }
+    }''';
+  }
+
+  static String getMarkers({String homeless_id}) {
+    return '''query whereAbouts
+    {
+      MemberCollection(filter:{homeless_id:"$homeless_id"}){
+        location {
+          address
+          lat
+          lng
+        }
+        name
+        surname
+      }
+       TransactionsCollection(filter:{homeless_id:"$homeless_id"})
       {
-        homeless_id:"$homeless_id"
-      })}''';
+        location {
+       
+          lat
+          lng
+        }
+      }
+    }''';
   }
 
   static String getProjects() {
