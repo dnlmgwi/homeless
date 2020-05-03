@@ -65,6 +65,7 @@ export 'package:homeless/services/sharePreferenceService.dart';
 export 'package:homeless/widgets/bottomBarView.dart';
 export 'package:homeless/widgets/loadingProfile.dart';
 export 'package:homeless/widgets/titleView.dart';
+export 'package:homeless/widgets/loadingNews.dart';
 
 //utils
 export 'package:homeless/widgets/utils.dart';

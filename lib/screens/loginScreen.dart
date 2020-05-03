@@ -87,8 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
 
                           _token = await UserRepository.login(
-                            password: passwordController.text,
-                            username: usernameController.text,
+                            password: passwordController.text.trim(),
+                            username: usernameController.text.trim(),
                           ).catchError((onError) {
                             print(onError);
                           });

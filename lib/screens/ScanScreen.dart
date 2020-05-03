@@ -8,13 +8,13 @@ import 'package:homeless/screens/transactionHistoryScreen.dart';
 import 'package:homeless/screens/whereaboutsScreen.dart';
 import 'package:soundpool/soundpool.dart';
 // import 'package:encrypt/encrypt.dart';
+import 'package:homeless/regScreenArguments.dart';
 
 class ScanScreen extends StatefulWidget {
-  final String homeless_id;
+  static const String routeName = '/userProfile';
 
   ScanScreen({
     Key key,
-    this.homeless_id,
   }) : super(key: key);
   @override
   _ScanScreenState createState() => _ScanScreenState();
@@ -65,6 +65,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     return GraphQLProvider(
       client: UserRepository.client,
       child: Container(
@@ -96,7 +97,7 @@ class _ScanScreenState extends State<ScanScreen> {
                 child: Query(
                     options: QueryOptions(
                       documentNode: gql(
-                          Queries.verifyUser(homeless_id: widget.homeless_id)),
+                          Queries.verifyUser(homeless_id: args.homeless_id)),
                     ),
                     builder: (QueryResult result,
                         {VoidCallback refetch, FetchMore fetchMore}) {
@@ -114,10 +115,10 @@ class _ScanScreenState extends State<ScanScreen> {
                         print(result.exception.clientException);
                       }
 
-                      var response = result.data['collection'];
+                      var response = result.data;
+
                       if (!result.hasException) {
-                        for (var userProfile
-                            in result.data['collection'] as List) {
+                        for (var userProfile in response['collection']) {
                           print(userProfile.toString());
 
                           return SingleChildScrollView(
@@ -177,7 +178,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                       CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "${userProfile['name']} ${userProfile['surname']}, ${userProfile['age']}",
+                                                        "${userProfile['name']} ${userProfile['surname']}",
                                                         style: TextStyle(
                                                           fontFamily:
                                                               AppTheme.fontName,
@@ -197,7 +198,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                 Row(
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "${userProfile['gender']}"
+                                                        "${userProfile['gender']} ${userProfile['age']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -249,6 +250,10 @@ class _ScanScreenState extends State<ScanScreen> {
                                                   height: 15,
                                                 ),
                                                 Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     InkWell(
                                                       child: Container(
@@ -397,6 +402,10 @@ class _ScanScreenState extends State<ScanScreen> {
                                                   ],
                                                 ),
                                                 Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: <Widget>[
                                                     InkWell(
                                                       child: Container(
@@ -526,20 +535,20 @@ class _ScanScreenState extends State<ScanScreen> {
                                                           ],
                                                         ),
                                                       ),
-                                                      // onTap: () =>
-                                                      //     Navigator.push(
-                                                      //         context,
-                                                      //         MaterialPageRoute(
-                                                      //             builder:
-                                                      //                 (context) =>
-                                                      //                     WhereAboutScreen(
-                                                      //                       homeless_id:
-                                                      //                           userProfile['homeless_id'],
-                                                      //                       lat:
-                                                      //                           userProfile['location']['lat'],
-                                                      //                       lng:
-                                                      //                           userProfile['location']['lng'],
-                                                      //                     ))),
+                                                      onTap: () =>
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          WhereAboutScreen(
+                                                                            homeless_id:
+                                                                                userProfile['homeless_id'],
+                                                                            lat:
+                                                                                userProfile['location']['lat'],
+                                                                            lng:
+                                                                                userProfile['location']['lng'],
+                                                                          ))),
                                                     ),
                                                   ],
                                                 ),
@@ -637,8 +646,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                     color: AppTheme.white,
                                     child: MaterialButton(
                                       onPressed: () {
-                                        Navigator.popAndPushNamed(
-                                            context, '/dash');
+                                        Navigator.of(context).pop();
                                       },
                                       elevation: 8,
                                       color: AppTheme.dark_grey,
@@ -663,8 +671,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                     child: MaterialButton(
                                       onPressed: () {
                                         _launchReport();
-                                        Navigator.popAndPushNamed(
-                                            context, '/dash');
+                                        Navigator.of(context).pop();
                                       },
                                       elevation: 8,
                                       textColor: Colors.red,
@@ -755,7 +762,7 @@ class _ScanScreenState extends State<ScanScreen> {
                               width: MediaQuery.of(context).size.width / 2,
                               child: MaterialButton(
                                 onPressed: () {
-                                  Navigator.popAndPushNamed(context, '/dash');
+                                  Navigator.of(context).pop();
                                   _launchReport();
                                 },
                                 elevation: 8,

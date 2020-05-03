@@ -1,6 +1,8 @@
 import 'package:homeless/packages.dart';
 import 'dart:math' as math;
 
+import 'package:homeless/regScreenArguments.dart';
+
 class BottomBarView extends StatefulWidget {
   final Function(int index) changeIndex;
   final Function addClick;
@@ -60,51 +62,58 @@ class _BottomBarViewState extends State<BottomBarView>
 
   String qrCode;
 
-  Future<String> _scan() async {
-    //_scan() Receives QR code String and stores value in qrCodeScanRec
-    String scanData = await FlutterBarcodeScanner.scanBarcode(
-      "#32CD32",
-      "Back",
-      true,
-      ScanMode.QR,
-    );
-    try {
-      setState(() {
-        //calling setstate to update UI with the link of the current user
-        if (scanData.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ScanScreen(
-                homeless_id: scanData,
-              ),
-            ),
-          );
-        }
-      });
-      // _launchURL(qrCode); // uses barcode parameter once its a valid link.
-
-    } on PlatformException catch (e) {
-      //Permission handling is done by the QR Scanner.
-      if (e.code == qrCode) {
-        setState(() {
-          this.qrCode = 'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => this.qrCode = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => this.qrCode =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      setState(() => this.qrCode = 'Unknown error: $e');
-    }
-
-    return scanData;
-  }
-
   @override
   Widget build(BuildContext context) {
+    Future<String> _scan() async {
+      //_scan() Receives QR code String and stores value in qrCodeScanRec
+      String scanData = await FlutterBarcodeScanner.scanBarcode(
+        "#32CD32",
+        "Back",
+        true,
+        ScanMode.QR,
+      );
+      try {
+        if (scanData.isNotEmpty) {
+          Navigator.pushNamed(context, ScanScreen.routeName,
+              arguments: ScreenArguments(
+                scanData ??= 'none',
+              ));
+        }
+        // setState(() {
+        //   //calling setstate to update UI with the link of the current user
+        //   if (scanData.isNotEmpty) {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => ScanScreen(
+        //           homeless_id: scanData,
+        //         ),
+        //       ),
+        //     );
+        //   }
+        // }
+        // );
+        // _launchURL(qrCode); // uses barcode parameter once its a valid link.
+
+      } on PlatformException catch (e) {
+        //Permission handling is done by the QR Scanner.
+        if (e.code == qrCode) {
+          setState(() {
+            this.qrCode = 'The user did not grant the camera permission!';
+          });
+        } else {
+          setState(() => this.qrCode = 'Unknown error: $e');
+        }
+      } on FormatException {
+        setState(() => this.qrCode =
+            'null (User returned using the "back"-button before scanning anything. Result)');
+      } catch (e) {
+        setState(() => this.qrCode = 'Unknown error: $e');
+      }
+
+      return scanData;
+    }
+
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: <Widget>[

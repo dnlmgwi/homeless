@@ -114,8 +114,11 @@ class Queries {
     homeless_name,
     surname,
     joinedDate,
-    location,
     dob,
+    age,
+    lat,
+    lng,
+    address,
     residentialMoveInDate,
     services_needed,
     approximateDateStartedHomeless,
@@ -142,8 +145,11 @@ class Queries {
           surname: "$surname",
           joinedDate: "$joinedDate",
           location: {
-            address: "$location",
+            address: "$address",
+            lat: "$lat",
+            lng: "$lng",
             },
+          age: "$age",
           dob: "$dob",
           member_id: "$member_id",
           member_name:"$member_name",
@@ -206,21 +212,12 @@ class Queries {
         {
           registered
           _id
-        } collection(name: "Cards",
-            filter:
-            {
-              homeless_id: "$homeless_id"
-            })
-            MemberCollection (filter: {
+        } MemberCollection (filter: {
               homeless_id: "$homeless_id"
               })
             {
-              homeless_id
               name
-            } TransactionsCollection (limit: 1)
-            {
-              scanTime
-            }
+            } 
       }""";
   }
 }

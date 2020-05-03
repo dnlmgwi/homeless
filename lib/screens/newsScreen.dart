@@ -2,7 +2,6 @@ import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/widgets/NewsArticle.dart';
-import 'package:homeless/widgets/loadingNews.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NewsScreen extends StatefulWidget {

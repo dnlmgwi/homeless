@@ -14,6 +14,7 @@ final routes = {
   '/instructions': (BuildContext context) => InstructionsScreen(),
   '/register': (BuildContext context) => RegistrationScreen(),
   RegistrationScreen.routeName: (context) => RegistrationScreen(),
+  ScanScreen.routeName: (context) => ScanScreen(),
   '/scan': (BuildContext context) => ScanScreen(),
   '/share': (BuildContext context) => InviteFriend(),
   '/stats': (BuildContext context) => StatsScreen(),

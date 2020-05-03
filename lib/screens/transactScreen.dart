@@ -90,8 +90,7 @@ class _TransactScreenState extends State<TransactScreen> {
   }
 
   void _navDash(BuildContext context) {
-    Navigator.pop(
-        context, MaterialPageRoute(builder: (context) => Dashboard()));
+    Navigator.of(context).pop();
   }
 
   _alert({context, result}) {
@@ -405,7 +404,8 @@ class _TransactScreenState extends State<TransactScreen> {
                           SizedBox(
                             height: 5,
                           ),
-                          food && accomodation && healthCare && food ||
+                          food && accomodation && healthCare == true ||
+                                  food ||
                                   accomodation ||
                                   healthCare == true
                               ? Container(
