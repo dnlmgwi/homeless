@@ -314,7 +314,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "Looking Good! $memberName",
+                                  "$memberName",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
