@@ -169,31 +169,75 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                     }
 
                     var memberCollection = result.data;
-                    var transactionsCollection = result.data;
-
-                    getListOfMarkers() async {
-                      for (var marker
-                          in transactionsCollection['TransactionsCollection']
-                              ['location']) {
-                        print('Project Name:' + marker['lat'] + marker['lng']);
-
-                        // Marker(
-                        //   width: 80.0,
-                        //   height: 80.0,
-                        //   point: LatLng(double.parse(marker['lat']),
-                        //       double.parse(marker['lng'])),
-                        //   builder: (ctx) => Container(
-                        //     child: Image.asset(
-                        //       'assets/images/Logo.png',
-                        //       height: 200,
-                        //     ),
-                        //   ),
-                        // ));
-                      }
-                    }
+                    var transactionCollection = result.data;
 
                     for (var person in memberCollection['MemberCollection']) {
                       distanceFromHome().then((onValue) => home = onValue);
+                      List<Marker> listMarkers = [
+                        Marker(
+                            width: 45.0,
+                            height: 45.0,
+                            point: LatLng(
+                              person['location']['lat'],
+                              person['location']['lng'],
+                            ),
+                            builder: (context) => Container(
+                                  child: IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.userAlt),
+                                    color: AppTheme.dark_grey,
+                                    iconSize: 25.0,
+                                    onPressed: () {
+                                      print('Marker tapped');
+                                    },
+                                  ),
+                                )),
+                        Marker(
+                            width: 45.0,
+                            height: 45.0,
+                            point: LatLng(
+                              _currentPosition == null
+                                  ? widget.lat
+                                  : _currentPosition.latitude,
+                              _currentPosition == null
+                                  ? widget.lng
+                                  : _currentPosition.longitude,
+                            ),
+                            builder: (context) => Container(
+                                  child: IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.streetView),
+                                    color: AppTheme.darkText,
+                                    iconSize: 25.0,
+                                    onPressed: () {
+                                      print('Marker tapped');
+                                    },
+                                  ),
+                                )),
+                      ];
+
+                      for (var mark
+                          in transactionCollection['TransactionsCollection']) {
+                        listMarkers.add(
+                          Marker(
+                            width: 45.0,
+                            height: 45.0,
+                            point: LatLng(
+                              mark['location']['lat'],
+                              mark['location']['lng'],
+                            ),
+                            builder: (context) => Container(
+                              child: IconButton(
+                                icon: FaIcon(FontAwesomeIcons.thumbtack),
+                                color: AppTheme.darkText,
+                                iconSize: 25.0,
+                                onPressed: () {
+                                  print(TimeAgo.getTimeAgo(
+                                      int.parse(mark['scanTime'])));
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      }
 
                       return SingleChildScrollView(
                         child: Column(
@@ -213,94 +257,77 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                 ],
                               ),
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  // Container(
-                                  //   width: 120.0,
-                                  //   height: 120.0,
-                                  //   decoration: BoxDecoration(
-                                  //     color: AppTheme.grey,
-                                  //     shape: BoxShape.circle,
-                                  //     image: DecorationImage(
-                                  //       fit: BoxFit.cover,
-                                  //       image: NetworkImage(
-                                  //         "http://www.sketchdm.co.za${person['picture']['path']}",
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                AutoSizeText(
-                                                    "${person['name']} ${person['surname']}",
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          AppTheme.fontName,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 25,
-                                                      letterSpacing: 1,
-                                                      color:
-                                                          AppTheme.darkerText,
-                                                    )),
-
-                                                //Name & Age
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 1,
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                AutoSizeText(
-                                                  "${person['location']['address']}",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15,
-                                                    letterSpacing: 0.5,
-                                                    color: AppTheme
-                                                        .deactivatedText,
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                // Date Joined
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 15,
-                                            ),
                                             AutoSizeText(
-                                                "Distance from usual location"
-                                                    .toUpperCase(),
+                                                "${person['name']} ${person['surname']}",
                                                 style: TextStyle(
                                                   fontFamily: AppTheme.fontName,
                                                   fontWeight: FontWeight.w700,
-                                                  fontSize: 15,
+                                                  fontSize: 25,
                                                   letterSpacing: 1,
-                                                  color:
-                                                      AppTheme.deactivatedText,
+                                                  color: AppTheme.darkerText,
                                                 )),
+
+                                            //Name & Age
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        SizedBox(
+                                          child: AutoSizeText(
+                                            "${person['location']['address']}",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 15,
+                                              letterSpacing: 0.5,
+                                              color: AppTheme.deactivatedText,
+                                            ),
+                                          ),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        AutoSizeText(
+                                            "Distance from usual location"
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15,
+                                              letterSpacing: 1,
+                                              color: AppTheme.deactivatedText,
+                                            )),
+                                        Row(
+                                          children: <Widget>[
+                                            FaIcon(
+                                              FontAwesomeIcons.streetView,
+                                              color: AppTheme.deactivatedText,
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
                                             AutoSizeText(
                                                 "${home.toString()} km",
                                                 style: TextStyle(
@@ -310,106 +337,94 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                                   letterSpacing: 1,
                                                   color: AppTheme.darkerText,
                                                 )),
-                                            Divider(),
-                                            SizedBox(
-                                              height: 15,
-                                            ),
-                                            Container(
-                                              height: 500,
-                                              child: FlutterMap(
-                                                options: MapOptions(
-                                                  center: LatLng(
-                                                    _currentPosition == null
-                                                        ? widget.lat
-                                                        : _currentPosition
-                                                            .latitude,
-                                                    _currentPosition == null
-                                                        ? widget.lng
-                                                        : _currentPosition
-                                                            .longitude,
-                                                  ),
-                                                  zoom: 13.0,
-                                                ),
-                                                layers: [
-                                                  TileLayerOptions(
-                                                    urlTemplate:
-                                                        "https://api.mapbox.com/styles/v1/sketchdm/ck9qg25gx052v1inok1euy0i6/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}",
-                                                    additionalOptions: {
-                                                      'accessToken':
-                                                          '$mapToken',
-                                                      'id':
-                                                          'mapbox.mapbox-streets-v7',
-                                                    },
-                                                  ),
-                                                  MarkerLayerOptions(
-                                                    markers: [
-                                                      Marker(
-                                                          width: 45.0,
-                                                          height: 45.0,
-                                                          point: LatLng(
-                                                            _currentPosition ==
-                                                                    null
-                                                                ? widget.lat
-                                                                : _currentPosition
-                                                                    .latitude,
-                                                            _currentPosition ==
-                                                                    null
-                                                                ? widget.lng
-                                                                : _currentPosition
-                                                                    .longitude,
-                                                          ),
-                                                          builder: (context) =>
-                                                              new Container(
-                                                                child:
-                                                                    IconButton(
-                                                                  icon: Icon(Icons
-                                                                      .location_on),
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  iconSize:
-                                                                      45.0,
-                                                                  onPressed:
-                                                                      () {
-                                                                    print(
-                                                                        'Marker tapped');
-                                                                  },
-                                                                ),
-                                                              ))
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            )
                                           ],
                                         ),
-                                      ),
-                                      RaisedButton.icon(
-                                        clipBehavior: Clip.antiAlias,
-                                        icon: FaIcon(
-                                            FontAwesomeIcons
-                                                .exclamationTriangle,
-                                            color: Colors.red),
-                                        label: Text(
-                                          'Report User',
-                                          style: TextStyle(
-                                            color: AppTheme.darkerText,
-                                          ),
+                                        SizedBox(
+                                          height: 20,
                                         ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(22.0)),
-                                        color: AppTheme.nearlyWhite,
-                                        onPressed: () {
-                                          // _launchReport();
-                                          Navigator.popAndPushNamed(
-                                              context, '/dash');
-                                        },
+                                        AutoSizeText(
+                                            "Most Recent Scan".toUpperCase(),
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15,
+                                              letterSpacing: 1,
+                                              color: AppTheme.deactivatedText,
+                                            )),
+                                        Row(
+                                          children: <Widget>[
+                                            FaIcon(FontAwesomeIcons.clock,
+                                                color:
+                                                    AppTheme.deactivatedText),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            AutoSizeText(
+                                                "${TimeAgo.getTimeAgo(int.parse(transactionCollection['TransactionsCollection'][0]['scanTime']))}",
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 35,
+                                                  letterSpacing: 1,
+                                                  color: AppTheme.darkerText,
+                                                )),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  RaisedButton.icon(
+                                    clipBehavior: Clip.antiAlias,
+                                    icon: FaIcon(
+                                        FontAwesomeIcons.exclamationTriangle,
+                                        color: Colors.red),
+                                    label: Text(
+                                      'Report User',
+                                      style: TextStyle(
+                                        color: AppTheme.darkerText,
                                       ),
-                                    ],
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(22.0)),
+                                    color: AppTheme.nearlyWhite,
+                                    onPressed: () {
+                                      // _launchReport();
+                                      Navigator.pop(context, '/dash');
+                                    },
                                   ),
                                 ],
                               ),
                             ),
+                            Container(
+                              height: 500,
+                              child: FlutterMap(
+                                options: MapOptions(
+                                  center: LatLng(
+                                    _currentPosition == null
+                                        ? widget.lat
+                                        : _currentPosition.latitude,
+                                    _currentPosition == null
+                                        ? widget.lng
+                                        : _currentPosition.longitude,
+                                  ),
+                                  zoom: 13.0,
+                                ),
+                                layers: [
+                                  TileLayerOptions(
+                                    urlTemplate:
+                                        "https://api.mapbox.com/styles/v1/sketchdm/ck9qg25gx052v1inok1euy0i6/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}",
+                                    additionalOptions: {
+                                      'accessToken': '$mapToken',
+                                      'id': 'mapbox.mapbox-streets-v7',
+                                    },
+                                  ),
+                                  MarkerLayerOptions(
+                                    markers: listMarkers,
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       );
@@ -538,9 +553,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              child: AutoSizeText(
-                                  "This Is Not A Homeless Beneficiary."
-                                      .toUpperCase(),
+                              child: AutoSizeText("Unauthorised".toUpperCase(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,

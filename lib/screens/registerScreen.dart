@@ -245,7 +245,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               onError: (error) {
                                 print(error);
                                 ShowToast.showToast(
-                                    error.clientException.toString(), context);
+                                    error.clientException.message, context);
                               },
                             ),
                             builder: (

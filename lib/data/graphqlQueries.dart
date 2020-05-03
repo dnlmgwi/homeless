@@ -30,14 +30,21 @@ class Queries {
         }
         name
         surname
+        
       }
-       TransactionsCollection(filter:{homeless_id:"$homeless_id"})
+       TransactionsCollection(
+         sort: {
+      scanTime: -1
+      }
+      limit: 7
+         filter:{homeless_id:"$homeless_id"})
       {
         location {
        
           lat
           lng
         }
+        scanTime
       }
     }''';
   }
