@@ -140,10 +140,10 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     //   TitleView(
     //     // route: '/',
     //     icon: Icon(
-    //       FontAwesomeIcons.questionCircle,
+    //       FontAwesomeIcons.history,
     //       color: AppTheme.dark_grey,
     //     ),
-    //     titleTxt: 'Help',
+    //     titleTxt: 'Transaction History',
     //     animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
     //         parent: widget.animationController,
     //         curve:

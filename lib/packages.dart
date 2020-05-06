@@ -10,7 +10,7 @@ export 'dart:async';
 export 'package:url_launcher/url_launcher.dart'; //Launches Texts, Calls and Url's
 export 'package:font_awesome_flutter/font_awesome_flutter.dart'; //Cool Icons
 export 'package:share/share.dart'; //Shares Text to other apps
-export 'package:flutter_rave/flutter_rave.dart'; //Payment Option - Testing
+// export 'package:flutter_rave/flutter_rave.dart'; //Payment Option - Testing
 export "package:flutter_swiper/flutter_swiper.dart"; //
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart'; //QR Code Scanner
@@ -61,6 +61,7 @@ export 'package:homeless/data/graphqlQueries.dart';
 
 //Services
 export 'package:homeless/services/sharePreferenceService.dart';
+export 'package:homeless/services/calculations.dart';
 
 //Views
 export 'package:homeless/widgets/bottomBarView.dart';
@@ -73,3 +74,6 @@ export 'package:homeless/widgets/utils.dart';
 
 //api
 export 'package:homeless/api/userrepo.dart';
+
+//Data
+export 'package:homeless/data/constDetails.dart';

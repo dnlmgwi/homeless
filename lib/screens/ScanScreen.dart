@@ -189,7 +189,61 @@ class _ScanScreenState extends State<ScanScreen> {
                                                           color: AppTheme
                                                               .darkerText,
                                                         )),
-                                                    //Name & Age
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ), //Name & Age
+                                                    userProfile['age'] == null
+                                                        //if Date of Birth == null dont show age.
+                                                        ? AutoSizeText(
+                                                            "${calc.calculateAge(birthDate: DateTime.parse(userProfile['dob']))}",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  AppTheme
+                                                                      .fontName,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 25,
+                                                              letterSpacing: 1,
+                                                              color: AppTheme
+                                                                  .darkerText,
+                                                            ))
+                                                        : AutoSizeText(
+                                                            "${userProfile['age']}", //TODO: Age is a required field and year should be calculated.
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  AppTheme
+                                                                      .fontName,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 25,
+                                                              letterSpacing: 1,
+                                                              color: AppTheme
+                                                                  .darkerText,
+                                                            )),
+
+                                                    Spacer(),
+                                                    FaIcon(
+                                                      FontAwesomeIcons.trophy,
+                                                      color: AppTheme.grey,
+                                                      size: 15,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    AutoSizeText(
+                                                        "${userProfile['skillLevel']}",
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              AppTheme.fontName,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 25,
+                                                          letterSpacing: 1,
+                                                          color: AppTheme
+                                                              .darkerText,
+                                                        )), //Name & Age
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -198,7 +252,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                 Row(
                                                   children: <Widget>[
                                                     AutoSizeText(
-                                                        "${userProfile['gender']} ${userProfile['age']}"
+                                                        "${userProfile['gender']}"
                                                             .toUpperCase(),
                                                         style: TextStyle(
                                                           fontFamily:
@@ -242,13 +296,13 @@ class _ScanScreenState extends State<ScanScreen> {
                                                 //         .deactivatedText,
                                                 //   ),
                                                 // ),
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
-                                                Divider(),
-                                                SizedBox(
-                                                  height: 15,
-                                                ),
+                                                // SizedBox(
+                                                //   height: 15,
+                                                // ),
+                                                // Divider(),
+                                                // SizedBox(
+                                                //   height: 15,
+                                                // ),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,

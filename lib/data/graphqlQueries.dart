@@ -14,11 +14,14 @@ class Queries {
         surname
         gender
         age
+        dob
         joinedDate
+        skillLevel
       }
     }''';
   }
 
+  //Get location points and place markers
   static String getMarkers({String homeless_id}) {
     return '''query whereAbouts
     {
@@ -40,7 +43,7 @@ class Queries {
          filter:{homeless_id:"$homeless_id"})
       {
         location {
-       
+
           lat
           lng
         }
@@ -150,6 +153,8 @@ class Queries {
   //add a news transaction
   static String addMember({
     gender,
+    language,
+    comorbidities,
     homeless_id,
     homeless_name,
     surname,
@@ -162,8 +167,6 @@ class Queries {
     residentialMoveInDate,
     services_needed,
     approximateDateStartedHomeless,
-    ethnicity,
-    phoneNumber,
     consent,
     member_name,
     member_id,
@@ -171,6 +174,15 @@ class Queries {
     join_Time,
     registered_lat,
     registered_lng,
+    race,
+    skillLevel,
+    ssn,
+    livingSituation,
+    disabilityCondition,
+    streetNickname,
+    primary_phoneNumber,
+    alternative_phoneNumber,
+    health_Status,
   }) {
     return """mutation addMember
     {
@@ -180,31 +192,40 @@ class Queries {
         data:
         {
           homeless_id: "$homeless_id",
-          gender: "$gender",
           name: "$homeless_name",
+          gender: "$gender",
           surname: "$surname",
-          joinedDate: "$joinedDate",
-          location: {
-            address: "$address",
-            lat: "$lat",
-            lng: "$lng",
-            },
+          language: "$language",
           age: "$age",
+          race: "$race",
+          joinedDate: "$joinedDate",
+          skillLevel: "$skillLevel",
           dob: "$dob",
-          member_id: "$member_id",
-          member_name:"$member_name",
+          ssn: "$ssn",
           residentialMoveInDate: "$residentialMoveInDate",
+          livingSituation: "$livingSituation",
           approximateDateStartedHomeless: "$approximateDateStartedHomeless",
-          ethnicity: "$ethnicity",
-          phoneNumber: "$phoneNumber",
-          Services_needed: "$services_needed"
+          disabilityCondition: "$disabilityCondition",
+          streetNickname: "$streetNickname",
+          primary_phoneNumber: "$primary_phoneNumber",
+          alternative_phoneNumber: "$alternative_phoneNumber",
+          comorbidities: "$comorbidities",
+          health_Status: "$health_Status",
+          services_needed: "$services_needed",
+          consent: "$consent",
+          member_name: "$member_name",
+          member_id: "$member_id",
           joinTime: "$join_Time",
-          consent:"$consent",
+          location: {
+          address: "$address",
+          lat: "$lat",
+          lng: "$lng"
+          },
           registered_address: {
             address: "$registered_address",
             lat: "$registered_lat",
-            lng: "$registered_lng",
-            },
+            lng: "$registered_lng"
+          },
         }
       ){
         data
@@ -259,5 +280,23 @@ class Queries {
               name
             } 
       }""";
+  }
+
+  //view users transactions History
+  static String myHistory({member_id, homeless_id}) {
+    return '''query myHistory
+    {
+      TransactionsCollection(filter:{member_id:"$member_id"}, limit: 5){
+        homeless_id
+        scanTime
+        scanDate
+      }
+      MemberCollection(filter:{homeless_id: "$homeless_id"}) {
+        name
+        surname
+        Primary_phoneNumber
+        alternative_phoneNumber
+      }
+    }''';
   }
 }

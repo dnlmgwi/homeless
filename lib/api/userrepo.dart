@@ -15,7 +15,7 @@ class UserRepository {
     try {
       //Api Call Response
       Response response = await dio.post(loginEndpoint,
-          options: Options(contentType: ContentType('application', 'json')),
+          options: Options(contentType: 'application/json'),
           queryParameters: {
             "user": username,
             "password": password,

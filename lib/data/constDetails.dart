@@ -9,7 +9,7 @@ class ConstDetails {
   static final String appStoreLink = 'https://ictechhub.com/inventions/';
   static final String email = 'design@sketchdm.co.za';
   static final String phone = '+27722326766';
-  static final String version = '3.0.11-Beta';
+  static final String version = '3.0.15-Beta';
   static final String bankDetails = 'Current Account \n'
       '00000123456 \n'
       'First National Bank \n'
@@ -18,4 +18,10 @@ class ConstDetails {
       'Narraville Municipal Offices \n'
       'P.O Box 8011 \n'
       'Walvis Bay \n';
+
+  static String consent({memberName}) {
+    return 'I, $memberName hereby request Homeless status and authorize and consent to the completion of this form and its submission to MoHSS and to the disclosure to governmental entities of any additional information it may request to clarify information on this form.';
+  }
 }
+
+ConstDetails constDetails = ConstDetails();
