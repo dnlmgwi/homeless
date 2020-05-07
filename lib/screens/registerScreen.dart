@@ -18,12 +18,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   static GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-  //Controllers
-  final nameController = TextEditingController();
-  final surnameController = TextEditingController();
-  final ageController = TextEditingController();
-  final alternative_phoneNumberController = TextEditingController();
-  final primary_phoneNumberController = TextEditingController();
+  final _member = Member();
+
+  // //Controllers
+  // final nameController = TextEditingController();
+  // final surnameController = TextEditingController();
+  // final ageController = TextEditingController();
+  // final alternative_phoneNumberController = TextEditingController();
+  // final primary_phoneNumberController = TextEditingController();
 
   //Variables
   String member_id = '';
@@ -65,7 +67,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
-    // super.dispose();
+    super.dispose();
   }
 
   @override
@@ -89,29 +91,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     var now = DateTime.now();
 
-    //TODO: Controller Fields
-    var homeless_name = nameController.text;
-    var surname = surnameController.text;
-    var age = ageController.text;
-    var alternative_phoneNumber = alternative_phoneNumberController.text;
-    var primary_phoneNumber = primary_phoneNumberController.text;
+    // //TODO: Controller Fields
+    // var homeless_name = nameController.text;
+    // var surname = surnameController.text;
+    // var age = ageController.text;
+    // var alternative_phoneNumber = alternative_phoneNumberController.text;
+    // var primary_phoneNumber = primary_phoneNumberController.text;
 
-    //TODO: Form Fields
-    var services_needed = '';
-    var gender = '';
-    var approximateDateStartedHomeless = '';
-    var livingSituation = '';
-    var race = '';
-    var skillLevel = '';
-    DateTime dob;
-    var comorbidities;
-    var language;
-    var residentialMoveInDate = '';
-    bool consent;
-    //TODO: Location Search Address and Find Co-ordinates.
-    var address;
-    var streetNickname;
-    //TODO: Understand The Requirments For These Fields.
+    // //TODO: Form Fields
+    // var services_needed = '';
+    // var gender = '';
+    // var approximateDateStartedHomeless = '';
+    // var livingSituation = '';
+    // var race = '';
+    // var skillLevel = '';
+    // DateTime dob;
+    // var comorbidities;
+    // var language;
+    // var residentialMoveInDate = '';
+    // bool consent;
+    // //TODO: Location Search Address and Find Co-ordinates.
+    // var address;
+    // var streetNickname;
+    // //TODO: Understand The Requirments For These Fields.
     // var comorbidities = '';
     // var ssn = '';
     // var health_Status = '';
@@ -226,21 +228,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       : _currentPosition.longitude,
                                   homeless_id: args.homeless_id,
                                   //TODO: Form Text Field Data
-                                  homeless_name: homeless_name,
-                                  surname: surname,
-                                  age: age,
-                                  comorbidities: comorbidities,
+                                  homeless_name: _member.homeless_name,
+                                  surname: _member.surname,
+                                  age: _member.age,
+                                  comorbidities: _member.comorbidities,
                                   alternative_phoneNumber:
-                                      alternative_phoneNumber,
-                                  primary_phoneNumber: primary_phoneNumber,
+                                      _member.alternative_phoneNumber,
+                                  primary_phoneNumber:
+                                      _member.primary_phoneNumber,
                                   //TODO: Form Field Data
-                                  dob: dob.toIso8601String(),
-                                  consent: consent,
-                                  gender: gender,
-                                  race: race,
-                                  skillLevel: skillLevel,
-                                  livingSituation: livingSituation,
-                                  services_needed: services_needed,
+                                  dob: _member.dob,
+                                  consent: _member.consent,
+                                  gender: _member.gender,
+                                  race: _member.race,
+                                  skillLevel: _member.skillLevel,
+                                  livingSituation: _member.livingSituation,
+                                  // services_needed: _member.services_needed,
                                   address: _currentAddress,
                                   lat: _currentPosition == null
                                       ? 0
@@ -248,11 +251,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   lng: _currentPosition == null
                                       ? 0
                                       : _currentPosition.longitude,
-                                  language: language,
+                                  language: _member.language,
                                   approximateDateStartedHomeless:
-                                      approximateDateStartedHomeless,
+                                      _member.approximateDateStartedHomeless,
 
-                                  residentialMoveInDate: residentialMoveInDate,
+                                  residentialMoveInDate:
+                                      _member.residentialMoveInDate,
                                 ),
                               ), // this is the mutation string you just created
                               // you can update the cache based on results
@@ -280,47 +284,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   children: <Widget>[
                                     FormBuilder(
                                       key: _fbKey,
-                                      initialValue: {
-                                        // 'date': DateFormat("yyyy-MM-dd").format(now),
-                                        'consent': false,
-                                      },
                                       autovalidate: true,
                                       child: Wrap(
                                         runSpacing: 20,
                                         children: <Widget>[
-                                          FormBuilderSegmentedControl(
-                                            decoration: InputDecoration(
-                                                labelText:
-                                                    "Preferred language"),
-                                            attribute: "preferredLanguage ",
-                                            textStyle: TextStyle(
-                                              color: AppTheme.nearlyWhite,
-                                            ),
-                                            pressedColor: AppTheme.darkerText,
-                                            selectedColor: AppTheme.darkerText,
-                                            unselectedColor:
-                                                AppTheme.deactivatedText,
-                                            validators: [
-                                              FormBuilderValidators.required()
-                                            ],
-                                            options: [
-                                              FormBuilderFieldOption(
-                                                  value: "English"),
-                                              FormBuilderFieldOption(
-                                                  value: "Damara/Nama"),
-                                              FormBuilderFieldOption(
-                                                  value: "Afrikaans"),
-                                              FormBuilderFieldOption(
-                                                  value: "Oshiwambo"),
-                                              FormBuilderFieldOption(
-                                                  value: "Other"),
-                                            ],
-                                            onChanged: (value) => setState(
-                                                () => language = value),
-                                          ),
                                           FormBuilderTextField(
                                             attribute: "homeless_name",
-                                            controller: nameController,
                                             decoration: InputDecoration(
                                                 labelText: "Name"),
                                             validators: [
@@ -328,12 +297,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderValidators.max(70),
                                             ],
                                             maxLines: 1,
-                                            onChanged: (value) => setState(
-                                                () => homeless_name = value),
+                                            onChanged: (value) => setState(() =>
+                                                _member.homeless_name = value),
+                                            onSaved: (value) => setState(() =>
+                                                _member.homeless_name = value),
                                           ),
                                           FormBuilderTextField(
                                             attribute: "surname",
-                                            controller: surnameController,
                                             decoration: InputDecoration(
                                                 labelText: "Surname"),
                                             maxLines: 1,
@@ -341,8 +311,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderValidators.min(2),
                                               FormBuilderValidators.max(70),
                                             ],
-                                            onChanged: (value) =>
-                                                setState(() => surname = value),
+                                            onChanged: (value) => setState(
+                                                () => _member.surname = value),
+                                            onSaved: (value) => setState(
+                                                () => _member.surname = value),
                                           ),
                                           FormBuilderDateTimePicker(
                                             attribute: "dob",
@@ -352,8 +324,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 TextInputType.datetime,
                                             decoration: InputDecoration(
                                                 labelText: "Date of Birth"),
-                                            onChanged: (value) =>
-                                                setState(() => dob = value),
+                                            onChanged: (value) => setState(
+                                                () => _member.dob = value),
+                                            onSaved: (value) => setState(
+                                                () => _member.dob = value),
                                           ),
                                           FormBuilderTextField(
                                             attribute: "age",
@@ -366,8 +340,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderValidators.min(18),
                                               FormBuilderValidators.required(),
                                             ],
-                                            onChanged: (value) =>
-                                                setState(() => age = value),
+                                            onChanged: (value) => setState(
+                                                () => _member.age = value),
+                                            onSaved: (value) => setState(
+                                                () => _member.age = value),
                                           ),
                                           FormBuilderSegmentedControl(
                                             decoration: InputDecoration(
@@ -391,10 +367,44 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderFieldOption(
                                                   value: "Other"),
                                             ],
-                                            onChanged: (value) =>
-                                                setState(() => gender = value),
+                                            onChanged: (value) => setState(
+                                                () => _member.gender = value),
+                                            onSaved: (value) => setState(
+                                                () => _member.gender = value),
                                           ),
-
+                                          FormBuilderSegmentedControl(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      "Preferred language"),
+                                              attribute: "preferredLanguage ",
+                                              textStyle: TextStyle(
+                                                color: AppTheme.nearlyWhite,
+                                              ),
+                                              pressedColor: AppTheme.darkerText,
+                                              selectedColor:
+                                                  AppTheme.darkerText,
+                                              unselectedColor:
+                                                  AppTheme.deactivatedText,
+                                              validators: [
+                                                FormBuilderValidators.required()
+                                              ],
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: "English"),
+                                                FormBuilderFieldOption(
+                                                    value: "Damara/Nama"),
+                                                FormBuilderFieldOption(
+                                                    value: "Afrikaans"),
+                                                FormBuilderFieldOption(
+                                                    value: "Oshiwambo"),
+                                                FormBuilderFieldOption(
+                                                    value: "Other"),
+                                              ],
+                                              onChanged: (value) => setState(
+                                                  () =>
+                                                      _member.language = value),
+                                              onSaved: (value) => setState(() =>
+                                                  _member.language = value)),
                                           FormBuilderRadio(
                                             decoration: InputDecoration(
                                                 labelText: "Select Race"),
@@ -418,9 +428,78 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderFieldOption(
                                                   value: "Indian"),
                                             ],
-                                            onChanged: (value) =>
-                                                setState(() => race = value),
+                                            onChanged: (value) => setState(
+                                                () => _member.race = value),
+                                            onSaved: (value) => setState(
+                                                () => _member.race = value),
                                           ),
+                                          FormBuilderSegmentedControl(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      "Select Skill Level"),
+                                              attribute: "skillLevel",
+                                              textStyle: TextStyle(
+                                                color: AppTheme.nearlyWhite,
+                                              ),
+                                              pressedColor: AppTheme.darkerText,
+                                              selectedColor:
+                                                  AppTheme.darkerText,
+                                              unselectedColor:
+                                                  AppTheme.deactivatedText,
+                                              validators: [
+                                                FormBuilderValidators.required()
+                                              ],
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: "Unskilled"),
+                                                FormBuilderFieldOption(
+                                                    value: "Semi-Skilled"),
+                                                FormBuilderFieldOption(
+                                                    value: "Skilled"),
+                                              ],
+                                              onChanged: (value) => setState(
+                                                    () => _member.skillLevel =
+                                                        value,
+                                                  ),
+                                              onSaved: (value) => setState(() =>
+                                                  _member.skillLevel = value)),
+                                          FormBuilderTextField(
+                                              attribute: "primary_phoneNumber",
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      "Primary Phone Number"),
+                                              keyboardType: TextInputType.phone,
+                                              validators: [
+                                                FormBuilderValidators.maxLength(
+                                                    10),
+                                                FormBuilderValidators.numeric(),
+                                              ],
+                                              onChanged: (value) => setState(
+                                                  () => _member
+                                                          .primary_phoneNumber =
+                                                      value),
+                                              onSaved: (value) => setState(() =>
+                                                  _member.primary_phoneNumber =
+                                                      value)),
+                                          FormBuilderTextField(
+                                              attribute:
+                                                  "alternative_phoneNumber",
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      "Alternative Phone Number"),
+                                              keyboardType: TextInputType.phone,
+                                              validators: [
+                                                FormBuilderValidators.maxLength(
+                                                    10),
+                                                FormBuilderValidators.numeric(),
+                                              ],
+                                              onChanged: (value) => setState(
+                                                  () => _member
+                                                          .alternative_phoneNumber =
+                                                      value),
+                                              onSaved: (value) => setState(() =>
+                                                  _member.alternative_phoneNumber =
+                                                      value)),
                                           FormBuilderRadio(
                                             decoration: InputDecoration(
                                                 labelText: "Comorbidities"),
@@ -446,39 +525,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                   value:
                                                       "Musculoskeletal diseases"),
                                             ],
-                                            onChanged: (value) =>
-                                                setState(() => race = value),
+                                            onChanged: (value) => setState(() =>
+                                                _member.comorbidities = value),
+                                            onSaved: (value) => setState(() =>
+                                                _member.comorbidities = value),
                                           ),
-                                          FormBuilderTextField(
-                                              attribute: "primary_phoneNumber",
-                                              decoration: InputDecoration(
-                                                  labelText:
-                                                      "Primary Phone Number"),
-                                              keyboardType: TextInputType.phone,
-                                              validators: [
-                                                FormBuilderValidators.maxLength(
-                                                    10),
-                                                FormBuilderValidators.numeric(),
-                                              ],
-                                              onChanged: (value) => setState(
-                                                  () => primary_phoneNumber =
-                                                      value)),
-                                          FormBuilderTextField(
-                                              attribute:
-                                                  "alternative_phoneNumber",
-                                              decoration: InputDecoration(
-                                                  labelText:
-                                                      "Alternative Phone Number"),
-                                              keyboardType: TextInputType.phone,
-                                              validators: [
-                                                FormBuilderValidators.maxLength(
-                                                    10),
-                                                FormBuilderValidators.numeric(),
-                                              ],
-                                              onChanged: (value) => setState(
-                                                  () =>
-                                                      alternative_phoneNumber =
-                                                          value)),
+
                                           // FormBuilderTextField(
                                           //   attribute: "address",
                                           //   decoration: InputDecoration(
@@ -491,84 +543,68 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           //       setState(() => address = value),
                                           // ),
                                           FormBuilderRadio(
-                                            decoration: InputDecoration(
-                                                labelText:
-                                                    "What is your living situation"),
-                                            attribute: "livingSituation",
-                                            validators: [
-                                              FormBuilderValidators.required()
-                                            ],
-                                            options: [
-                                              FormBuilderFieldOption(
-                                                  value:
-                                                      "Living on the street (no shelter)"),
-                                              FormBuilderFieldOption(
-                                                  value: "Living in a shelter"),
-                                              FormBuilderFieldOption(
-                                                  value:
-                                                      "living in substandard housing which has been condemned by the municipality"),
-                                              FormBuilderFieldOption(
-                                                  value:
-                                                      "accommodation has recently been destroyed by fire or natural disaster"),
-                                              FormBuilderFieldOption(
-                                                  value:
-                                                      "Using the emergency shelter system as your primary residence"),
-                                              FormBuilderFieldOption(
-                                                  value:
-                                                      "Living with family or friends on a temporary basis for less than six months"),
-                                              FormBuilderFieldOption(
-                                                  value:
-                                                      "Awaiting release from hospital or other time-limited treatment facility and cannot return to your former place of residence due to the modifications required to the home"),
-                                            ],
-                                            onChanged: (value) => setState(
-                                                () => livingSituation = value),
-                                          ),
-                                          // FormBuilderSegmentedControl(
-                                          //   decoration: InputDecoration(
-                                          //       labelText:
-                                          //           "Select Skill Level"),
-                                          //   attribute: "skillLevel",
-                                          //   textStyle: TextStyle(
-                                          //     color: AppTheme.nearlyWhite,
-                                          //   ),
-                                          //   pressedColor: AppTheme.darkerText,
-                                          //   selectedColor: AppTheme.darkerText,
-                                          //   unselectedColor:
-                                          //       AppTheme.deactivatedText,
-                                          //   validators: [
-                                          //     FormBuilderValidators.required()
-                                          //   ],
-                                          //   options: [
-                                          //     FormBuilderFieldOption(
-                                          //         value: "Unskilled"),
-                                          //     FormBuilderFieldOption(
-                                          //         value: "Semi-Skilled"),
-                                          //     FormBuilderFieldOption(
-                                          //         value: "Skilled"),
-                                          //   ],
-                                          //   onChanged: (value) => setState(
-                                          //     () => skillLevel = value,
-                                          //   ),
-                                          // ),
-                                          FormBuilderCheckboxList(
-                                            decoration: InputDecoration(
-                                                labelText: "Services Needed"),
-                                            attribute: "services_needed",
-                                            options: [
-                                              FormBuilderFieldOption(
-                                                  value: "Food"),
-                                              FormBuilderFieldOption(
-                                                  value: "Heath Care"),
-                                              FormBuilderFieldOption(
-                                                  value: "Accomodation"),
-                                            ],
-                                            onChanged: (value) => setState(
-                                                () => services_needed = value),
-                                          ),
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      "What is your living situation"),
+                                              attribute: "livingSituation",
+                                              validators: [
+                                                FormBuilderValidators.required()
+                                              ],
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: "Not specified"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "Living on the street (no shelter)"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "Living in a shelter"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "living in substandard housing which has been condemned by the municipality"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "accommodation has recently been destroyed by fire or natural disaster"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "Using the emergency shelter system as your primary residence"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "Living with family or friends on a temporary basis for less than six months"),
+                                                FormBuilderFieldOption(
+                                                    value:
+                                                        "Awaiting release from hospital or other time-limited treatment facility and cannot return to your former place of residence due to the modifications required to the home"),
+                                              ],
+                                              onChanged: (value) => setState(
+                                                  () => _member
+                                                      .livingSituation = value),
+                                              onSaved: (value) => setState(() =>
+                                                  _member.livingSituation =
+                                                      value)),
+
+                                          // FormBuilderCheckboxList(
+                                          //     decoration: InputDecoration(
+                                          //         labelText: "Services Needed"),
+                                          //     attribute: "services_needed",
+                                          //     options: [
+                                          //       FormBuilderFieldOption(
+                                          //           value: "Food"),
+                                          //       FormBuilderFieldOption(
+                                          //           value: "Heath Care"),
+                                          //       FormBuilderFieldOption(
+                                          //           value: "Accomodation"),
+                                          //     ],
+                                          //     onChanged: (value) => setState(
+                                          //         () =>
+                                          //             _member.services_needed =
+                                          //                 value),
+                                          //     onSaved: (value) => setState(() =>
+                                          //         _member.services_needed =
+                                          //             value)),
                                           FormBuilderSwitch(
                                               label: Text(ConstDetails.consent(
                                                   memberName:
-                                                      "$homeless_name $surname")), //Attaches Member Name to Consent Agreement
+                                                      "${_member.homeless_name} ${_member.surname}")), //Attaches Member Name to Consent Agreement
                                               attribute: "consent",
                                               initialValue: false,
                                               validators: [
@@ -576,8 +612,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     .requiredTrue()
                                               ],
                                               onChanged: (value) {
-                                                setState(() => consent = value);
-                                              }),
+                                                setState(() =>
+                                                    _member.consent = value);
+                                              },
+                                              onSaved: (value) => setState(() =>
+                                                  _member.consent = value)),
                                         ],
                                       ),
                                     ),
@@ -648,7 +687,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                       print(_fbKey
                                                           .currentState.value);
 
-                                                      // runMutation({});
+                                                      runMutation({});
                                                       runFormMutation({});
                                                     }
                                                   },

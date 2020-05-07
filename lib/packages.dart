@@ -52,12 +52,10 @@ export 'package:homeless/screens/registerScreen.dart';
 export 'package:homeless/screens/instructions.dart';
 
 //Models
-export 'package:homeless/data/appTheme.dart';
-export 'package:homeless/data/tabIconData.dart';
 export 'package:homeless/models/onBoarding/onBoarding.dart';
 export 'package:homeless/models/loginresponse/loginresponse.dart';
-export 'package:homeless/data/constants.dart';
-export 'package:homeless/data/graphqlQueries.dart';
+
+export 'package:homeless/models/member.dart';
 
 //Services
 export 'package:homeless/services/sharePreferenceService.dart';
@@ -77,3 +75,7 @@ export 'package:homeless/api/userrepo.dart';
 
 //Data
 export 'package:homeless/data/constDetails.dart';
+export 'package:homeless/data/appTheme.dart';
+export 'package:homeless/data/tabIconData.dart';
+export 'package:homeless/data/constants.dart';
+export 'package:homeless/data/graphqlQueries.dart';
