@@ -8,7 +8,6 @@ import 'package:homeless/screens/transactionHistoryScreen.dart';
 import 'package:homeless/screens/whereaboutsScreen.dart';
 import 'package:soundpool/soundpool.dart';
 // import 'package:encrypt/encrypt.dart';
-import 'package:homeless/regScreenArguments.dart';
 
 class ScanScreen extends StatefulWidget {
   static const String routeName = '/userProfile';

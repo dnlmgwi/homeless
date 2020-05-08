@@ -1,5 +1,4 @@
 import 'package:homeless/packages.dart';
-import 'package:homeless/regScreenArguments.dart';
 
 class InstructionsScreen extends StatefulWidget {
   const InstructionsScreen({

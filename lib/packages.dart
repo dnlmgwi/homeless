@@ -30,7 +30,6 @@ export 'package:time_ago_provider/time_ago_provider.dart';
 export 'package:flutter_form_builder/flutter_form_builder.dart';
 export 'package:flutter_map/flutter_map.dart';
 
-
 //Routes
 export 'package:homeless/routes.dart'; //Contains all named routes
 
@@ -55,7 +54,6 @@ export 'package:homeless/screens/instructions.dart';
 //Models
 export 'package:homeless/models/onBoarding/onBoarding.dart';
 export 'package:homeless/models/loginresponse/loginresponse.dart';
-
 export 'package:homeless/models/member.dart';
 
 //Services
@@ -80,3 +78,4 @@ export 'package:homeless/data/appTheme.dart';
 export 'package:homeless/data/tabIconData.dart';
 export 'package:homeless/data/constants.dart';
 export 'package:homeless/data/graphqlQueries.dart';
+export 'package:homeless/data/screenArguments.dart';

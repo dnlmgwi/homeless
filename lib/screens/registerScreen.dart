@@ -1,7 +1,6 @@
 import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:homeless/regScreenArguments.dart';
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 // import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 

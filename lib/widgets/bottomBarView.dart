@@ -1,8 +1,6 @@
 import 'package:homeless/packages.dart';
 import 'dart:math' as math;
 
-import 'package:homeless/regScreenArguments.dart';
-
 class BottomBarView extends StatefulWidget {
   final Function(int index) changeIndex;
   final Function addClick;
