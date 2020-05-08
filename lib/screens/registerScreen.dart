@@ -2,6 +2,8 @@ import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:homeless/regScreenArguments.dart';
+import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
+// import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String routeName = '/scanData';
@@ -20,19 +22,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   final _member = Member();
 
-  // //Controllers
-  // final nameController = TextEditingController();
-  // final surnameController = TextEditingController();
-  // final ageController = TextEditingController();
-  // final alternative_phoneNumberController = TextEditingController();
-  // final primary_phoneNumberController = TextEditingController();
-
   //Variables
   String member_id = '';
   String member_name = '';
 
   Position _currentPosition;
   String _currentAddress;
+
+  Future<Placemark> _getLatLngFromAddress({String address}) async {
+    try {
+      List<Placemark> placemark =
+          await Geolocator().placemarkFromAddress("$address");
+
+      Placemark place = placemark[0];
+
+      return place;
+    } catch (e) {
+      print(e);
+    }
+    ;
+  }
 
   _getCurrentLocation() async {
     geolocator
@@ -90,34 +99,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     var now = DateTime.now();
-
-    // //TODO: Controller Fields
-    // var homeless_name = nameController.text;
-    // var surname = surnameController.text;
-    // var age = ageController.text;
-    // var alternative_phoneNumber = alternative_phoneNumberController.text;
-    // var primary_phoneNumber = primary_phoneNumberController.text;
-
-    // //TODO: Form Fields
-    // var services_needed = '';
-    // var gender = '';
-    // var approximateDateStartedHomeless = '';
-    // var livingSituation = '';
-    // var race = '';
-    // var skillLevel = '';
-    // DateTime dob;
-    // var comorbidities;
-    // var language;
-    // var residentialMoveInDate = '';
-    // bool consent;
-    // //TODO: Location Search Address and Find Co-ordinates.
-    // var address;
-    // var streetNickname;
-    // //TODO: Understand The Requirments For These Fields.
-    // var comorbidities = '';
-    // var ssn = '';
-    // var health_Status = '';
-    // var disabilityCondition = '';
 
     return GraphQLProvider(
       client: UserRepository.client,
@@ -182,7 +163,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         return LoadingNews();
                       }
 
-                      print('Is This Card Registered: ${card}');
+                      print('Is This Card Registered: $card');
                       if (card['registered'] == true) {
                         //If the card exists in our database, verify that there is a user who was assigned this ID.
                         return Column(
@@ -244,13 +225,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   skillLevel: _member.skillLevel,
                                   livingSituation: _member.livingSituation,
                                   // services_needed: _member.services_needed,
-                                  address: _currentAddress,
-                                  lat: _currentPosition == null
-                                      ? 0
-                                      : _currentPosition.latitude,
-                                  lng: _currentPosition == null
-                                      ? 0
-                                      : _currentPosition.longitude,
+                                  address: _member.address,
+                                  lat: _member.lat,
+                                  lng: _member.lng,
                                   language: _member.language,
                                   approximateDateStartedHomeless:
                                       _member.approximateDateStartedHomeless,
@@ -319,15 +296,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           FormBuilderDateTimePicker(
                                             attribute: "dob",
                                             inputType: InputType.date,
-                                            format: DateFormat("yyyy-MM-dd"),
                                             keyboardType:
                                                 TextInputType.datetime,
                                             decoration: InputDecoration(
                                                 labelText: "Date of Birth"),
-                                            onChanged: (value) => setState(
-                                                () => _member.dob = value),
-                                            onSaved: (value) => setState(
-                                                () => _member.dob = value),
+                                            onChanged: (value) => setState(() =>
+                                                _member.dob =
+                                                    DateFormat("yyyy-MM-dd")
+                                                        .format(value)),
+                                            onSaved: (value) => setState(() =>
+                                                _member.dob =
+                                                    DateFormat("yyyy-MM-dd")
+                                                        .format(value)),
                                           ),
                                           FormBuilderTextField(
                                             attribute: "age",
@@ -345,6 +325,38 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             onSaved: (value) => setState(
                                                 () => _member.age = value),
                                           ),
+                                          MapBoxPlaceSearchWidget(
+                                            apiKey: mapToken,
+                                            searchHint: 'Usual Address',
+                                            limit: 5,
+                                            country: 'NA',
+                                            onSelected: (place) {
+                                              _member.address = place.placeName;
+
+                                              _getLatLngFromAddress(
+                                                address: _member.address,
+                                              ).then((Placemark onValue) {
+                                                _member.lat =
+                                                    onValue.position.latitude;
+                                                _member.lng =
+                                                    onValue.position.longitude;
+                                              });
+                                            },
+                                            context: context,
+                                          ),
+                                          // FormBuilderTextField(
+                                          //   attribute: "address",
+                                          //   decoration: InputDecoration(
+                                          //       labelText: "Usual Address"),
+                                          //   validators: [
+                                          //     FormBuilderValidators.min(2),
+                                          //     FormBuilderValidators.max(70),
+                                          //   ],
+                                          //   onChanged: (value) {
+                                          //     setState(() =>
+                                          //         _member.address = value);
+                                          //   },
+                                          // ),
                                           FormBuilderSegmentedControl(
                                             decoration: InputDecoration(
                                                 labelText: "Select Gender"),
@@ -405,6 +417,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                       _member.language = value),
                                               onSaved: (value) => setState(() =>
                                                   _member.language = value)),
+
                                           FormBuilderRadio(
                                             decoration: InputDecoration(
                                                 labelText: "Select Race"),
@@ -500,7 +513,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               onSaved: (value) => setState(() =>
                                                   _member.alternative_phoneNumber =
                                                       value)),
-                                          FormBuilderRadio(
+                                          FormBuilderCheckboxList(
                                             decoration: InputDecoration(
                                                 labelText: "Comorbidities"),
                                             attribute: "comorbidities",
@@ -508,8 +521,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderValidators.required()
                                             ],
                                             options: [
-                                              FormBuilderFieldOption(
-                                                  value: "None"),
                                               FormBuilderFieldOption(
                                                   value: "Cancers"),
                                               FormBuilderFieldOption(
@@ -527,23 +538,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                   value:
                                                       "Musculoskeletal diseases"),
                                             ],
-                                            onChanged: (value) => setState(() =>
-                                                _member.comorbidities = value),
-                                            onSaved: (value) => setState(() =>
-                                                _member.comorbidities = value),
+                                            onChanged: (value) => setState(() {
+                                              for (var com in value) {
+                                                _member.comorbidities.add(com);
+                                              }
+                                            }),
+                                            onSaved: (value) => setState(() {
+                                              for (var com in value) {
+                                                _member.comorbidities.add(com);
+                                              }
+                                            }),
                                           ),
 
-                                          // FormBuilderTextField(
-                                          //   attribute: "address",
-                                          //   decoration: InputDecoration(
-                                          //       labelText: "Address"),
-                                          //   validators: [
-                                          //     FormBuilderValidators.min(2),
-                                          //     FormBuilderValidators.max(70),
-                                          //   ],
-                                          //   onChanged: (value) =>
-                                          //       setState(() => address = value),
-                                          // ),
                                           FormBuilderRadio(
                                               decoration: InputDecoration(
                                                   labelText:
@@ -689,7 +695,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                       print(_fbKey
                                                           .currentState.value);
 
-                                                      runMutation({});
+                                                      // runMutation({});
                                                       runFormMutation({});
                                                     }
                                                   },

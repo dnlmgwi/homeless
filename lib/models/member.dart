@@ -5,7 +5,7 @@ class Member {
   String age = '';
   String race = '';
   String gender = '';
-  DateTime dob;
+  String dob;
 
   //TODO: Contact Details
   String alternative_phoneNumber = '';
@@ -21,12 +21,14 @@ class Member {
 
   //TODO: Location Search Address and Find Co-ordinates.
   String address = '';
+  double lat;
+  double lng;
   String streetNickname = '';
 
   bool consent = false;
 
   //TODO: Health Care Services
-  String comorbidities = '';
+  List<String> comorbidities = [];
   // var ssn = '';
   // var health_Status = '';
   // var disabilityCondition = '';
