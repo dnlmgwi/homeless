@@ -1,4 +1,5 @@
 import 'package:homeless/packages.dart';
+import 'package:homeless/screens/myHistory.dart';
 
 GlobalKey globalKey = GlobalKey();
 //Contains all in app navigation code.
@@ -13,6 +14,7 @@ final routes = {
   '/logout': (BuildContext context) => OnBoardingScreen(),
   '/instructions': (BuildContext context) => InstructionsScreen(),
   '/register': (BuildContext context) => RegistrationScreen(),
+  '/myHistory': (BuildContext context) => MyHistoryScreen(),
   RegistrationScreen.routeName: (context) => RegistrationScreen(),
   ScanScreen.routeName: (context) => ScanScreen(),
   '/scan': (BuildContext context) => ScanScreen(),

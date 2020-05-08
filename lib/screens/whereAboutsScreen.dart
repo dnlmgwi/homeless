@@ -171,6 +171,26 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                     var memberCollection = result.data;
                     var transactionCollection = result.data;
 
+                    if (transactionCollection.isEmpty) {
+                      print('No Transaction!');
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                              child: AutoSizeText(
+                            "No Transactions",
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: AppTheme.grey,
+                            ),
+                          )),
+                        ],
+                      );
+                    }
+
                     for (var person in memberCollection['MemberCollection']) {
                       distanceFromHome().then((onValue) => home = onValue);
                       List<Marker> listMarkers = [
@@ -178,8 +198,12 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             width: 45.0,
                             height: 45.0,
                             point: LatLng(
-                              person['location']['lat'],
-                              person['location']['lng'],
+                              person['location']['lat'] == null
+                                  ? _currentPosition.latitude
+                                  : person['location']['lat'],
+                              person['location']['lat'] == null
+                                  ? _currentPosition.longitude
+                                  : person['location']['lng'],
                             ),
                             builder: (context) => Container(
                                   child: IconButton(
@@ -221,8 +245,12 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             width: 45.0,
                             height: 45.0,
                             point: LatLng(
-                              mark['location']['lat'],
-                              mark['location']['lng'],
+                              mark['location']['lat'] == null
+                                  ? _currentPosition.latitude
+                                  : mark['location']['lat'],
+                              mark['location']['lng'] == null
+                                  ? _currentPosition.longitude
+                                  : mark['location']['lng'],
                             ),
                             builder: (context) => Container(
                               child: IconButton(
@@ -260,9 +288,9 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  SizedBox(
-                                    height: 20,
-                                  ),
+                                  // SizedBox(
+                                  //   height: 20,
+                                  // ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     child: Column(
@@ -271,44 +299,44 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            AutoSizeText(
-                                                "${person['name']} ${person['surname']}",
-                                                style: TextStyle(
-                                                  fontFamily: AppTheme.fontName,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 25,
-                                                  letterSpacing: 1,
-                                                  color: AppTheme.darkerText,
-                                                )),
+                                        // Row(
+                                        //   crossAxisAlignment:
+                                        //       CrossAxisAlignment.center,
+                                        //   children: <Widget>[
+                                        //     AutoSizeText(
+                                        //         "${person['name']} ${person['surname']}",
+                                        //         style: TextStyle(
+                                        //           fontFamily: AppTheme.fontName,
+                                        //           fontWeight: FontWeight.w700,
+                                        //           fontSize: 25,
+                                        //           letterSpacing: 1,
+                                        //           color: AppTheme.darkerText,
+                                        //         )),
 
-                                            //Name & Age
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        SizedBox(
-                                          child: AutoSizeText(
-                                            "${person['location']['address']}",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15,
-                                              letterSpacing: 0.5,
-                                              color: AppTheme.deactivatedText,
-                                            ),
-                                          ),
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
+                                        //     //Name & Age
+                                        //   ],
+                                        // ),
+                                        // SizedBox(
+                                        //   height: 5,
+                                        // ),
+                                        // SizedBox(
+                                        //   child: AutoSizeText(
+                                        //     "${person['location']['address']}",
+                                        //     textAlign: TextAlign.left,
+                                        //     style: TextStyle(
+                                        //       fontFamily: AppTheme.fontName,
+                                        //       fontWeight: FontWeight.w400,
+                                        //       fontSize: 15,
+                                        //       letterSpacing: 0.5,
+                                        //       color: AppTheme.deactivatedText,
+                                        //     ),
+                                        //   ),
+                                        //   width:
+                                        //       MediaQuery.of(context).size.width,
+                                        // ),
+                                        // SizedBox(
+                                        //   height: 15,
+                                        // ),
                                         AutoSizeText(
                                             "Distance from usual location"
                                                 .toUpperCase(),

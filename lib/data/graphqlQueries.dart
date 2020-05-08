@@ -21,6 +21,22 @@ class Queries {
     }''';
   }
 
+  static String getMyHistory({String member_id}) {
+    return '''{
+  collection(name:"Transactions",filter:{
+    member_id:"5e9cc5523862613211000312"
+  },limit: 5, sort: {
+      scanTime: -1,
+      }
+  ) MemberCollection ( filter: {homeless_id: "2a4f4226-1804-414d-a855-f9d68190bacd" })
+  {
+    name
+    surname
+    primary_phoneNumber
+    alternative_phoneNumber
+  }}''';
+  }
+
   //Get location points and place markers
   static String getMarkers({String homeless_id}) {
     return '''query whereAbouts

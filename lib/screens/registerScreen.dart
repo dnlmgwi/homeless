@@ -509,15 +509,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             ],
                                             options: [
                                               FormBuilderFieldOption(
+                                                  value: "None"),
+                                              FormBuilderFieldOption(
                                                   value: "Cancers"),
                                               FormBuilderFieldOption(
-                                                  value: "Diabetics Mellitus"),
+                                                  value:
+                                                      "Cardiovascular diseases"),
                                               FormBuilderFieldOption(
                                                   value:
                                                       "Central nervous system diseases"),
                                               FormBuilderFieldOption(
-                                                  value:
-                                                      "Cardiovascular diseases"),
+                                                  value: "Diabetics Mellitus"),
                                               FormBuilderFieldOption(
                                                   value:
                                                       "Obstructive lung diseases"),
@@ -648,7 +650,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 print(
                                                     "resultData: $resultData");
                                                 ShowToast.showToast(
-                                                    "Successfull Registration",
+                                                    "Successful Registration",
                                                     context);
                                                 // Navigator
                                                 //     .pushReplacementNamed(
