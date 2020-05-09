@@ -54,7 +54,7 @@ export 'package:homeless/screens/instructions.dart';
 //Models
 export 'package:homeless/models/onBoarding/onBoarding.dart';
 export 'package:homeless/models/loginresponse/loginresponse.dart';
-export 'package:homeless/models/member.dart';
+export 'package:homeless/models/registerMember/member.dart';
 
 //Services
 export 'package:homeless/services/sharePreferenceService.dart';
