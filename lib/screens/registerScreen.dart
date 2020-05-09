@@ -694,7 +694,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                       print(_fbKey
                                                           .currentState.value);
 
-                                                      // runMutation({});
+                                                      runMutation({});
                                                       runFormMutation({});
                                                     }
                                                   },
