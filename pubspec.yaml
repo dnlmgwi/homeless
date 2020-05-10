@@ -16,6 +16,9 @@ dependencies:
   url_launcher: ^5.2.7
   flutter_barcode_scanner: ^0.1.7
   # flutter_rave:
+  path_provider: ^1.6.7
+  permission_handler: ^5.0.0+hotfix.5
+  csv: ^4.0.3
   rich_alert: ^0.1.32
   flutter_login: ^1.0.10+1
   flutter_svg: ^0.17.4

@@ -1,7 +1,9 @@
 import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:homeless/services/path-provider.dart';
 import 'package:homeless/widgets/loadingNews.dart';
+import 'package:intl/intl.dart';
 
 class MyHistoryScreen extends StatefulWidget {
   final String id;
@@ -19,6 +21,9 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
     FlutterOpenWhatsapp.sendSingleMessage("+27722326766",
         "Homeless App Reporting a transaction: \nRef: $ref, \nDate: $date");
   }
+
+  PathProvider pathProvider = PathProvider();
+  Permission permission;
 
   String member_id = '';
 
@@ -46,6 +51,13 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: IconButton(
+                  icon: FaIcon(FontAwesomeIcons.save), onPressed: () {}),
+            )
+          ],
           titleSpacing: 1.2,
           centerTitle: false,
           backgroundColor: AppTheme.chipBackground,
@@ -69,6 +81,44 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
           ),
           builder: (QueryResult result,
               {VoidCallback refetch, FetchMore fetchMore}) {
+            getCsv() async {
+              List<List<dynamic>> rows = List<List<dynamic>>();
+              await Permission.storage.request();
+              rows.add([
+                "member_name",
+                "scanDate",
+                "scanTime",
+                "project",
+                "address",
+                "healthcare",
+                "food",
+                "accommodation"
+              ]);
+
+              if (result.data['collection'] != null) {
+                for (var homelessMember in result.data['collection']) {
+                  List<dynamic> row = List<dynamic>();
+                  row.add(homelessMember["member_name"]);
+                  row.add(homelessMember["scanDate"]);
+                  row.add(homelessMember["scanTime"]);
+                  row.add(homelessMember["project"]);
+                  row.add(homelessMember["location"]["address"]);
+                  row.add(homelessMember["healthcare"]);
+                  row.add(homelessMember["food"]);
+                  row.add(homelessMember["accommodation"]);
+                  rows.add(row);
+                }
+
+                if (await Permission.storage.request().isGranted) {
+                  // Either the permission was already granted before or the user just granted it.
+                  File file = await pathProvider.localFile;
+
+                  String csv = const ListToCsvConverter().convert(rows);
+                  file.writeAsString(csv);
+                }
+              }
+            }
+
             if (result.loading) {
               return LoadingNews();
             }
@@ -100,198 +150,143 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
                   ],
                 );
               } else
-                return ListView.builder(
-//              separatorBuilder: (BuildContext context, int index) => Divider(),
-                  itemCount: transactions.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.all(5.0),
-                      padding: EdgeInsets.all(20.0),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      ),
-                      child: InkWell(
-                        // onTap: () {
-                        //   Navigator.push(
-                        //     this.context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => NewsArticleScreen(
-                        //         content: repositories[index]['content'],
-                        //         title: repositories[index]['title'],
-                        //         image: responseData['image']['path'],
-                        //         posted: repositories[index]['posted'],
-                        //         source: repositories[index]['source'],
-                        //         meta: responseData['image']['meta']['title'],
-                        //       ),
-                        //     ),
-                        //   );
-                        // },
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          spacing: 15,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: <Widget>[
-                            // ClipRRect(
-                            //   borderRadius: BorderRadius.circular(15.0),
-                            //   child: Image.network(
-                            //     "${responseData['image']['path']}",
-                            //     width: 100,
-                            //     fit: BoxFit.cover,
-                            //     height: 100,
-                            //   ),
-                            // ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  AutoSizeText(
-                                    "${transactions[index]['scanDate']} • ${TimeAgo.getTimeAgo(int.parse(transactions[index]['scanTime']))}",
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15,
-                                      color: AppTheme.grey,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Divider(),
-                                      AutoSizeText(
-                                        "Benefits Received".toUpperCase(),
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 15,
-                                          letterSpacing: 1,
-                                          color: AppTheme.deactivatedText,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: <Widget>[
-                                            transactions[index]['healthcare']
-                                                ? Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      FaIcon(
-                                                          FontAwesomeIcons
-                                                              .firstAid,
-                                                          color: AppTheme
-                                                              .dark_grey),
-                                                      AutoSizeText("Healthcare")
-                                                    ],
-                                                  )
-                                                : Container(),
-                                            transactions[index]['food']
-                                                ? Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      FaIcon(
-                                                          FontAwesomeIcons
-                                                              .utensils,
-                                                          color: AppTheme
-                                                              .lightText),
-                                                      AutoSizeText("Food")
-                                                    ],
-                                                  )
-                                                : Container(),
-                                            transactions[index]['accommodation']
-                                                ? Wrap(
-                                                    alignment:
-                                                        WrapAlignment.center,
-                                                    crossAxisAlignment:
-                                                        WrapCrossAlignment
-                                                            .center,
-                                                    direction: Axis.vertical,
-                                                    children: <Widget>[
-                                                      FaIcon(
-                                                          FontAwesomeIcons.bed,
-                                                          color: AppTheme
-                                                              .lightText),
-                                                      AutoSizeText(
-                                                          "A place to Stay")
-                                                    ],
-                                                  )
-                                                : Container(),
-                                          ],
-                                        ),
-                                      ),
-                                      Divider(),
-                                    ],
-                                  ),
-                                  AutoSizeText(
-                                    "Transaction Ref: ${transactions[index]['_id']}",
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15,
-                                      color: AppTheme.grey,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      RaisedButton.icon(
-                                        clipBehavior: Clip.antiAlias,
-                                        icon: FaIcon(
-                                            FontAwesomeIcons
-                                                .exclamationTriangle,
-                                            color: Colors.red),
-                                        label: Text(
-                                          'Report Transaction',
-                                          style: TextStyle(
-                                            color: AppTheme.darkerText,
-                                          ),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(22.0)),
-                                        color: AppTheme.nearlyWhite,
-                                        onPressed: () => _launchReport(
-                                            ref: transactions[index]['_id'],
-                                            date: transactions[index]
-                                                ['scanDate']),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: FlatButton(
+                          padding: EdgeInsets.all(5.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: Text(
+                            "Export CSV".toUpperCase(),
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 9,
+                              letterSpacing: 1,
+                              color: AppTheme.nearlyWhite,
                             ),
-                          ],
+                          ),
+                          textColor: AppTheme.white,
+                          onPressed: () async {
+                            getCsv().catchError((onError) {
+                              ShowToast.showToast(onError.toString(), context);
+                            }).whenComplete(() =>
+                                ShowToast.showToast("Saved File", context));
+                          },
+                          splashColor: AppTheme.nearlyWhite,
+                          color: AppTheme.nearlyBlack,
                         ),
                       ),
-                    );
-                  },
+                      Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: ListView.builder(
+//              separatorBuilder: (BuildContext context, int index) => Divider(),
+                          itemCount: transactions.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.all(4.0),
+                              padding: EdgeInsets.all(20.0),
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0)),
+                              ),
+                              child: InkWell(
+                                // onTap: () {
+                                //   Navigator.push(
+                                //     this.context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => NewsArticleScreen(
+                                //         content: repositories[index]['content'],
+                                //         title: repositories[index]['title'],
+                                //         image: responseData['image']['path'],
+                                //         posted: repositories[index]['posted'],
+                                //         source: repositories[index]['source'],
+                                //         meta: responseData['image']['meta']['title'],
+                                //       ),
+                                //     ),
+                                //   );
+                                // },
+                                child: Wrap(
+                                  direction: Axis.horizontal,
+                                  spacing: 1,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: <Widget>[
+                                    // ClipRRect(
+                                    //   borderRadius: BorderRadius.circular(15.0),
+                                    //   child: Image.network(
+                                    //     "${responseData['image']['path']}",
+                                    //     width: 100,
+                                    //     fit: BoxFit.cover,
+                                    //     height: 100,
+                                    //   ),
+                                    // ),
+
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              AutoSizeText(
+                                                "${transactions[index]['scanDate']} • ${TimeAgo.getTimeAgo(int.parse(transactions[index]['scanTime']))}",
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 15,
+                                                  color: AppTheme.grey,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              RaisedButton(
+                                                clipBehavior: Clip.antiAlias,
+                                                child: Text(
+                                                  'Report',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            22.0)),
+                                                color: AppTheme.nearlyWhite,
+                                                onPressed: () => _launchReport(
+                                                    ref: transactions[index]
+                                                        ['_id'],
+                                                    date: transactions[index]
+                                                        ['scanDate']),
+                                              ),
+                                            ],
+                                          ),
+                                          AutoSizeText(
+                                            "Transaction Ref: ${transactions[index]['_id']}",
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 15,
+                                              color: AppTheme.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 );
             }
 
