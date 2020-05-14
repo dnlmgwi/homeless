@@ -109,7 +109,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
       client: UserRepository.client,
       child: Scaffold(
         backgroundColor: AppTheme.chipBackground,
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomPadding: true,
         appBar: AppBar(
           titleSpacing: 1.2,
           centerTitle: false,
@@ -129,7 +129,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
         body: Padding(
           padding: EdgeInsets.all(5.0),
           child: SingleChildScrollView(
-            child: Query(
+                      child: Query(
                 options: QueryOptions(
                   documentNode:
                       gql(Queries.getMarkers(homeless_id: widget.homeless_id)),
@@ -137,12 +137,10 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                 builder: (QueryResult result,
                     {VoidCallback refetch, FetchMore fetchMore}) {
                   if (result.loading) {
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          LoadingProfile(),
-                        ],
-                      ),
+                    return Column(
+                      children: <Widget>[
+                        LoadingProfile(),
+                      ],
                     );
                   }
                   if (result.hasException) {
@@ -267,194 +265,201 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                         );
                       }
 
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.all(20.0),
-                              padding: EdgeInsets.all(20.0),
-                              decoration: BoxDecoration(
-                                color: AppTheme.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: AppTheme.grey.withOpacity(0.2),
-//                                         offset: Offset(1.1, 1.1),
-                                      blurRadius: 10.0),
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  // SizedBox(
-                                  //   height: 20,
-                                  // ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        // Row(
-                                        //   crossAxisAlignment:
-                                        //       CrossAxisAlignment.center,
-                                        //   children: <Widget>[
-                                        //     AutoSizeText(
-                                        //         "${person['name']} ${person['surname']}",
-                                        //         style: TextStyle(
-                                        //           fontFamily: AppTheme.fontName,
-                                        //           fontWeight: FontWeight.w700,
-                                        //           fontSize: 25,
-                                        //           letterSpacing: 1,
-                                        //           color: AppTheme.darkerText,
-                                        //         )),
-
-                                        //     //Name & Age
-                                        //   ],
-                                        // ),
-                                        // SizedBox(
-                                        //   height: 5,
-                                        // ),
-                                        // SizedBox(
-                                        //   child: AutoSizeText(
-                                        //     "${person['location']['address']}",
-                                        //     textAlign: TextAlign.left,
-                                        //     style: TextStyle(
-                                        //       fontFamily: AppTheme.fontName,
-                                        //       fontWeight: FontWeight.w400,
-                                        //       fontSize: 15,
-                                        //       letterSpacing: 0.5,
-                                        //       color: AppTheme.deactivatedText,
-                                        //     ),
-                                        //   ),
-                                        //   width:
-                                        //       MediaQuery.of(context).size.width,
-                                        // ),
-                                        // SizedBox(
-                                        //   height: 15,
-                                        // ),
-                                        AutoSizeText(
-                                            "Distance from usual location"
-                                                .toUpperCase(),
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              letterSpacing: 1,
-                                              color: AppTheme.deactivatedText,
-                                            )),
-                                        Row(
-                                          children: <Widget>[
-                                            FaIcon(
-                                              FontAwesomeIcons.streetView,
-                                              color: AppTheme.deactivatedText,
-                                            ),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            AutoSizeText(
-                                                "${home.toString()} km",
-                                                style: TextStyle(
-                                                  fontFamily: AppTheme.fontName,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 35,
-                                                  letterSpacing: 1,
-                                                  color: AppTheme.darkerText,
-                                                )),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        AutoSizeText(
-                                            "Most Recent Scan".toUpperCase(),
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              letterSpacing: 1,
-                                              color: AppTheme.deactivatedText,
-                                            )),
-                                        Row(
-                                          children: <Widget>[
-                                            FaIcon(FontAwesomeIcons.clock,
-                                                color:
-                                                    AppTheme.deactivatedText),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            AutoSizeText(
-                                                "${TimeAgo.getTimeAgo(int.parse(transactionCollection['TransactionsCollection'][0]['scanTime']))}",
-                                                style: TextStyle(
-                                                  fontFamily: AppTheme.fontName,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 35,
-                                                  letterSpacing: 1,
-                                                  color: AppTheme.darkerText,
-                                                )),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  RaisedButton.icon(
-                                    clipBehavior: Clip.antiAlias,
-                                    icon: FaIcon(
-                                        FontAwesomeIcons.exclamationTriangle,
-                                        color: Colors.red),
-                                    label: Text(
-                                      'Report User',
-                                      style: TextStyle(
-                                        color: AppTheme.darkerText,
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(22.0)),
-                                    color: AppTheme.nearlyWhite,
-                                    onPressed: () {
-                                      // _launchReport();
-                                      Navigator.pop(context, '/dash');
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 500,
-                              child: FlutterMap(
-                                options: MapOptions(
-                                  center: LatLng(
-                                    _currentPosition == null
-                                        ? widget.lat
-                                        : _currentPosition.latitude,
-                                    _currentPosition == null
-                                        ? widget.lng
-                                        : _currentPosition.longitude,
-                                  ),
-                                  zoom: 13.0,
+                      return Column(
+                        children: <Widget>[
+                          Container(
+                            height: 500,
+                            child: FlutterMap(
+                              options: MapOptions(
+                                center: LatLng(
+                                  _currentPosition == null
+                                      ? widget.lat
+                                      : _currentPosition.latitude,
+                                  _currentPosition == null
+                                      ? widget.lng
+                                      : _currentPosition.longitude,
                                 ),
-                                layers: [
-                                  TileLayerOptions(
-                                    urlTemplate:
-                                        "https://api.mapbox.com/styles/v1/sketchdm/ck9qg25gx052v1inok1euy0i6/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}",
-                                    additionalOptions: {
-                                      'accessToken': '$mapToken',
-                                      'id': 'mapbox.mapbox-streets-v7',
-                                    },
-                                  ),
-                                  MarkerLayerOptions(
-                                    markers: listMarkers,
-                                  ),
-                                ],
+                                zoom: 13.0,
                               ),
-                            )
-                          ],
-                        ),
+                              layers: [
+                                TileLayerOptions(
+                                  urlTemplate:
+                                      "https://api.mapbox.com/styles/v1/sketchdm/ck9qg25gx052v1inok1euy0i6/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}",
+                                  additionalOptions: {
+                                    'accessToken': '$mapToken',
+                                    'id': 'mapbox.mapbox-streets-v7',
+                                  },
+                                ),
+                                MarkerLayerOptions(
+                                  markers: listMarkers,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: AppTheme.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: AppTheme.grey.withOpacity(0.2),
+//                                         offset: Offset(1.1, 1.1),
+                                    blurRadius: 10.0),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                // SizedBox(
+                                //   height: 20,
+                                // ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      // Row(
+                                      //   crossAxisAlignment:
+                                      //       CrossAxisAlignment.center,
+                                      //   children: <Widget>[
+                                      //     AutoSizeText(
+                                      //         "${person['name']} ${person['surname']}",
+                                      //         style: TextStyle(
+                                      //           fontFamily: AppTheme.fontName,
+                                      //           fontWeight: FontWeight.w700,
+                                      //           fontSize: 25,
+                                      //           letterSpacing: 1,
+                                      //           color: AppTheme.darkerText,
+                                      //         )),
+
+                                      //     //Name & Age
+                                      //   ],
+                                      // ),
+                                      // SizedBox(
+                                      //   height: 5,
+                                      // ),
+                                      // SizedBox(
+                                      //   child: AutoSizeText(
+                                      //     "${person['location']['address']}",
+                                      //     textAlign: TextAlign.left,
+                                      //     style: TextStyle(
+                                      //       fontFamily: AppTheme.fontName,
+                                      //       fontWeight: FontWeight.w400,
+                                      //       fontSize: 15,
+                                      //       letterSpacing: 0.5,
+                                      //       color: AppTheme.deactivatedText,
+                                      //     ),
+                                      //   ),
+                                      //   width:
+                                      //       MediaQuery.of(context).size.width,
+                                      // ),
+                                      // SizedBox(
+                                      //   height: 15,
+                                      // ),
+                                      AutoSizeText(
+                                          "Distance from usual location"
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15,
+                                            letterSpacing: 1,
+                                            color: AppTheme.deactivatedText,
+                                          )),
+                                      Row(
+                                        children: <Widget>[
+                                          FaIcon(
+                                            FontAwesomeIcons.streetView,
+                                            color: AppTheme.deactivatedText,
+                                          ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          AutoSizeText("${home.toString()} km",
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 35,
+                                                letterSpacing: 1,
+                                                color: AppTheme.darkerText,
+                                              )),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      AutoSizeText(
+                                          "Most Recent Scan".toUpperCase(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15,
+                                            letterSpacing: 1,
+                                            color: AppTheme.deactivatedText,
+                                          )),
+                                      Row(
+                                        children: <Widget>[
+                                          FaIcon(FontAwesomeIcons.clock,
+                                              color: AppTheme.deactivatedText),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          //TODO: Find Error Handling Improvements with State Management
+                                          transactionCollection.isNotEmpty
+                                              ? AutoSizeText(" No Data",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontName,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 35,
+                                                    letterSpacing: 1,
+                                                    color: AppTheme.darkerText,
+                                                  ))
+                                              : AutoSizeText(
+                                                  "${TimeAgo.getTimeAgo(int.parse(transactionCollection['TransactionsCollection'][0]['scanTime']))}",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        AppTheme.fontName,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 35,
+                                                    letterSpacing: 1,
+                                                    color: AppTheme.darkerText,
+                                                  )),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                //   RaisedButton.icon(
+                                //     clipBehavior: Clip.antiAlias,
+                                //     icon: FaIcon(
+                                //         FontAwesomeIcons.exclamationTriangle,
+                                //         color: Colors.red),
+                                //     label: Text(
+                                //       'Report User',
+                                //       style: TextStyle(
+                                //         color: AppTheme.darkerText,
+                                //       ),
+                                //     ),
+                                //     shape: RoundedRectangleBorder(
+                                //         borderRadius:
+                                //             BorderRadius.circular(22.0)),
+                                //     color: AppTheme.nearlyWhite,
+                                //     onPressed: () {
+                                //       // _launchReport();
+                                //       Navigator.pop(context, '/dash');
+                                //     },
+                                //   ),
+                              ],
+                            ),
+                          ),
+                        ],
                       );
                     }
 
@@ -466,8 +471,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                           padding: EdgeInsets.all(20.0),
                           decoration: BoxDecoration(
                             color: AppTheme.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                   color: AppTheme.grey.withOpacity(0.2),
