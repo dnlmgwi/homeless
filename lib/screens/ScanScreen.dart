@@ -191,7 +191,8 @@ class _ScanScreenState extends State<ScanScreen> {
                                                     SizedBox(
                                                       width: 10,
                                                     ), //Name & Age
-                                                    userProfile['age'] == null
+                                                    userProfile['dob']
+                                                            .isNotEmpty
                                                         //if Date of Birth == null dont show age.
                                                         ? AutoSizeText(
                                                             "${calc.calculateAge(birthDate: DateTime.parse(userProfile['dob']))}",
@@ -208,7 +209,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                                   .darkerText,
                                                             ))
                                                         : AutoSizeText(
-                                                            "${userProfile['age']}", //TODO: Age is a required field and year should be calculated.
+                                                            "${userProfile['age']}", //TODO: Age is a required field so it will never return a null.
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   AppTheme
@@ -323,6 +324,15 @@ class _ScanScreenState extends State<ScanScreen> {
                                                             BoxDecoration(
                                                           color: AppTheme
                                                               .darkerText,
+                                                          gradient:
+                                                              LinearGradient(
+                                                            colors: [
+                                                              AppTheme
+                                                                  .nearlyBlack,
+                                                              AppTheme
+                                                                  .dark_grey,
+                                                            ],
+                                                          ),
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
@@ -395,6 +405,14 @@ class _ScanScreenState extends State<ScanScreen> {
                                                             BoxDecoration(
                                                           color: AppTheme
                                                               .nearlyWhite,
+                                                          gradient:
+                                                              LinearGradient(
+                                                            colors: [
+                                                              AppTheme
+                                                                  .nearlyWhite,
+                                                              AppTheme.notWhite,
+                                                            ],
+                                                          ),
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
@@ -475,6 +493,15 @@ class _ScanScreenState extends State<ScanScreen> {
                                                             BoxDecoration(
                                                           color: AppTheme
                                                               .darkerText,
+                                                          gradient:
+                                                              LinearGradient(
+                                                            colors: [
+                                                              AppTheme
+                                                                  .nearlyBlack,
+                                                              AppTheme
+                                                                  .dark_grey,
+                                                            ],
+                                                          ),
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
@@ -542,6 +569,14 @@ class _ScanScreenState extends State<ScanScreen> {
                                                             10.0),
                                                         decoration:
                                                             BoxDecoration(
+                                                          gradient:
+                                                              LinearGradient(
+                                                            colors: [
+                                                              AppTheme
+                                                                  .nearlyWhite,
+                                                              AppTheme.notWhite,
+                                                            ],
+                                                          ),
                                                           color: AppTheme
                                                               .nearlyWhite,
                                                           borderRadius:
@@ -611,30 +646,30 @@ class _ScanScreenState extends State<ScanScreen> {
                                               ],
                                             ),
                                           ),
-                                          RaisedButton.icon(
-                                            clipBehavior: Clip.antiAlias,
-                                            icon: FaIcon(
-                                                FontAwesomeIcons
-                                                    .exclamationTriangle,
-                                                color: Colors.red),
-                                            label: Text(
-                                              'Report User',
-                                              style: TextStyle(
-                                                color: AppTheme.darkerText,
-                                              ),
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        22.0)),
-                                            color: AppTheme.nearlyWhite,
-                                            onPressed: () {
-                                              _launchReport(
-                                                  name: userProfile[0]['name'],
-                                                  surname: userProfile[0]
-                                                      ['surname']);
-                                            },
-                                          ),
+                                          //   RaisedButton.icon(
+                                          //     clipBehavior: Clip.antiAlias,
+                                          //     icon: FaIcon(
+                                          //         FontAwesomeIcons
+                                          //             .exclamationTriangle,
+                                          //         color: Colors.red),
+                                          //     label: Text(
+                                          //       'Report User',
+                                          //       style: TextStyle(
+                                          //         color: AppTheme.darkerText,
+                                          //       ),
+                                          //     ),
+                                          //     shape: RoundedRectangleBorder(
+                                          //         borderRadius:
+                                          //             BorderRadius.circular(
+                                          //                 22.0)),
+                                          //     color: AppTheme.nearlyWhite,
+                                          //     onPressed: () {
+                                          //       _launchReport(
+                                          //           name: userProfile[0]['name'],
+                                          //           surname: userProfile[0]
+                                          //               ['surname']);
+                                          //     },
+                                          //   ),
                                         ],
                                       ),
                                     ],
