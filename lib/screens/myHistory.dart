@@ -2,8 +2,7 @@ import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/services/path-provider.dart';
-import 'package:homeless/widgets/loadingNews.dart';
-import 'package:intl/intl.dart';
+
 
 class MyHistoryScreen extends StatefulWidget {
   final String id;
@@ -51,13 +50,6 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
         backgroundColor: AppTheme.chipBackground,
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: IconButton(
-                  icon: FaIcon(FontAwesomeIcons.save), onPressed: () {}),
-            )
-          ],
           titleSpacing: 1.2,
           centerTitle: false,
           backgroundColor: AppTheme.chipBackground,
@@ -81,6 +73,24 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
           ),
           builder: (QueryResult result,
               {VoidCallback refetch, FetchMore fetchMore}) {
+            FetchMoreOptions options = FetchMoreOptions(
+              updateQuery: (previousResultData, fetchMoreResultData) {
+                // this function will be called so as to combine both the original and fetchMore results
+                // it allows you to combine them as you would like
+                final List<dynamic> repos = [
+                  ...previousResultData['collection'] as List<dynamic>,
+                  ...fetchMoreResultData['collection'] as List<dynamic>
+                ];
+
+                // to avoid a lot of work, lets just update the list of repos in returned
+                // data with new data, this also ensures we have the endCursor already set
+                // correctly
+                fetchMoreResultData['collection'] = repos;
+
+                return fetchMoreResultData;
+              },
+            );
+
             getCsv() async {
               List<List<dynamic>> rows = List<List<dynamic>>();
               await Permission.storage.request();
@@ -120,7 +130,7 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
             }
 
             if (result.loading) {
-              return LoadingNews();
+              return LoadingHistory();
             }
 
             if (result.hasException) {
@@ -153,35 +163,71 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
                 return SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: FlatButton(
-                          padding: EdgeInsets.all(5.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                          ),
-                          child: Text(
-                            "Export CSV".toUpperCase(),
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 9,
-                              letterSpacing: 1,
-                              color: AppTheme.nearlyWhite,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: FlatButton.icon(
+                              icon: FaIcon(
+                                FontAwesomeIcons.spinner,
+                                size: 18,
+                              ),
+                              padding: EdgeInsets.all(5.0),
+                              // shape: RoundedRectangleBorder(
+                              //   borderRadius: BorderRadius.circular(50.0),
+                              // ),
+                              label: Text(
+                                "Load All".toUpperCase(),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 9,
+                                  letterSpacing: 1,
+                                  color: AppTheme.nearlyWhite,
+                                ),
+                              ),
+                              textColor: AppTheme.white,
+                              onPressed: () async => fetchMore(options),
+                              splashColor: AppTheme.nearlyWhite,
+                              color: AppTheme.nearlyBlack,
                             ),
                           ),
-                          textColor: AppTheme.white,
-                          onPressed: () async {
-                            getCsv().catchError((onError) {
-                              ShowToast.showToast(onError.toString(), context);
-                            }).whenComplete(() =>
-                                ShowToast.showToast("Saved File", context));
-                          },
-                          splashColor: AppTheme.nearlyWhite,
-                          color: AppTheme.nearlyBlack,
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: FlatButton.icon(
+                              padding: EdgeInsets.all(5.0),
+                              // shape: RoundedRectangleBorder(
+                              //   borderRadius: BorderRadius.circular(50.0),
+                              // ),
+                              icon: FaIcon(
+                                FontAwesomeIcons.fileCsv,
+                                size: 18,
+                              ),
+                              label: Text(
+                                "Export CSV".toUpperCase(),
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 9,
+                                  letterSpacing: 1,
+                                  color: AppTheme.nearlyWhite,
+                                ),
+                              ),
+                              textColor: AppTheme.white,
+                              onPressed: () async => getCsv()
+                                  .catchError((onError) => ShowToast.showToast(
+                                      onError.toString(), context))
+                                  .whenComplete(() => ShowToast.showToast(
+                                      "Saved File", context)),
+                              splashColor: AppTheme.nearlyWhite,
+                              color: AppTheme.nearlyBlack,
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height,
                         child: ListView.builder(
 //              separatorBuilder: (BuildContext context, int index) => Divider(),

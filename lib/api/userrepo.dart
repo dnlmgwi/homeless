@@ -49,7 +49,7 @@ class UserRepository {
     }
   }
 
-  //Endpoint with correct access token.
+  //Add Logged In Users account access token to the GraphQL Endpoint.
   static final HttpLink _httpLink = HttpLink(
     uri: '$graphQLEndpoint?token=$apiKey',
   );

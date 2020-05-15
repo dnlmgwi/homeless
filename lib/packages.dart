@@ -68,6 +68,9 @@ export 'package:homeless/widgets/bottomBarView.dart';
 export 'package:homeless/widgets/loadingProfile.dart';
 export 'package:homeless/widgets/titleView.dart';
 export 'package:homeless/widgets/loadingNews.dart';
+export 'package:homeless/widgets/loadingHistory.dart';
+export 'package:homeless/widgets/stateless/registerdCardWarning.dart';
+export 'package:homeless/widgets/stateless/invalidCardWarning.dart';
 
 //utils
 export 'package:homeless/widgets/utils.dart';

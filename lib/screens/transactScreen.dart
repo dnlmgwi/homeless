@@ -154,364 +154,347 @@ class _TransactScreenState extends State<TransactScreen> {
           ),
         ),
         body: Mutation(
-            options: MutationOptions(
-              documentNode: gql(Queries.addTransaction(
-                  accommodation: accomodation,
-                  food: food,
-                  healthcare: healthCare,
-                  member_name: member_name,
-                  member_id: member_id,
-                  project: _selectedProject,
-                  address: _currentAddress,
-                  scanDate: DateFormat("yyyy-MM-dd").format(now),
-                  scanTime: DateTime.now().millisecondsSinceEpoch,
-                  //TODO: Find Default Lat, Long
-                  lat:
-                      _currentPosition == null ? -0 : _currentPosition.latitude,
-                  lng:
-                      _currentPosition == null ? 0 : _currentPosition.longitude,
-                  homeless_id: widget
-                      .id)), // this is the mutation string you just created
-              // you can update the cache based on results
-              update: (Cache cache, QueryResult result) {
-                return cache;
-              },
-              // or do something with the result.data on completion
-              onCompleted: (dynamic resultData) {
-                _alert(
-                    context: context,
-                    result:
-                        'Transaction Ref: ${resultData['saveCollectionItem']['data']['_id']}');
-              },
-              onError: (error) {
-                print(error.clientException.message);
-              },
-            ),
-            builder: (
-              RunMutation runMutation,
-              QueryResult result,
-            ) {
-              return ListView(
-                children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.all(10.0),
-                            padding: EdgeInsets.all(30.0),
-                            decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey.withOpacity(0.2),
+          options: MutationOptions(
+            documentNode: gql(Queries.addTransaction(
+                accommodation: accomodation,
+                food: food,
+                healthcare: healthCare,
+                member_name: member_name,
+                member_id: member_id,
+                project: _selectedProject,
+                address: _currentAddress,
+                scanDate: DateFormat("yyyy-MM-dd").format(now),
+                scanTime: DateTime.now().millisecondsSinceEpoch,
+                //TODO: Find Default Lat, Long
+                lat: _currentPosition == null ? -0 : _currentPosition.latitude,
+                lng: _currentPosition == null ? 0 : _currentPosition.longitude,
+                homeless_id:
+                    widget.id)), // this is the mutation string you just created
+            // you can update the cache based on results
+            update: (Cache cache, QueryResult result) {
+              return cache;
+            },
+            // or do something with the result.data on completion
+            onCompleted: (dynamic resultData) {
+              _alert(
+                  context: context,
+                  result:
+                      'Transaction Ref: ${resultData['saveCollectionItem']['data']['_id']}');
+            },
+            onError: (error) {
+              print(error.clientException.message);
+            },
+          ),
+          builder: (
+            RunMutation runMutation,
+            QueryResult result,
+          ) {
+            return ListView(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(30.0),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: AppTheme.grey.withOpacity(0.2),
 //                                         offset: Offset(1.1, 1.1),
-                                    blurRadius: 10.0),
-                              ],
-                            ),
-                            child: Column(
+                                blurRadius: 10.0),
+                          ],
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            // Container(
+                            //   width: 120.0,
+                            //   height: 120.0,
+                            //   decoration: BoxDecoration(
+                            //     color: AppTheme.grey,
+                            //     shape: BoxShape.circle,
+                            //     image: DecorationImage(
+                            //       fit: BoxFit.cover,
+                            //       image: NetworkImage(
+                            //         "http://www.sketchdm.co.za${widget.image}",
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                // Container(
-                                //   width: 120.0,
-                                //   height: 120.0,
-                                //   decoration: BoxDecoration(
-                                //     color: AppTheme.grey,
-                                //     shape: BoxShape.circle,
-                                //     image: DecorationImage(
-                                //       fit: BoxFit.cover,
-                                //       image: NetworkImage(
-                                //         "http://www.sketchdm.co.za${widget.image}",
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Column(
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          AutoSizeText(
+                                              "${widget.name} ${widget.surname}",
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 25,
+                                                letterSpacing: 1,
+                                                color: AppTheme.darkerText,
+                                              )),
+                                          //Name & Age
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 1,
+                                      ),
+                                      Divider(),
+                                      AutoSizeText("Projects".toUpperCase(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15,
+                                            letterSpacing: 1,
+                                            color: AppTheme.deactivatedText,
+                                          )),
+                                      Query(
+                                          options: QueryOptions(
+                                            documentNode: gql(
+                                              Queries.getProjects(),
+                                            ),
+                                          ),
+                                          builder: (QueryResult result,
+                                              {VoidCallback refetch,
+                                              FetchMore fetchMore}) {
+                                            if (result.loading) {
+                                              return Text('Loading...');
+                                            }
+
+                                            if (result.hasException) {
+                                              print(result.exception
+                                                  .clientException.message);
+                                            }
+
+                                            if (!result.hasException) {
+                                              List<String> listedProjects = [];
+                                              List<String> getListOfProjects() {
+                                                for (var project in result.data[
+                                                    'ProjectsCollection']) {
+                                                  listedProjects
+                                                      .add(project['name']);
+                                                  print('Project Name:' +
+                                                      project['name']);
+                                                }
+
+                                                return listedProjects;
+                                              }
+
+                                              return DropdownButton(
+                                                hint: Text(
+                                                    'Please select a project'), // Not necessary for Option 1
+                                                value: _selectedProject,
+                                                autofocus: true,
+                                                focusNode: myFocusNode,
+                                                onChanged: (newValue) {
+                                                  setState(() {
+                                                    _selectedProject = newValue;
+                                                  });
+                                                },
+                                                items: getListOfProjects()
+                                                    .map((String project) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    child: Text(project),
+                                                    value: project,
+                                                  );
+                                                }).toList(),
+                                              );
+                                            }
+                                            return Container();
+                                          }),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      AutoSizeText(
+                                          "Claim benefits".toUpperCase(),
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15,
+                                            letterSpacing: 1,
+                                            color: AppTheme.deactivatedText,
+                                          )),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              AutoSizeText(
-                                                  "${widget.name} ${widget.surname}",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 25,
-                                                    letterSpacing: 1,
-                                                    color: AppTheme.darkerText,
-                                                  )),
-                                              //Name & Age
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 1,
-                                          ),
-                                          Divider(),
-                                          AutoSizeText("Projects".toUpperCase(),
+                                          CheckboxListTile(
+                                            value: healthCare,
+                                            onChanged: _healthCareChanged,
+                                            activeColor: AppTheme.darkText,
+                                            title: Text(
+                                              "Health Care",
                                               style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 15,
-                                                letterSpacing: 1,
-                                                color: AppTheme.deactivatedText,
-                                              )),
-                                          Query(
-                                              options: QueryOptions(
-                                                documentNode: gql(
-                                                  Queries.getProjects(),
-                                                ),
+                                                color: AppTheme.darkText,
+                                                fontFamily: "2",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 22,
                                               ),
-                                              builder: (QueryResult result,
-                                                  {VoidCallback refetch,
-                                                  FetchMore fetchMore}) {
-                                                if (result.loading) {
-                                                  return Text('Loading...');
-                                                }
-
-                                                if (result.hasException) {
-                                                  print(result.exception
-                                                      .clientException.message);
-                                                }
-
-                                                if (!result.hasException) {
-                                                  List<String> listedProjects =
-                                                      [];
-                                                  List<String>
-                                                      getListOfProjects() {
-                                                    for (var project in result
-                                                            .data[
-                                                        'ProjectsCollection']) {
-                                                      listedProjects
-                                                          .add(project['name']);
-                                                      print('Project Name:' +
-                                                          project['name']);
-                                                    }
-
-                                                    return listedProjects;
-                                                  }
-
-                                                  return DropdownButton(
-                                                    hint: Text(
-                                                        'Please select a project'), // Not necessary for Option 1
-                                                    value: _selectedProject,
-                                                    autofocus: true,
-                                                    focusNode: myFocusNode,
-                                                    onChanged: (newValue) {
-                                                      setState(() {
-                                                        _selectedProject =
-                                                            newValue;
-                                                      });
-                                                    },
-                                                    items: getListOfProjects()
-                                                        .map((String project) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        child: Text(project),
-                                                        value: project,
-                                                      );
-                                                    }).toList(),
-                                                  );
-                                                }
-                                                return Container();
-                                              }),
-                                          SizedBox(
-                                            height: 10,
+                                            ),
                                           ),
-                                          AutoSizeText(
-                                              "Claim benefits".toUpperCase(),
+                                          CheckboxListTile(
+                                            value: food,
+                                            onChanged: _foodChanged,
+                                            activeColor: AppTheme.darkText,
+                                            title: Text(
+                                              "Food",
                                               style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 15,
-                                                letterSpacing: 1,
-                                                color: AppTheme.deactivatedText,
-                                              )),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              CheckboxListTile(
-                                                value: healthCare,
-                                                onChanged: _healthCareChanged,
-                                                activeColor: AppTheme.darkText,
-                                                title: Text(
-                                                  "Health Care",
-                                                  style: TextStyle(
-                                                    color: AppTheme.darkText,
-                                                    fontFamily: "2",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 22,
-                                                  ),
-                                                ),
+                                                color: AppTheme.darkText,
+                                                fontFamily: "2",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 22,
                                               ),
-                                              CheckboxListTile(
-                                                value: food,
-                                                onChanged: _foodChanged,
-                                                activeColor: AppTheme.darkText,
-                                                title: Text(
-                                                  "Food",
-                                                  style: TextStyle(
-                                                    color: AppTheme.darkText,
-                                                    fontFamily: "2",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 22,
-                                                  ),
-                                                ),
+                                            ),
+                                          ),
+                                          CheckboxListTile(
+                                            value: accomodation,
+                                            onChanged: _accomodationChanged,
+                                            activeColor: AppTheme.darkText,
+                                            title: Text(
+                                              "Accomodation",
+                                              style: TextStyle(
+                                                color: AppTheme.darkText,
+                                                fontFamily: "2",
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 22,
                                               ),
-                                              CheckboxListTile(
-                                                value: accomodation,
-                                                onChanged: _accomodationChanged,
-                                                activeColor: AppTheme.darkText,
-                                                title: Text(
-                                                  "Accomodation",
-                                                  style: TextStyle(
-                                                    color: AppTheme.darkText,
-                                                    fontFamily: "2",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 22,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          food && accomodation && healthCare == true ||
-                                  food ||
-                                  accomodation ||
-                                  healthCare == true
-                              ? Container(
-                                  margin: EdgeInsets.all(10.0),
-                                  padding: EdgeInsets.all(20.0),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.white,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: AppTheme.grey.withOpacity(0.2),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      food && accomodation && healthCare == true ||
+                              food ||
+                              accomodation ||
+                              healthCare == true
+                          ? Container(
+                              margin: EdgeInsets.all(10.0),
+                              padding: EdgeInsets.all(20.0),
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: AppTheme.grey.withOpacity(0.2),
 //                                         offset: Offset(1.1, 1.1),
-                                          blurRadius: 10.0),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ListTile(
-                                        title: Padding(
-                                          padding:
-                                              EdgeInsets.only(bottom: 19.0),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              AutoSizeText(
-                                                  "Confirm Transaction: "
-                                                      .toUpperCase(),
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15,
-                                                    letterSpacing: 1,
-                                                    color: AppTheme
-                                                        .deactivatedText,
-                                                  )),
-                                            ],
-                                          ),
-                                        ),
-                                        subtitle: _selectedProject == null
-                                            ? FlatButton(
-                                                padding: EdgeInsets.all(15.0),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.0),
-                                                ),
-                                                child: Text(
-                                                  "Please Select Project",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15,
-                                                    letterSpacing: 1,
-                                                    color: AppTheme.nearlyBlack,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  myFocusNode.requestFocus();
-                                                },
-                                                splashColor:
-                                                    AppTheme.nearlyWhite,
-                                                color: AppTheme.notWhite,
-                                              )
-                                            : FlatButton.icon(
-                                                padding: EdgeInsets.all(15.0),
-                                                icon: Icon(Icons.payment,
-                                                    color: AppTheme.white),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          50.0),
-                                                ),
-                                                label: Text(
-                                                  "Give Help",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15,
-                                                    letterSpacing: 1,
-                                                    color: AppTheme.nearlyWhite,
-                                                  ),
-                                                ),
-                                                textColor: AppTheme.white,
-                                                onPressed: () =>
-                                                    runMutation({}),
-                                                splashColor:
-                                                    AppTheme.nearlyWhite,
+                                      blurRadius: 10.0),
+                                ],
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  ListTile(
+                                    title: Padding(
+                                      padding: EdgeInsets.only(bottom: 19.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          AutoSizeText(
+                                              "Confirm Transaction: "
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15,
+                                                letterSpacing: 1,
+                                                color: AppTheme.deactivatedText,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    subtitle: _selectedProject == null
+                                        ? FlatButton(
+                                            padding: EdgeInsets.all(15.0),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                            ),
+                                            child: Text(
+                                              "Please Select Project",
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15,
+                                                letterSpacing: 1,
                                                 color: AppTheme.nearlyBlack,
                                               ),
-                                      ),
-                                    ],
+                                            ),
+                                            onPressed: () {
+                                              myFocusNode.requestFocus();
+                                            },
+                                            splashColor: AppTheme.nearlyWhite,
+                                            color: AppTheme.notWhite,
+                                          )
+                                        : FlatButton.icon(
+                                            padding: EdgeInsets.all(15.0),
+                                            icon: Icon(Icons.payment,
+                                                color: AppTheme.white),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                            ),
+                                            label: Text(
+                                              "Give Help",
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15,
+                                                letterSpacing: 1,
+                                                color: AppTheme.nearlyWhite,
+                                              ),
+                                            ),
+                                            textColor: AppTheme.white,
+                                            onPressed: () => runMutation({}),
+                                            splashColor: AppTheme.nearlyWhite,
+                                            color: AppTheme.nearlyBlack,
+                                          ),
                                   ),
-                                )
-                              : Container(),
-                        ],
-                      ))
-                ],
-              );
-            }),
+                                ],
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }

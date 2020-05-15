@@ -12,12 +12,6 @@ class _InviteFriendState extends State<InviteFriend> {
     super.initState();
   }
 
-  final String appLink = 'https://ictechhub.com/inventions/';
-
-  shareApp() {
-    Share.share('$appLink');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +81,7 @@ class _InviteFriendState extends State<InviteFriend> {
               ),
               FlatButton.icon(
                   color: AppTheme.dark_grey,
-                  onPressed: shareApp,
+                  onPressed: ConstantDetails.shareApp,
                   icon: Icon(
                     Icons.share,
                     color: AppTheme.white,

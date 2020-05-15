@@ -1,19 +1,22 @@
-class ConstDetails {
-  static final String about =
+import 'package:homeless/packages.dart';
+
+class ConstantDetails {
+  static String about =
       'This app was co-designed with the Youth in Walvis Bay, aimed to sensitize the community towards the homeless living within the Walvis Bay area.';
   static final String summary =
       'Our Mobile App is still under development and we have come a long way, but the future looks bright...';
-  static final String privacyUrl = 'http://www.google.com';
-  static final String termsUrl = 'http://www.google.com';
-  static final String whatsAppNumber = '+27722326766';
-  static final String appStoreLink = 'https://ictechhub.com/inventions/';
-  static final String email = 'design@sketchdm.co.za';
-  static final String phone = '+27722326766';
-  static final String version = '3.0.15-Beta';
-  static final String bankDetails = 'Current Account \n'
+  static const String privacyUrl = 'http://www.google.com';
+  static const String termsUrl = 'http://www.google.com';
+  static const String whatsAppNumber = '+27722326766';
+  static const String appStoreLink = 'https://ictechhub.com/inventions/';
+  static const String email = 'design@sketchdm.co.za';
+  static const String phone = '+27722326766';
+  static const String version = '3.0.19-Beta';
+  static const String bankDetails = 'Current Account \n'
       '00000123456 \n'
       'First National Bank \n'
       'Ausspannplatz Branch \n';
+
   static final String address = 'Erf 3033 \n'
       'Narraville Municipal Offices \n'
       'P.O Box 8011 \n'
@@ -22,6 +25,53 @@ class ConstDetails {
   static String consent({memberName}) {
     return 'I, $memberName hereby request Homeless status and authorize and consent to the completion of this form and its submission to MoHSS and to the disclosure to governmental entities of any additional information it may request to clarify information on this form.';
   }
+
+  static shareApp() {
+    Share.share(appStoreLink);
+  }
+
+  //Opens whatapp to share feedback message.
+  static launchWhatsApp({String feedbackText}) async {
+    FlutterOpenWhatsapp.sendSingleMessage(
+        whatsAppNumber, "Homeless App Feedback: $feedbackText");
+  }
+
+  static launchPrivacy() async {
+    const String url = privacyUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static launchMail() async {
+    const String url =
+        'mailto:<$email>?subject=Homeless App Info Request&body=More Info Required on you App';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static launchTerms() async {
+    const String url = termsUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static launchCall() async {
+    const String url = 'tel:<$phone>';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 }
 
-ConstDetails constDetails = ConstDetails();
+ConstantDetails constDetails = ConstantDetails();

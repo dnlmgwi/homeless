@@ -69,40 +69,6 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
     myFocusNode = FocusNode();
   }
 
-  _alert({context, result}) {
-    showDialog(
-        context: context, //builds a context of its own
-        builder: (BuildContext context) {
-          print('$result');
-          return RichAlertDialog(
-            //uses the custom alert dialog imported
-            alertTitle: richTitle("Successful"),
-            alertSubtitle: richSubtitle("$result"),
-            alertType: RichAlertType.SUCCESS,
-            actions: <Widget>[
-              FlatButton(
-                padding: EdgeInsets.all(15.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                child: Text("Confirm",
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                      letterSpacing: 1,
-                      color: AppTheme.nearlyWhite,
-                    )),
-                textColor: AppTheme.white,
-                onPressed: () => Navigator.popAndPushNamed(context, '/dash'),
-                splashColor: AppTheme.nearlyWhite,
-                color: AppTheme.nearlyBlack,
-              ),
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(

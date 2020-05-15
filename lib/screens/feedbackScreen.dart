@@ -6,20 +6,12 @@ class FeedbackScreen extends StatefulWidget {
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
-  final summary =
-      'Our Mobile App is still under development and we have come a long way, but the future looks bright...';
-
+  //TODO: Refactor This code
   String feedback = '';
 
   @override
   void initState() {
     super.initState();
-  }
-
-//Opens whatapp to share feedback message.
-  _launchMail() async {
-    FlutterOpenWhatsapp.sendSingleMessage(
-        "+27722326766", "Homeless App Feedback: $feedback");
   }
 
   @override
@@ -79,7 +71,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 right: 20,
               ),
               child: Text(
-                "$summary",
+                ConstantDetails.summary,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,
@@ -111,7 +103,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        _launchMail();
+                        ConstantDetails.launchWhatsApp(feedbackText: feedback);
                         FocusScope.of(context).requestFocus(FocusNode());
                       },
                       child: Center(

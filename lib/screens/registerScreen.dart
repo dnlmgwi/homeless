@@ -165,29 +165,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       print('Is This Card Registered: $card');
                       if (card['registered'] == true) {
                         //If the card exists in our database, verify that there is a user who was assigned this ID.
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text('This Card Is Registered'),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 20.0, right: 15.0, left: 15.0),
-                              child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                ),
-                                child: Text('Try Again'),
-                                textColor: AppTheme.white,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                splashColor: AppTheme.nearlyWhite,
-                                color: AppTheme.nearlyBlack,
-                              ),
-                            )
-                          ],
-                        );
+                        return RegisteredCardWarning();
                       } else if (card['registered'] == false) {
                         return Mutation(
                             options: MutationOptions(
@@ -609,7 +587,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           //         _member.services_needed =
                                           //             value)),
                                           FormBuilderSwitch(
-                                              label: Text(ConstDetails.consent(
+                                              label: Text(ConstantDetails.consent(
                                                   memberName:
                                                       "${_member.homeless_name} ${_member.surname}")), //Attaches Member Name to Consent Agreement
                                               attribute: "consent",
@@ -736,32 +714,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       break;
                     }
                   }
-
-                  return Column(
-                    children: <Widget>[
-                      Center(
-                        child: Text('This is Not a Valid Card'),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20.0, right: 15.0, left: 15.0),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                            child: Text('Try Again'),
-                            textColor: AppTheme.white,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            splashColor: AppTheme.nearlyWhite,
-                            color: AppTheme.nearlyBlack,
-                          ),
-                        ),
-                      )
-                    ],
-                  );
+                  return InvalidCardWarning();
                 },
               ),
             ),

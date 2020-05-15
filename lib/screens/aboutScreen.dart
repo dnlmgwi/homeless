@@ -6,33 +6,9 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  final String about = 'This app was co-designed with the Youth in Walvis Bay, aimed to sensitize the community towards the homeless living within the Walvis Bay area.';
-  static const String email = 'design@sketchdm.co.za';
-  static const String phone = '+27722326766';
-  static const String version = '3.0.6-Beta';
-
   @override
   void initState() {
     super.initState();
-  }
-
-  _launchMail() async {
-    const String url =
-        'mailto:<$email>?subject=Homeless App Info Request&body=More Info Required on you App';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  _launchCall() async {
-    const String url = 'tel:<$phone>';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 
   @override
@@ -84,8 +60,8 @@ class _AboutScreenState extends State<AboutScreen> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'App Version: $version',
+              AutoSizeText(
+                'App Version: ${ConstantDetails.version}',
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w400,
@@ -94,18 +70,17 @@ class _AboutScreenState extends State<AboutScreen> {
                   color: AppTheme.deactivatedText,
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
               Container(
                 padding: EdgeInsets.only(top: 16),
-                child: Text(
-                  "$about",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
+                child: SizedBox(
+                  child: AutoSizeText(
+                    ConstantDetails.about,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                    softWrap: true,
                   ),
-                  softWrap: true,
                 ),
               ),
               SizedBox(
@@ -114,15 +89,16 @@ class _AboutScreenState extends State<AboutScreen> {
               ListTile(
                   leading: Icon(FontAwesomeIcons.google),
                   title: Text('Email'),
-                  subtitle: Text('$email'),
-                  onTap: _launchMail,
+                  subtitle: Text(ConstantDetails.email),
+                  onTap: ConstantDetails.launchMail,
                   onLongPress: () {
-                    Clipboard.setData(ClipboardData(text: email));
+                    Clipboard.setData(
+                        ClipboardData(text: ConstantDetails.email));
                     showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
                               title: Text('Text Copied'),
-                              content: Text('$email'),
+                              content: Text(ConstantDetails.email),
                             ));
                   }),
               SizedBox(
@@ -131,15 +107,16 @@ class _AboutScreenState extends State<AboutScreen> {
               ListTile(
                   leading: Icon(Icons.phone),
                   title: Text('Phone'),
-                  subtitle: Text('$phone'),
-                  onTap: _launchCall,
+                  subtitle: Text(ConstantDetails.phone),
+                  onTap: ConstantDetails.launchCall,
                   onLongPress: () {
-                    Clipboard.setData(ClipboardData(text: phone));
+                    Clipboard.setData(
+                        ClipboardData(text: ConstantDetails.phone));
                     showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
                               title: Text('Text Copied'),
-                              content: Text('$phone'),
+                              content: Text(ConstantDetails.phone),
                             ));
                   }),
 //                Expanded(

@@ -76,7 +76,6 @@ class _ScanScreenState extends State<ScanScreen> {
             titleSpacing: 1.2,
             centerTitle: false,
             backgroundColor: AppTheme.chipBackground,
-            actions: <Widget>[],
             title: AutoSizeText(
               "User Profile",
               textAlign: TextAlign.left,

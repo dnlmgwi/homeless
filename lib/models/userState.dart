@@ -1,5 +1,5 @@
 enum UserState {
-  admin,
+  Admin,
   Administrator,
   Anonymous,
   Developer,

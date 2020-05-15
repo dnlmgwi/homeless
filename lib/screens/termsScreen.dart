@@ -11,24 +11,6 @@ class _TermsScreenState extends State<TermsScreen> {
     super.initState();
   }
 
-  _launchPrivacy() async {
-    const String url = 'http://www.google.com';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  _launchTerms() async {
-    const String url = 'http://www.google.com';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,12 +79,12 @@ class _TermsScreenState extends State<TermsScreen> {
               ListTile(
                 leading: Icon(Icons.insert_drive_file),
                 title: Text('Terms of Use'),
-                onTap: _launchTerms,
+                onTap: ConstantDetails.launchTerms,
               ),
               ListTile(
                 leading: Icon(Icons.language),
                 title: Text('Privacy Policies'),
-                onTap: _launchPrivacy,
+                onTap: ConstantDetails.launchPrivacy,
               ),
             ],
           ),
