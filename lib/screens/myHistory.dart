@@ -2,7 +2,7 @@ import 'package:homeless/packages.dart';
 import 'package:homeless/data/graphqlQueries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/services/path-provider.dart';
-
+import 'package:intl/intl.dart';
 
 class MyHistoryScreen extends StatefulWidget {
   final String id;
@@ -25,6 +25,9 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
   Permission permission;
 
   String member_id = '';
+
+  ///TODO: Epoch to Normal Time Converstion
+  // ${DateFormat("HH:mm:ss").format(DateTime.fromMicrosecondsSinceEpoch(int.parse(transactions[index]["scanTime"])))}
 
   @override
   void dispose() {
@@ -110,7 +113,9 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
                   List<dynamic> row = List<dynamic>();
                   row.add(homelessMember["member_name"]);
                   row.add(homelessMember["scanDate"]);
-                  row.add(homelessMember["scanTime"]);
+                  row.add(DateFormat("HH:mm:ss").format(
+                      DateTime.fromMicrosecondsSinceEpoch(
+                          int.parse(homelessMember["scanTime"]))));
                   row.add(homelessMember["project"]);
                   row.add(homelessMember["location"]["address"]);
                   row.add(homelessMember["healthcare"]);

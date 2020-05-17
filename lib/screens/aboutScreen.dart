@@ -119,6 +119,33 @@ class _AboutScreenState extends State<AboutScreen> {
                               content: Text(ConstantDetails.phone),
                             ));
                   }),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 50.0, right: 15.0, left: 15.0, bottom: 50.0),
+                child: Text("Made possible by",
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    style: AppTheme.headline),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/Liberty3.png',
+                    width: 300,
+                    height: 150,
+                  ),
+                  Image.asset(
+                    'assets/images/UNDPLogo2020.jpg',
+                    width: 300,
+                    height: 150,
+                  ),
+                ],
+              ),
 //                Expanded(
 //                  child: Padding(
 //                    padding: const EdgeInsets.all(8.0),

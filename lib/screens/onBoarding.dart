@@ -14,29 +14,28 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   List<Widget> widgets = [];
 
-  Future<bool> checkSeen() async {
-    return sharedPreferenceService.setOnBoarding();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Swiper.children(
-        index: 0,
-        loop: false,
-        pagination: new SwiperPagination(
-          margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40.0),
-          builder: new DotSwiperPaginationBuilder(
-              color: AppTheme.grey,
-              activeColor: AppTheme.dark_grey,
-              size: 7.0,
-              activeSize: 16.0),
+    return Center(
+      child: Scaffold(
+        body: Swiper.children(
+          index: 0,
+          loop: false,
+          pagination: SwiperPagination(
+            margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 40.0),
+            builder: DotSwiperPaginationBuilder(
+                color: AppTheme.grey,
+                activeColor: AppTheme.dark_grey,
+                space: 10,
+                size: 7.0,
+                activeSize: 16.0),
+          ),
+          control: SwiperControl(
+            iconPrevious: null,
+            iconNext: null,
+          ),
+          children: _getPages(context),
         ),
-        control: SwiperControl(
-          iconPrevious: null,
-          iconNext: null,
-        ),
-        children: _getPages(context),
       ),
     );
   }
@@ -46,7 +45,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     for (int i = 0; i < pages.length; i++) {
       OnBoardingModel page = pages[i];
       widgets.add(
-        new Container(
+        Container(
           color: AppTheme.chipBackground,
           child: ListView(
             children: <Widget>[
@@ -97,19 +96,31 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 //                size: 125.0,
 //                color: AppTheme.nearlyBlack,
 //              ),
-              SvgPicture.asset(
-                'assets/images/HelpingPerson-01.svg',
-                width: 300,
-                height: 300,
-              ),
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 50.0, right: 15.0, left: 15.0),
-                child: Text("Do Your Part, using the homeless app",
+                padding: const EdgeInsets.only(
+                    top: 50.0, right: 15.0, left: 15.0, bottom: 50.0),
+                child: Text("Made possible by",
                     softWrap: true,
                     textAlign: TextAlign.center,
-                    style: AppTheme.body2),
+                    style: AppTheme.headline),
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/Liberty3.png',
+                    width: 300,
+                    height: 200,
+                  ),
+                  Image.asset(
+                    'assets/images/UNDPLogo2020.jpg',
+                    width: 300,
+                    height: 200,
+                  ),
+                ],
+              ),
+
               Padding(
                 padding:
                     const EdgeInsets.only(top: 20.0, right: 15.0, left: 15.0),
@@ -122,7 +133,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   textColor: AppTheme.white,
                   onPressed: () {
-                    checkSeen();
                     Navigator.pushReplacementNamed(context, '/login');
                   },
                   splashColor: AppTheme.nearlyWhite,

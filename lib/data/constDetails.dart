@@ -7,11 +7,12 @@ class ConstantDetails {
       'Our Mobile App is still under development and we have come a long way, but the future looks bright...';
   static const String privacyUrl = 'http://www.google.com';
   static const String termsUrl = 'http://www.google.com';
+  static const String eulaUrl = 'http://www.google.com';
   static const String whatsAppNumber = '+27722326766';
   static const String appStoreLink = 'https://ictechhub.com/inventions/';
   static const String email = 'design@sketchdm.co.za';
   static const String phone = '+27722326766';
-  static const String version = '3.0.19-Beta';
+  static const String version = '3.0.20-Beta';
   static const String bankDetails = 'Current Account \n'
       '00000123456 \n'
       'First National Bank \n'
@@ -38,6 +39,15 @@ class ConstantDetails {
 
   static launchPrivacy() async {
     const String url = privacyUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static launchEULA() async {
+    const String url = eulaUrl;
     if (await canLaunch(url)) {
       await launch(url);
     } else {

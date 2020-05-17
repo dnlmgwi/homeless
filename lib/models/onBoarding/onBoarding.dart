@@ -22,20 +22,20 @@ class OnBoardingModel {
     OnBoardingModel(
       title: 'Security',
       body:
-          'Verify registered  beneficiaries of the homeless app by scanning the QR Code on their ID Cards, and reward them for helping you',
+          'Verify registered  beneficiaries by scanning the QR Code on their ID Cards',
       heroAssetPath: SvgPicture.asset('assets/images/Security-01.svg'),
     ),
-    OnBoardingModel(
-      title: 'Tips & Advice',
-      body:
-          'Our app will give you access to relevant Tips & Advice about the Homeless community in your area',
-      heroAssetPath: SvgPicture.asset('assets/images/advice-01.svg'),
-    ),
-    OnBoardingModel(
-      title: 'Donate',
-      body:
-          'Or if you just want to give, you can use our in app payment option to donate at any time. and we will use the money we raise to change lives.',
-      heroAssetPath: SvgPicture.asset('assets/images/gifts-01.svg'),
-    ),
+    // OnBoardingModel(
+    //   title: 'Tips & Advice',
+    //   body:
+    //       'Our app will give you access to relevant Tips & Advice about the Homeless community in your area',
+    //   heroAssetPath: SvgPicture.asset('assets/images/advice-01.svg'),
+    // ),
+    // OnBoardingModel(
+    //   title: 'Donate',
+    //   body:
+    //       'Or if you just want to give, you can use our in app payment option to donate at any time. and we will use the money we raise to change lives.',
+    //   heroAssetPath: SvgPicture.asset('assets/images/gifts-01.svg'),
+    // ),
   ];
 }

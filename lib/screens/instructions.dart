@@ -199,7 +199,7 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
                   spacing: 10,
                   children: <Widget>[
                     AutoSizeText(
-                      'Direct User to the nearest Hope Facility',
+                      'Direct user to the nearest Hope Facility',
                       style: TextStyle(
                         fontSize: 20,
                       ),
