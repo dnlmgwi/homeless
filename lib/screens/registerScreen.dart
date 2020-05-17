@@ -6,10 +6,8 @@ import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String routeName = '/scanData';
-
-  RegistrationScreen({
-    Key key,
-  }) : super(key: key);
+  // final String homeless_id;
+  RegistrationScreen({Key key}) : super(key: key);
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -19,11 +17,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   static GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-  final _member = Member();
+  final _homelessMember = HomelessMemberReg();
 
   //Variables
   String member_id = '';
   String member_name = '';
+  var calculatedAge;
 
   Position _currentPosition;
   String _currentAddress;
@@ -96,7 +95,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+    final ScreenArgumentsReg args = ModalRoute.of(context).settings.arguments;
     var now = DateTime.now();
 
     return GraphQLProvider(
@@ -134,7 +133,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   var memberRepositories = result.data;
 
                   if (result.loading) {
-                    return LoadingNews();
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          LoadingProfile(),
+                        ],
+                      ),
+                    );
                   }
 
                   if (result.hasException) {
@@ -186,31 +191,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       : _currentPosition.longitude,
                                   homeless_id: args.homeless_id,
                                   //TODO: Form Text Field Data
-                                  homeless_name: _member.homeless_name,
-                                  surname: _member.surname,
-                                  age: _member.age,
-                                  comorbidities: _member.comorbidities,
+                                  homeless_name: _homelessMember.homeless_name,
+                                  surname: _homelessMember.surname,
+                                  age: _homelessMember.age,
+                                  comorbidities: _homelessMember.comorbidities,
                                   alternative_phoneNumber:
-                                      _member.alternative_phoneNumber,
+                                      _homelessMember.alternative_phoneNumber,
                                   primary_phoneNumber:
-                                      _member.primary_phoneNumber,
+                                      _homelessMember.primary_phoneNumber,
                                   //TODO: Form Field Data
-                                  dob: _member.dob,
-                                  consent: _member.consent,
-                                  gender: _member.gender,
-                                  race: _member.race,
-                                  skillLevel: _member.skillLevel,
-                                  livingSituation: _member.livingSituation,
+                                  dob: _homelessMember.dob,
+                                  consent: _homelessMember.consent,
+                                  gender: _homelessMember.gender,
+                                  race: _homelessMember.race,
+                                  skillLevel: _homelessMember.skillLevel,
+                                  livingSituation:
+                                      _homelessMember.livingSituation,
                                   // services_needed: _member.services_needed,
-                                  address: _member.address,
-                                  lat: _member.lat,
-                                  lng: _member.lng,
-                                  language: _member.language,
+                                  address: _homelessMember.address,
+                                  lat: _homelessMember.lat,
+                                  lng: _homelessMember.lng,
+                                  language: _homelessMember.language,
                                   approximateDateStartedHomeless:
-                                      _member.approximateDateStartedHomeless,
+                                      _homelessMember
+                                          .approximateDateStartedHomeless,
 
                                   residentialMoveInDate:
-                                      _member.residentialMoveInDate,
+                                      _homelessMember.residentialMoveInDate,
                                 ),
                               ), // this is the mutation string you just created
                               // you can update the cache based on results
@@ -252,9 +259,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             ],
                                             maxLines: 1,
                                             onChanged: (value) => setState(() =>
-                                                _member.homeless_name = value),
+                                                _homelessMember.homeless_name =
+                                                    value),
                                             onSaved: (value) => setState(() =>
-                                                _member.homeless_name = value),
+                                                _homelessMember.homeless_name =
+                                                    value),
                                           ),
                                           FormBuilderTextField(
                                             attribute: "surname",
@@ -265,10 +274,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderValidators.min(2),
                                               FormBuilderValidators.max(70),
                                             ],
-                                            onChanged: (value) => setState(
-                                                () => _member.surname = value),
-                                            onSaved: (value) => setState(
-                                                () => _member.surname = value),
+                                            onChanged: (value) => setState(() =>
+                                                _homelessMember.surname =
+                                                    value),
+                                            onSaved: (value) => setState(() =>
+                                                _homelessMember.surname =
+                                                    value),
                                           ),
                                           FormBuilderDateTimePicker(
                                             attribute: "dob",
@@ -277,15 +288,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 TextInputType.datetime,
                                             decoration: InputDecoration(
                                                 labelText: "Date of Birth"),
-                                            onChanged: (value) => setState(() =>
-                                                _member.dob =
-                                                    DateFormat("yyyy-MM-dd")
-                                                        .format(value)),
-                                            onSaved: (value) => setState(() =>
-                                                _member.dob =
-                                                    DateFormat("yyyy-MM-dd")
-                                                        .format(value)),
+                                            onChanged: (value) => setState(() {
+                                              _homelessMember.dob =
+                                                  DateFormat("yyyy-MM-dd")
+                                                      .format(value);
+                                              calculatedAge = calc.calculateAge(
+                                                  birthDate: DateTime.parse(
+                                                      value.toString()));
+                                            }),
+                                            onSaved: (value) => setState(() {
+                                              _homelessMember.dob =
+                                                  DateFormat("yyyy-MM-dd")
+                                                      .format(value);
+                                              calculatedAge = calc.calculateAge(
+                                                  birthDate: DateTime.parse(
+                                                      value.toString()));
+                                            }),
                                           ),
+                                          Text(
+                                              "Calculated Age: ${calculatedAge ??= ''}"),
                                           FormBuilderTextField(
                                             attribute: "age",
                                             decoration: InputDecoration(
@@ -295,12 +316,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderValidators.max(114),
                                               FormBuilderValidators.numeric(),
                                               FormBuilderValidators.min(18),
-                                              FormBuilderValidators.required(),
                                             ],
-                                            onChanged: (value) => setState(
-                                                () => _member.age = value),
-                                            onSaved: (value) => setState(
-                                                () => _member.age = value),
+                                            onChanged: (value) => setState(() =>
+                                                _homelessMember.age = value),
+                                            onSaved: (value) => setState(() =>
+                                                _homelessMember.age = value),
                                           ),
                                           MapBoxPlaceSearchWidget(
                                             apiKey: mapToken,
@@ -308,14 +328,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             limit: 5,
                                             country: 'NA',
                                             onSelected: (place) {
-                                              _member.address = place.placeName;
+                                              _homelessMember.address =
+                                                  place.placeName;
 
                                               _getLatLngFromAddress(
-                                                address: _member.address,
+                                                address:
+                                                    _homelessMember.address,
                                               ).then((Placemark onValue) {
-                                                _member.lat =
+                                                _homelessMember.lat =
                                                     onValue.position.latitude;
-                                                _member.lng =
+                                                _homelessMember.lng =
                                                     onValue.position.longitude;
                                               });
                                             },
@@ -356,10 +378,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderFieldOption(
                                                   value: "Other"),
                                             ],
-                                            onChanged: (value) => setState(
-                                                () => _member.gender = value),
-                                            onSaved: (value) => setState(
-                                                () => _member.gender = value),
+                                            onChanged: (value) => setState(() =>
+                                                _homelessMember.gender = value),
+                                            onSaved: (value) => setState(() =>
+                                                _homelessMember.gender = value),
                                           ),
                                           FormBuilderSegmentedControl(
                                               decoration: InputDecoration(
@@ -390,10 +412,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     value: "Other"),
                                               ],
                                               onChanged: (value) => setState(
-                                                  () =>
-                                                      _member.language = value),
+                                                  () => _homelessMember
+                                                      .language = value),
                                               onSaved: (value) => setState(() =>
-                                                  _member.language = value)),
+                                                  _homelessMember.language =
+                                                      value)),
 
                                           FormBuilderRadio(
                                             decoration: InputDecoration(
@@ -418,10 +441,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               FormBuilderFieldOption(
                                                   value: "Indian"),
                                             ],
-                                            onChanged: (value) => setState(
-                                                () => _member.race = value),
-                                            onSaved: (value) => setState(
-                                                () => _member.race = value),
+                                            onChanged: (value) => setState(() =>
+                                                _homelessMember.race = value),
+                                            onSaved: (value) => setState(() =>
+                                                _homelessMember.race = value),
                                           ),
                                           FormBuilderSegmentedControl(
                                               decoration: InputDecoration(
@@ -448,11 +471,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     value: "Skilled"),
                                               ],
                                               onChanged: (value) => setState(
-                                                    () => _member.skillLevel =
-                                                        value,
+                                                    () => _homelessMember
+                                                        .skillLevel = value,
                                                   ),
                                               onSaved: (value) => setState(() =>
-                                                  _member.skillLevel = value)),
+                                                  _homelessMember.skillLevel =
+                                                      value)),
                                           FormBuilderTextField(
                                               attribute: "primary_phoneNumber",
                                               decoration: InputDecoration(
@@ -462,14 +486,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               validators: [
                                                 FormBuilderValidators.maxLength(
                                                     10),
+                                                FormBuilderValidators.minLength(
+                                                    10),
                                                 FormBuilderValidators.numeric(),
                                               ],
                                               onChanged: (value) => setState(
-                                                  () => _member
+                                                  () => _homelessMember
                                                           .primary_phoneNumber =
                                                       value),
                                               onSaved: (value) => setState(() =>
-                                                  _member.primary_phoneNumber =
+                                                  _homelessMember
+                                                          .primary_phoneNumber =
                                                       value)),
                                           FormBuilderTextField(
                                               attribute:
@@ -481,14 +508,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               validators: [
                                                 FormBuilderValidators.maxLength(
                                                     10),
+                                                FormBuilderValidators.minLength(
+                                                    10),
                                                 FormBuilderValidators.numeric(),
                                               ],
                                               onChanged: (value) => setState(
-                                                  () => _member
+                                                  () => _homelessMember
                                                           .alternative_phoneNumber =
                                                       value),
                                               onSaved: (value) => setState(() =>
-                                                  _member.alternative_phoneNumber =
+                                                  _homelessMember
+                                                          .alternative_phoneNumber =
                                                       value)),
                                           FormBuilderCheckboxList(
                                             decoration: InputDecoration(
@@ -517,12 +547,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             ],
                                             onChanged: (value) => setState(() {
                                               for (var com in value) {
-                                                _member.comorbidities.add(com);
+                                                _homelessMember.comorbidities
+                                                    .add(com);
                                               }
                                             }),
                                             onSaved: (value) => setState(() {
                                               for (var com in value) {
-                                                _member.comorbidities.add(com);
+                                                _homelessMember.comorbidities
+                                                    .add(com);
                                               }
                                             }),
                                           ),
@@ -561,10 +593,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                         "Awaiting release from hospital or other time-limited treatment facility and cannot return to your former place of residence due to the modifications required to the home"),
                                               ],
                                               onChanged: (value) => setState(
-                                                  () => _member
+                                                  () => _homelessMember
                                                       .livingSituation = value),
                                               onSaved: (value) => setState(() =>
-                                                  _member.livingSituation =
+                                                  _homelessMember
+                                                          .livingSituation =
                                                       value)),
 
                                           // FormBuilderCheckboxList(
@@ -589,7 +622,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           FormBuilderSwitch(
                                               label: Text(ConstantDetails.consent(
                                                   memberName:
-                                                      "${_member.homeless_name} ${_member.surname}")), //Attaches Member Name to Consent Agreement
+                                                      "${_homelessMember.homeless_name} ${_homelessMember.surname}")), //Attaches Member Name to Consent Agreement
                                               attribute: "consent",
                                               initialValue: false,
                                               validators: [
@@ -597,11 +630,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     .requiredTrue()
                                               ],
                                               onChanged: (value) {
-                                                setState(() =>
-                                                    _member.consent = value);
+                                                setState(() => _homelessMember
+                                                    .consent = value);
                                               },
                                               onSaved: (value) => setState(() =>
-                                                  _member.consent = value)),
+                                                  _homelessMember.consent =
+                                                      value)),
                                         ],
                                       ),
                                     ),
@@ -671,7 +705,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                         .saveAndValidate()) {
                                                       print(_fbKey
                                                           .currentState.value);
-
                                                       runMutation({});
                                                       runFormMutation({});
                                                     }

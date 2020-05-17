@@ -177,21 +177,21 @@ class _SettingsScreenState extends State<SettingsScreen>
       ),
     );
 
-    listViews.add(
-      TitleView(
-        icon: Icon(
-          FontAwesomeIcons.powerOff,
-          color: AppTheme.dark_grey,
-        ),
-        titleTxt: 'Logout',
-//        subTxt: 'more',
-        animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
+//     listViews.add(
+//       TitleView(
+//         icon: Icon(
+//           FontAwesomeIcons.powerOff,
+//           color: AppTheme.dark_grey,
+//         ),
+//         titleTxt: 'Logout',
+// //        subTxt: 'more',
+//         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+//             parent: widget.animationController,
+//             curve:
+//                 Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
+//         animationController: widget.animationController,
+//       ),
+//     );
   }
 
   Future<bool> getData() async {

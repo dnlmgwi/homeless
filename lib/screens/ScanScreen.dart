@@ -64,7 +64,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+    final ScreenArgumentsUserProfile args =
+        ModalRoute.of(context).settings.arguments;
     return GraphQLProvider(
       client: UserRepository.client,
       child: Container(
@@ -377,17 +378,20 @@ class _ScanScreenState extends State<ScanScreen> {
                                                       ),
                                                       onTap: () =>
                                                           Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          TransactScreen(
-                                                                            name:
-                                                                                userProfile['name'],
-                                                                            surname:
-                                                                                userProfile['surname'],
-                                                                            id: userProfile['homeless_id'],
-                                                                          ))),
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              TransactScreen(
+                                                            name: userProfile[
+                                                                'name'],
+                                                            surname:
+                                                                userProfile[
+                                                                    'surname'],
+                                                            id: userProfile[
+                                                                'homeless_id'],
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
                                                     InkWell(
                                                       child: Container(

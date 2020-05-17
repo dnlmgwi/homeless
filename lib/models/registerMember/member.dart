@@ -1,11 +1,11 @@
-class Member {
+class HomelessMemberReg {
   //TODO: Personal
   String homeless_name = '';
   String surname = '';
   String age = '';
   String race = '';
   String gender = '';
-  String dob;
+  String dob = '';
 
   //TODO: Contact Details
   String alternative_phoneNumber = '';

@@ -167,8 +167,8 @@ class _MyAppState extends State<MyApp> {
       ),
       home: AnimatedSplash(
         imagePath: 'assets/images/Logo.png',
-        home: OnBoardingScreen(),
-        duration: 5000,
+        home: Custodian(),
+        duration: 3500,
         type: AnimatedSplashType.StaticDuration,
       ),
       routes: routes,

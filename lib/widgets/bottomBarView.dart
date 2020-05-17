@@ -73,9 +73,7 @@ class _BottomBarViewState extends State<BottomBarView>
       try {
         if (scanData.isNotEmpty) {
           Navigator.pushNamed(context, ScanScreen.routeName,
-              arguments: ScreenArguments(
-                scanData ??= 'none',
-              ));
+              arguments: ScreenArgumentsUserProfile(homeless_id: scanData ??= 'none'));
         }
         // setState(() {
         //   //calling setstate to update UI with the link of the current user

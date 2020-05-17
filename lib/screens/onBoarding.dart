@@ -104,26 +104,33 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     textAlign: TextAlign.center,
                     style: AppTheme.headline),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runSpacing: 10,
+                spacing: 10,
                 children: <Widget>[
-                  Image.asset(
-                    'assets/images/Liberty3.png',
-                    width: 300,
-                    height: 200,
-                  ),
                   Image.asset(
                     'assets/images/UNDPLogo2020.jpg',
                     width: 300,
-                    height: 200,
+                    height: 150,
+                  ),
+                  Image.asset(
+                    'assets/images/TechHubLogo.png',
+                    width: 300,
+                    height: 150,
+                  ),
+                  Image.asset(
+                    'assets/images/muhoko.png',
+                    width: 200,
+                    height: 100,
                   ),
                 ],
               ),
 
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 20.0, right: 15.0, left: 15.0),
+                    const EdgeInsets.only(top: 30.0, right: 15.0, left: 15.0),
                 child: FlatButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(50.0),

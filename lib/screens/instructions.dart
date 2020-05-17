@@ -14,80 +14,25 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
     super.initState();
   }
 
-  _alert({context, result}) {
-    showDialog(
-        context: context, //builds a context of its own
-        builder: (BuildContext context) {
-          print('$result');
-          return RichAlertDialog(
-            //uses the custom alert dialog imported
-            alertTitle: richTitle("Successful"),
-            alertSubtitle: richSubtitle("$result"),
-            alertType: RichAlertType.SUCCESS,
-            actions: <Widget>[
-              FlatButton(
-                padding: EdgeInsets.all(15.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                child: Text("Confirm",
-                    style: TextStyle(
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                      letterSpacing: 1,
-                      color: AppTheme.nearlyWhite,
-                    )),
-                textColor: AppTheme.white,
-                onPressed: () =>
-                    Navigator.pushReplacementNamed(context, '/dash'),
-                splashColor: AppTheme.nearlyWhite,
-                color: AppTheme.nearlyBlack,
-              ),
-            ],
-          );
-        });
-  }
+  Future<void> scanQR() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
 
-  String qrCode;
-
-  Future<String> _scan() async {
-    //_scan() Receives QR code String and stores value in qrCodeScanRec
     String scanData = await FlutterBarcodeScanner.scanBarcode(
-      "#32CD32",
-      "Back",
-      true,
-      ScanMode.QR,
-    );
-    try {
-      setState(() {
-        //calling setstate to update UI with the link of the current user
-        if (scanData.isNotEmpty) {
-          Navigator.pushReplacementNamed(context, RegistrationScreen.routeName,
-              arguments: ScreenArguments(
-                scanData ??= 'none',
-              ));
-        }
-      });
-      // _launchURL(qrCode); // uses barcode parameter once its a valid link.
+        "#32CD32", "Back", true, ScanMode.QR);
 
-    } on PlatformException catch (e) {
-      //Permission handling is done by the QR Scanner.
-      if (e.code == qrCode) {
-        setState(() {
-          this.qrCode = 'The user did not grant the camera permission!';
-        });
-      } else {
-        setState(() => this.qrCode = 'Unknown error: $e');
-      }
-    } on FormatException {
-      setState(() => this.qrCode =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      setState(() => this.qrCode = 'Unknown error: $e');
+    if (scanData.isNotEmpty) {
+      Navigator.pushReplacementNamed(context, RegistrationScreen.routeName,
+          arguments: ScreenArgumentsReg(homeless_id: scanData ??= 'none'));
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => RegistrationScreen(
+      //       homeless_id: scanData,
+      //     ),
+      //   ),
+      // );
+      print("Scanned $scanData");
     }
-
-    return scanData;
   }
 
   @override
@@ -158,7 +103,7 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
                   ],
                 ),
                 onTap: () {
-                  _scan();
+                  scanQR();
                 },
               ),
               SizedBox(
@@ -222,7 +167,7 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
                   ),
                   textColor: AppTheme.white,
                   onPressed: () {
-                    _scan();
+                    scanQR();
                   },
                   splashColor: AppTheme.nearlyWhite,
                   color: AppTheme.nearlyBlack,

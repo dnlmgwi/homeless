@@ -69,6 +69,7 @@ export 'package:homeless/widgets/loadingProfile.dart';
 export 'package:homeless/widgets/titleView.dart';
 export 'package:homeless/widgets/loadingNews.dart';
 export 'package:homeless/widgets/loadingHistory.dart';
+export 'package:homeless/widgets/splashScreen/custodian.dart';
 export 'package:homeless/widgets/stateless/registerdCardWarning.dart';
 export 'package:homeless/widgets/stateless/invalidCardWarning.dart';
 
@@ -84,4 +85,5 @@ export 'package:homeless/data/appTheme.dart';
 export 'package:homeless/data/tabIconData.dart';
 export 'package:homeless/data/constants.dart';
 export 'package:homeless/data/graphqlQueries.dart';
-export 'package:homeless/data/screenArguments.dart';
+export 'package:homeless/data/screenArguments/screenArgumentsReg.dart';
+export 'package:homeless/data/screenArguments/screenArgumentsUser.dart';

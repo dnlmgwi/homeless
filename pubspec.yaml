@@ -1,7 +1,7 @@
 name: homeless
 description: The Idea we co-designed with the youth in Walvis Bay, aimed to sensitize the community towards the homeless living with in the Walvis Bay area. They had identified that there was a large number of homeless people and that they faced a lot of problems with regards to living area, and access to the basic needs of any human being.
 
-version: 3.0.20-Beta
+version: 3.0.21-Beta
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -25,7 +25,7 @@ dependencies:
   flutter_open_whatsapp: ^0.1.2
   keyboard_avoider: ^0.1.2
   animated_splash: ^1.0.0
-  graphql_flutter: ^3.0.0
+  graphql_flutter: ^3.0.1
   flutter_markdown:
   shimmer:
   mapbox_search_flutter: any

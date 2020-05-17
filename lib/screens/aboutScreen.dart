@@ -130,18 +130,25 @@ class _AboutScreenState extends State<AboutScreen> {
                     textAlign: TextAlign.center,
                     style: AppTheme.headline),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runSpacing: 10,
+                spacing: 10,
                 children: <Widget>[
                   Image.asset(
-                    'assets/images/Liberty3.png',
-                    width: 300,
+                    'assets/images/UNDPLogo2020.jpg',
+                    width: 200,
                     height: 150,
                   ),
                   Image.asset(
-                    'assets/images/UNDPLogo2020.jpg',
-                    width: 300,
+                    'assets/images/TechHubLogo.png',
+                    width: 200,
+                    height: 150,
+                  ),
+                  Image.asset(
+                    'assets/images/muhoko.png',
+                    width: 200,
                     height: 150,
                   ),
                 ],
