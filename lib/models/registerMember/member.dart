@@ -5,11 +5,12 @@ class HomelessMemberReg {
   String age = '';
   String race = '';
   String gender = '';
-  String dob = '';
+  String dateOfBirth = '';
 
   //TODO: Contact Details
   String alternative_phoneNumber = '';
   String primary_phoneNumber = '';
+  String physicalAddress = '';
 
   //TODO: Additional
   String services_needed = '';
@@ -18,6 +19,9 @@ class HomelessMemberReg {
   String skillLevel = '';
   String language = '';
   String residentialMoveInDate = '';
+  String aspitations = '';
+  // String talents = '';
+  // String services_needed = '';
 
   //TODO: Location Search Address and Find Co-ordinates.
   String address = '';
@@ -32,4 +36,6 @@ class HomelessMemberReg {
   // var ssn = '';
   // var health_Status = '';
   // var disabilityCondition = '';
+  // String medicalPreexistingCondition = '';
+
 }

@@ -95,7 +95,7 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
         body: Padding(
           padding: EdgeInsets.all(5.0),
           child: SingleChildScrollView(
-                      child: Query(
+            child: Query(
                 options: QueryOptions(
                   documentNode:
                       gql(Queries.getMarkers(homeless_id: widget.homeless_id)),
@@ -377,7 +377,10 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                                             width: 15,
                                           ),
                                           //TODO: Find Error Handling Improvements with State Management
-                                          transactionCollection.isNotEmpty
+                                          transactionCollection[
+                                                          'TransactionsCollection']
+                                                      [0]['scanTime'] ==
+                                                  null
                                               ? AutoSizeText(" No Data",
                                                   style: TextStyle(
                                                     fontFamily:
@@ -437,7 +440,8 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                           padding: EdgeInsets.all(20.0),
                           decoration: BoxDecoration(
                             color: AppTheme.white,
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                   color: AppTheme.grey.withOpacity(0.2),

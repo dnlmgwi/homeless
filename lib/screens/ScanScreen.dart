@@ -191,11 +191,12 @@ class _ScanScreenState extends State<ScanScreen> {
                                                     SizedBox(
                                                       width: 10,
                                                     ), //Name & Age
-                                                    userProfile['dob']
-                                                            .isNotEmpty
-                                                        //if Date of Birth == null dont show age.
+
+                                                    userProfile['dob'] == null
+
+                                                        //if Date of Birth != null dont show age.
                                                         ? AutoSizeText(
-                                                            "${calc.calculateAge(birthDate: DateTime.parse(userProfile['dob']))}",
+                                                            "${calc.calculateAge(birthDate: DateTime.parse(userProfile['dateOfBirth']))}",
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   AppTheme

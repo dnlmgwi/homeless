@@ -21,10 +21,17 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
         "Homeless App Reporting a transaction: \nRef: $ref, \nDate: $date");
   }
 
+  _launchAuthReport({String name, String email}) async {
+    FlutterOpenWhatsapp.sendSingleMessage("+27722326766",
+        "Homeless App Reporting account authorization: \nMember Name: $name, \nMember Email: $email");
+  }
+
   PathProvider pathProvider = PathProvider();
   Permission permission;
 
   String member_id = '';
+  String member_email = '';
+  String member_name = '';
 
   ///TODO: Epoch to Normal Time Converstion
   // ${DateFormat("HH:mm:ss").format(DateTime.fromMicrosecondsSinceEpoch(int.parse(transactions[index]["scanTime"])))}
@@ -38,9 +45,22 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
   @override
   initState() {
     super.initState();
+
+    sharedPreferenceService.getMemberEmail().then((String memberEmail) {
+      setState(() {
+        this.member_email = memberEmail;
+      });
+    });
+
     sharedPreferenceService.getMemberID().then((String memberID) {
       setState(() {
         this.member_id = memberID;
+      });
+    });
+
+    sharedPreferenceService.getName().then((String memberName) {
+      setState(() {
+        this.member_name = memberName;
       });
     });
   }
@@ -341,91 +361,46 @@ class _MyHistoryScreenState extends State<MyHistoryScreen> {
                 );
             }
 
-            return Container(
-              margin: EdgeInsets.all(10.0),
-              padding: EdgeInsets.all(20.0),
-              decoration: BoxDecoration(
-                color: AppTheme.white,
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: AppTheme.grey.withOpacity(0.2),
-//                                         offset: Offset(1.1, 1.1),
-                      blurRadius: 10.0),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    runSpacing: 20,
-                    spacing: 20,
-                    children: <Widget>[
-                      Icon(
-                        Icons.report_problem,
-                        size: 40,
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: AutoSizeText(
+                      "Unauthorised",
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                        color: AppTheme.grey,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: AutoSizeText("Unauthorised".toUpperCase(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1,
-                              color: AppTheme.deactivatedText,
-                            )),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    color: AppTheme.white,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      elevation: 8,
-                      color: AppTheme.dark_grey,
-                      textColor: AppTheme.notWhite,
-                      child: AutoSizeText(
-                        "Rescan",
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                          letterSpacing: 1,
-                        ),
+                    )),
+                  ],
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: MaterialButton(
+                    onPressed: () {
+                      _launchAuthReport(email: member_email, name: member_name);
+                    },
+                    elevation: 8,
+                    textColor: Colors.red,
+                    color: AppTheme.notWhite,
+                    child: AutoSizeText(
+                      "Report",
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                        letterSpacing: 1,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.popAndPushNamed(context, '/dash');
-                        // _launchReport();
-                      },
-                      elevation: 8,
-                      textColor: Colors.red,
-                      color: AppTheme.notWhite,
-                      child: AutoSizeText(
-                        "Report",
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),
