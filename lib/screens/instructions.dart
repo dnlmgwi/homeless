@@ -22,7 +22,7 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
 
     if (scanData.isNotEmpty) {
       Navigator.pushReplacementNamed(context, RegistrationScreen.routeName,
-          arguments: ScreenArgumentsReg(homeless_id: scanData ??= 'none'));
+          arguments: ScreenArgsRegistration(homeless_id: scanData ??= 'none'));
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(

@@ -27,6 +27,10 @@ class ConstantDetails {
     return 'I, $memberName hereby request Homeless status and authorize and consent to the completion of this form and its submission to MoHSS and to the disclosure to governmental entities of any additional information it may request to clarify information on this form.';
   }
 
+  static String signUpConsent({memberName}) {
+    return 'I, $memberName hereby request authorize and consent to the completion of this form and its submission to MoHSS and to the disclosure to governmental entities of any additional information it may request to clarify information on this form.';
+  }
+
   static shareApp() {
     Share.share(appStoreLink);
   }

@@ -14,28 +14,30 @@ class Queries {
         surname
         gender
         age
-        dob
+        dateOfBirth
         joinedDate
         skillLevel
       }
     }''';
   }
 
-  static String getMyHistory({String member_id}) {
+  static String getMyHistory({String member_id, String homeless_id}) {
     return '''{
   collection(name:"Transactions",filter:{
-    member_id:"5e9cc5523862613211000312"
+    member_id:"$member_id"
   },limit: 5, sort: {
       scanTime: -1,
       }
-  ) MemberCollection ( filter: {homeless_id: "2a4f4226-1804-414d-a855-f9d68190bacd" })
+  )}''';
+  }
+
+  /*MemberCollection ( filter: {homeless_id: "$homeless_id"})
   {
     name
     surname
     primary_phoneNumber
     alternative_phoneNumber
-  }}''';
-  }
+  }*/
 
   //Get location points and place markers
   static String getMarkers({String homeless_id}) {
@@ -175,7 +177,7 @@ class Queries {
     homeless_name,
     surname,
     joinedDate,
-    dob,
+    dateOfBirth,
     age,
     lat,
     lng,
@@ -216,7 +218,7 @@ class Queries {
           race: "$race",
           joinedDate: "$joinedDate",
           skillLevel: "$skillLevel",
-          dob: "$dob",
+          dateOfBirth: "$dateOfBirth",
           ssn: "$ssn",
           residentialMoveInDate: "$residentialMoveInDate",
           livingSituation: "$livingSituation",

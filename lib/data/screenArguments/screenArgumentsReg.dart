@@ -1,4 +1,4 @@
-class ScreenArgumentsReg {
+class ScreenArgsRegistration {
   final String homeless_id;
-  ScreenArgumentsReg({this.homeless_id});
+  ScreenArgsRegistration({this.homeless_id});
 }

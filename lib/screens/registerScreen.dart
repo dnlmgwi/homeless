@@ -95,7 +95,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ScreenArgumentsReg args = ModalRoute.of(context).settings.arguments;
+    final ScreenArgsRegistration args =
+        ModalRoute.of(context).settings.arguments;
     var now = DateTime.now();
 
     return GraphQLProvider(
@@ -200,7 +201,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   primary_phoneNumber:
                                       _homelessMember.primary_phoneNumber,
                                   //TODO: Form Field Data
-                                  dob: _homelessMember.dob,
+                                  dateOfBirth: _homelessMember.dateOfBirth,
                                   consent: _homelessMember.consent,
                                   gender: _homelessMember.gender,
                                   race: _homelessMember.race,
@@ -289,7 +290,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             decoration: InputDecoration(
                                                 labelText: "Date of Birth"),
                                             onChanged: (value) => setState(() {
-                                              _homelessMember.dob =
+                                              _homelessMember.dateOfBirth =
                                                   DateFormat("yyyy-MM-dd")
                                                       .format(value);
                                               calculatedAge = calc.calculateAge(
@@ -297,7 +298,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                       value.toString()));
                                             }),
                                             onSaved: (value) => setState(() {
-                                              _homelessMember.dob =
+                                              _homelessMember.dateOfBirth =
                                                   DateFormat("yyyy-MM-dd")
                                                       .format(value);
                                               calculatedAge = calc.calculateAge(

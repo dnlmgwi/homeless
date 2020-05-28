@@ -26,7 +26,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             builder: DotSwiperPaginationBuilder(
                 color: AppTheme.grey,
                 activeColor: AppTheme.dark_grey,
-                space: 10,
+                space: 4,
                 size: 7.0,
                 activeSize: 16.0),
           ),

@@ -69,6 +69,17 @@ class SharedPreferenceService {
     return name;
   }
 
+  Future setEmail(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', name);
+  }
+
+  Future<String> getMemberEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString('email');
+    return email;
+  }
+
   Future<bool> clearToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove("seen");
@@ -76,6 +87,7 @@ class SharedPreferenceService {
     await prefs.remove("apiKey");
     await prefs.remove("group");
     await prefs.remove("name");
+    await prefs.remove("email");
     bool cleared = await prefs.clear();
     return cleared;
   }
