@@ -1,6 +1,7 @@
 import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/data/graphqlQueries.dart';
+import 'package:homeless/services/locationServices.dart';
 import 'package:intl/intl.dart';
 
 class TransactScreen extends StatefulWidget {
@@ -38,36 +39,6 @@ class _TransactScreenState extends State<TransactScreen> {
 
   FocusNode myFocusNode;
 
-  _getCurrentLocation() async {
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = p[0];
-
-      setState(() {
-        _currentAddress =
-            // "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.name}";
-            "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
@@ -77,7 +48,7 @@ class _TransactScreenState extends State<TransactScreen> {
 
   @override
   initState() {
-    _getCurrentLocation();
+    locationServices.getCurrentLocation();
     super.initState();
     sharedPreferenceService.getMemberID().then((String memberID) {
       this.member_id = memberID;

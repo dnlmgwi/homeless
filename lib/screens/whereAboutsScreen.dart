@@ -1,6 +1,7 @@
 import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/data/graphqlQueries.dart';
+import 'package:homeless/services/locationServices.dart';
 import 'package:latlong/latlong.dart';
 
 class WhereAboutScreen extends StatefulWidget {
@@ -13,60 +14,20 @@ class WhereAboutScreen extends StatefulWidget {
 }
 
 class _WhereAboutScreenState extends State<WhereAboutScreen> {
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
   var now = DateTime.now();
 
-  Position _currentPosition;
-  String _currentAddress;
-
   var home;
-
-  FocusNode myFocusNode;
-
-  _getCurrentLocation() async {
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = p[0];
-
-      setState(() {
-        _currentAddress =
-            "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.name}";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
-    myFocusNode.dispose();
-
     super.dispose();
   }
 
   @override
   initState() {
-    _getCurrentLocation();
+    locationServices.getCurrentLocation();
     super.initState();
-
-    myFocusNode = FocusNode();
   }
 
   @override
@@ -118,12 +79,12 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                     distanceFromHome() async {
                       double distanceInMeters = await Geolocator()
                           .distanceBetween(
-                              _currentPosition == null
+                              locationServices.currentPosition == null
                                   ? widget.lat
-                                  : _currentPosition.latitude,
-                              _currentPosition == null
+                                  : locationServices.currentPosition.latitude,
+                              locationServices.currentPosition == null
                                   ? widget.lng
-                                  : _currentPosition.longitude,
+                                  : locationServices.currentPosition.longitude,
                               widget.lat,
                               widget.lng);
 
@@ -163,10 +124,10 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             height: 45.0,
                             point: LatLng(
                               person['location']['lat'] == null
-                                  ? _currentPosition.latitude
+                                  ? locationServices.currentPosition.latitude
                                   : person['location']['lat'],
                               person['location']['lat'] == null
-                                  ? _currentPosition.longitude
+                                  ? locationServices.currentPosition.longitude
                                   : person['location']['lng'],
                             ),
                             builder: (context) => Container(
@@ -183,12 +144,12 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             width: 45.0,
                             height: 45.0,
                             point: LatLng(
-                              _currentPosition == null
+                              locationServices.currentPosition == null
                                   ? widget.lat
-                                  : _currentPosition.latitude,
-                              _currentPosition == null
+                                  : locationServices.currentPosition.latitude,
+                              locationServices.currentPosition == null
                                   ? widget.lng
-                                  : _currentPosition.longitude,
+                                  : locationServices.currentPosition.longitude,
                             ),
                             builder: (context) => Container(
                                   child: IconButton(
@@ -210,10 +171,10 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             height: 45.0,
                             point: LatLng(
                               mark['location']['lat'] == null
-                                  ? _currentPosition.latitude
+                                  ? locationServices.currentPosition.latitude
                                   : mark['location']['lat'],
                               mark['location']['lng'] == null
-                                  ? _currentPosition.longitude
+                                  ? locationServices.currentPosition.longitude
                                   : mark['location']['lng'],
                             ),
                             builder: (context) => Container(
@@ -238,12 +199,14 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
                             child: FlutterMap(
                               options: MapOptions(
                                 center: LatLng(
-                                  _currentPosition == null
+                                  locationServices.currentPosition == null
                                       ? widget.lat
-                                      : _currentPosition.latitude,
-                                  _currentPosition == null
+                                      : locationServices
+                                          .currentPosition.latitude,
+                                  locationServices.currentPosition == null
                                       ? widget.lng
-                                      : _currentPosition.longitude,
+                                      : locationServices
+                                          .currentPosition.longitude,
                                 ),
                                 zoom: 13.0,
                               ),
