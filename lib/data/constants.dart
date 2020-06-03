@@ -1,5 +1,5 @@
 //Constant Endpoints
-const base_url = "http://www.sketchdm.co.za/cockpit/";
+const base_url = "http://www.sketchdm.co.za/konki/";
 const loginEndpoint = base_url + 'api/cockpit/authUser'; // Authenticate user
 const signUpEndpoint =
     base_url + 'api/cockpit/saveUser'; // Create / Update user

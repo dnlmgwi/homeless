@@ -1,6 +1,7 @@
 import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:homeless/data/graphqlQueries.dart';
+import 'package:homeless/services/locationServices.dart';
 import 'package:intl/intl.dart';
 
 class TransactScreen extends StatefulWidget {
@@ -25,48 +26,13 @@ class _TransactScreenState extends State<TransactScreen> {
   static bool accomodation = false;
   void _accomodationChanged(bool value) => setState(() => accomodation = value);
 
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
   var now = DateTime.now();
 
   String member_id = '';
   String member_name = '';
   String _selectedProject;
 
-  Position _currentPosition;
-  String _currentAddress;
-
   FocusNode myFocusNode;
-
-  _getCurrentLocation() async {
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = p[0];
-
-      setState(() {
-        _currentAddress =
-            // "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.name}";
-            "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   void dispose() {
@@ -77,7 +43,6 @@ class _TransactScreenState extends State<TransactScreen> {
 
   @override
   initState() {
-    _getCurrentLocation();
     super.initState();
     sharedPreferenceService.getMemberID().then((String memberID) {
       this.member_id = memberID;
@@ -162,12 +127,16 @@ class _TransactScreenState extends State<TransactScreen> {
                 member_name: member_name,
                 member_id: member_id,
                 project: _selectedProject,
-                address: _currentAddress,
+                address: locationServices.currentAddress,
                 scanDate: DateFormat("yyyy-MM-dd").format(now),
                 scanTime: DateTime.now().millisecondsSinceEpoch,
                 //TODO: Find Default Lat, Long
-                lat: _currentPosition == null ? -0 : _currentPosition.latitude,
-                lng: _currentPosition == null ? 0 : _currentPosition.longitude,
+                lat: locationServices.currentPosition == null
+                    ? -0
+                    : locationServices.currentPosition.latitude,
+                lng: locationServices.currentPosition == null
+                    ? 0
+                    : locationServices.currentPosition.longitude,
                 homeless_id:
                     widget.id)), // this is the mutation string you just created
             // you can update the cache based on results
