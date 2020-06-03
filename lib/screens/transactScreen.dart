@@ -26,16 +26,11 @@ class _TransactScreenState extends State<TransactScreen> {
   static bool accomodation = false;
   void _accomodationChanged(bool value) => setState(() => accomodation = value);
 
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
   var now = DateTime.now();
 
   String member_id = '';
   String member_name = '';
   String _selectedProject;
-
-  Position _currentPosition;
-  String _currentAddress;
 
   FocusNode myFocusNode;
 
@@ -48,7 +43,6 @@ class _TransactScreenState extends State<TransactScreen> {
 
   @override
   initState() {
-    locationServices.getCurrentLocation();
     super.initState();
     sharedPreferenceService.getMemberID().then((String memberID) {
       this.member_id = memberID;
@@ -133,12 +127,16 @@ class _TransactScreenState extends State<TransactScreen> {
                 member_name: member_name,
                 member_id: member_id,
                 project: _selectedProject,
-                address: _currentAddress,
+                address: locationServices.currentAddress,
                 scanDate: DateFormat("yyyy-MM-dd").format(now),
                 scanTime: DateTime.now().millisecondsSinceEpoch,
                 //TODO: Find Default Lat, Long
-                lat: _currentPosition == null ? -0 : _currentPosition.latitude,
-                lng: _currentPosition == null ? 0 : _currentPosition.longitude,
+                lat: locationServices.currentPosition == null
+                    ? -0
+                    : locationServices.currentPosition.latitude,
+                lng: locationServices.currentPosition == null
+                    ? 0
+                    : locationServices.currentPosition.longitude,
                 homeless_id:
                     widget.id)), // this is the mutation string you just created
             // you can update the cache based on results

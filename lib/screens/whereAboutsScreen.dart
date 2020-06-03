@@ -24,10 +24,27 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
     super.dispose();
   }
 
+  distanceFromHome() async {
+    double distanceInMeters = await Geolocator().distanceBetween(
+        locationServices.currentPosition == null
+            ? widget.lat
+            : locationServices.currentPosition.latitude,
+        locationServices.currentPosition == null
+            ? widget.lng
+            : locationServices.currentPosition.longitude,
+        widget.lat,
+        widget.lng);
+
+    var inKm = distanceInMeters / 1000;
+
+    return inKm.toStringAsFixed(3);
+  }
+
   @override
   initState() {
     locationServices.getCurrentLocation();
     super.initState();
+    distanceFromHome().then((onValue) => home = onValue);
   }
 
   @override
@@ -55,530 +72,508 @@ class _WhereAboutScreenState extends State<WhereAboutScreen> {
         ),
         body: Padding(
           padding: EdgeInsets.all(5.0),
-          child: SingleChildScrollView(
-            child: Query(
-                options: QueryOptions(
-                  documentNode:
-                      gql(Queries.getMarkers(homeless_id: widget.homeless_id)),
-                ),
-                builder: (QueryResult result,
-                    {VoidCallback refetch, FetchMore fetchMore}) {
-                  if (result.loading) {
+          child: Query(
+              options: QueryOptions(
+                documentNode:
+                    gql(Queries.getMarkers(homeless_id: widget.homeless_id)),
+              ),
+              builder: (QueryResult result,
+                  {VoidCallback refetch, FetchMore fetchMore}) {
+                if (result.loading) {
+                  return Column(
+                    children: <Widget>[
+                      LoadingProfile(),
+                    ],
+                  );
+                }
+                if (result.hasException) {
+                  print(result.exception.toString());
+                }
+
+                if (!result.hasException) {
+                  // play();
+
+                  var memberCollection = result.data;
+                  var transactionCollection = result.data;
+
+                  if (transactionCollection.isEmpty) {
+                    print('No Transaction!');
                     return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        LoadingProfile(),
+                        Center(
+                            child: AutoSizeText(
+                          "No Transactions",
+                          style: TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                            color: AppTheme.grey,
+                          ),
+                        )),
                       ],
                     );
                   }
-                  if (result.hasException) {
-                    print(result.exception.toString());
-                  }
 
-                  if (!result.hasException) {
-                    // play();
-                    distanceFromHome() async {
-                      double distanceInMeters = await Geolocator()
-                          .distanceBetween(
-                              locationServices.currentPosition == null
-                                  ? widget.lat
-                                  : locationServices.currentPosition.latitude,
-                              locationServices.currentPosition == null
-                                  ? widget.lng
-                                  : locationServices.currentPosition.longitude,
-                              widget.lat,
-                              widget.lng);
-
-                      var inKm = distanceInMeters / 1000;
-
-                      return inKm.toStringAsFixed(3);
-                    }
-
-                    var memberCollection = result.data;
-                    var transactionCollection = result.data;
-
-                    if (transactionCollection.isEmpty) {
-                      print('No Transaction!');
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                              child: AutoSizeText(
-                            "No Transactions",
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: AppTheme.grey,
-                            ),
-                          )),
-                        ],
-                      );
-                    }
-
-                    for (var person in memberCollection['MemberCollection']) {
-                      distanceFromHome().then((onValue) => home = onValue);
-                      List<Marker> listMarkers = [
-                        Marker(
-                            width: 45.0,
-                            height: 45.0,
-                            point: LatLng(
-                              person['location']['lat'] == null
-                                  ? locationServices.currentPosition.latitude
-                                  : person['location']['lat'],
-                              person['location']['lat'] == null
-                                  ? locationServices.currentPosition.longitude
-                                  : person['location']['lng'],
-                            ),
-                            builder: (context) => Container(
-                                  child: IconButton(
-                                    icon: FaIcon(FontAwesomeIcons.userAlt),
-                                    color: AppTheme.dark_grey,
-                                    iconSize: 25.0,
-                                    onPressed: () {
-                                      print('Marker tapped');
-                                    },
-                                  ),
-                                )),
-                        Marker(
-                            width: 45.0,
-                            height: 45.0,
-                            point: LatLng(
-                              locationServices.currentPosition == null
-                                  ? widget.lat
-                                  : locationServices.currentPosition.latitude,
-                              locationServices.currentPosition == null
-                                  ? widget.lng
-                                  : locationServices.currentPosition.longitude,
-                            ),
-                            builder: (context) => Container(
-                                  child: IconButton(
-                                    icon: FaIcon(FontAwesomeIcons.streetView),
-                                    color: AppTheme.darkText,
-                                    iconSize: 25.0,
-                                    onPressed: () {
-                                      print('Marker tapped');
-                                    },
-                                  ),
-                                )),
-                      ];
-
-                      for (var mark
-                          in transactionCollection['TransactionsCollection']) {
-                        listMarkers.add(
-                          Marker(
-                            width: 45.0,
-                            height: 45.0,
-                            point: LatLng(
-                              mark['location']['lat'] == null
-                                  ? locationServices.currentPosition.latitude
-                                  : mark['location']['lat'],
-                              mark['location']['lng'] == null
-                                  ? locationServices.currentPosition.longitude
-                                  : mark['location']['lng'],
-                            ),
-                            builder: (context) => Container(
-                              child: IconButton(
-                                icon: FaIcon(FontAwesomeIcons.thumbtack),
-                                color: AppTheme.darkText,
-                                iconSize: 25.0,
-                                onPressed: () {
-                                  print(TimeAgo.getTimeAgo(
-                                      int.parse(mark['scanTime'])));
-                                },
-                              ),
-                            ),
+                  for (var person in memberCollection['MemberCollection']) {
+                    List<Marker> listMarkers = [
+                      Marker(
+                          width: 45.0,
+                          height: 45.0,
+                          point: LatLng(
+                            person['location']['lat'] == null
+                                ? locationServices.currentPosition.latitude
+                                : person['location']['lat'],
+                            person['location']['lat'] == null
+                                ? locationServices.currentPosition.longitude
+                                : person['location']['lng'],
                           ),
-                        );
-                      }
-
-                      return Column(
-                        children: <Widget>[
-                          Container(
-                            height: 500,
-                            child: FlutterMap(
-                              options: MapOptions(
-                                center: LatLng(
-                                  locationServices.currentPosition == null
-                                      ? widget.lat
-                                      : locationServices
-                                          .currentPosition.latitude,
-                                  locationServices.currentPosition == null
-                                      ? widget.lng
-                                      : locationServices
-                                          .currentPosition.longitude,
-                                ),
-                                zoom: 13.0,
-                              ),
-                              layers: [
-                                TileLayerOptions(
-                                  urlTemplate:
-                                      "https://api.mapbox.com/styles/v1/sketchdm/ck9qg25gx052v1inok1euy0i6/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}",
-                                  additionalOptions: {
-                                    'accessToken': '$mapToken',
-                                    'id': 'mapbox.mapbox-streets-v7',
+                          builder: (context) => Container(
+                                child: IconButton(
+                                  icon: FaIcon(FontAwesomeIcons.userAlt),
+                                  color: AppTheme.dark_grey,
+                                  iconSize: 25.0,
+                                  onPressed: () {
+                                    ShowToast.showToast(
+                                        person['name'], context);
+                                    print('Marker tapped');
                                   },
                                 ),
-                                MarkerLayerOptions(
-                                  markers: listMarkers,
-                                ),
-                              ],
-                            ),
+                              )),
+                      Marker(
+                          width: 45.0,
+                          height: 45.0,
+                          point: LatLng(
+                            locationServices.currentPosition == null
+                                ? widget.lat
+                                : locationServices.currentPosition.latitude,
+                            locationServices.currentPosition == null
+                                ? widget.lng
+                                : locationServices.currentPosition.longitude,
                           ),
-                          Container(
-                            margin: EdgeInsets.all(20.0),
-                            padding: EdgeInsets.all(20.0),
-                            decoration: BoxDecoration(
-                              color: AppTheme.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey.withOpacity(0.2),
-//                                         offset: Offset(1.1, 1.1),
-                                    blurRadius: 10.0),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                // SizedBox(
-                                //   height: 20,
-                                // ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      // Row(
-                                      //   crossAxisAlignment:
-                                      //       CrossAxisAlignment.center,
-                                      //   children: <Widget>[
-                                      //     AutoSizeText(
-                                      //         "${person['name']} ${person['surname']}",
-                                      //         style: TextStyle(
-                                      //           fontFamily: AppTheme.fontName,
-                                      //           fontWeight: FontWeight.w700,
-                                      //           fontSize: 25,
-                                      //           letterSpacing: 1,
-                                      //           color: AppTheme.darkerText,
-                                      //         )),
+                          builder: (context) => Container(
+                                child: IconButton(
+                                  icon: FaIcon(FontAwesomeIcons.streetView),
+                                  color: AppTheme.darkText,
+                                  iconSize: 25.0,
+                                  onPressed: () {
+                                    print('Marker tapped');
+                                  },
+                                ),
+                              )),
+                    ];
 
-                                      //     //Name & Age
-                                      //   ],
-                                      // ),
-                                      // SizedBox(
-                                      //   height: 5,
-                                      // ),
-                                      // SizedBox(
-                                      //   child: AutoSizeText(
-                                      //     "${person['location']['address']}",
-                                      //     textAlign: TextAlign.left,
-                                      //     style: TextStyle(
-                                      //       fontFamily: AppTheme.fontName,
-                                      //       fontWeight: FontWeight.w400,
-                                      //       fontSize: 15,
-                                      //       letterSpacing: 0.5,
-                                      //       color: AppTheme.deactivatedText,
-                                      //     ),
-                                      //   ),
-                                      //   width:
-                                      //       MediaQuery.of(context).size.width,
-                                      // ),
-                                      // SizedBox(
-                                      //   height: 15,
-                                      // ),
-                                      AutoSizeText(
-                                          "Distance from usual location"
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 15,
-                                            letterSpacing: 1,
-                                            color: AppTheme.deactivatedText,
-                                          )),
-                                      Row(
-                                        children: <Widget>[
-                                          FaIcon(
-                                            FontAwesomeIcons.streetView,
-                                            color: AppTheme.deactivatedText,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          AutoSizeText("${home.toString()} km",
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 35,
-                                                letterSpacing: 1,
-                                                color: AppTheme.darkerText,
-                                              )),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      AutoSizeText(
-                                          "Most Recent Scan".toUpperCase(),
-                                          style: TextStyle(
-                                            fontFamily: AppTheme.fontName,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 15,
-                                            letterSpacing: 1,
-                                            color: AppTheme.deactivatedText,
-                                          )),
-                                      Row(
-                                        children: <Widget>[
-                                          FaIcon(FontAwesomeIcons.clock,
-                                              color: AppTheme.deactivatedText),
-                                          SizedBox(
-                                            width: 15,
-                                          ),
-                                          //TODO: Find Error Handling Improvements with State Management
-                                          transactionCollection[
-                                                          'TransactionsCollection']
-                                                      [0]['scanTime'] ==
-                                                  null
-                                              ? AutoSizeText(" No Data",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 35,
-                                                    letterSpacing: 1,
-                                                    color: AppTheme.darkerText,
-                                                  ))
-                                              : AutoSizeText(
-                                                  "${TimeAgo.getTimeAgo(int.parse(transactionCollection['TransactionsCollection'][0]['scanTime']))}",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        AppTheme.fontName,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 35,
-                                                    letterSpacing: 1,
-                                                    color: AppTheme.darkerText,
-                                                  )),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                //   RaisedButton.icon(
-                                //     clipBehavior: Clip.antiAlias,
-                                //     icon: FaIcon(
-                                //         FontAwesomeIcons.exclamationTriangle,
-                                //         color: Colors.red),
-                                //     label: Text(
-                                //       'Report User',
-                                //       style: TextStyle(
-                                //         color: AppTheme.darkerText,
-                                //       ),
-                                //     ),
-                                //     shape: RoundedRectangleBorder(
-                                //         borderRadius:
-                                //             BorderRadius.circular(22.0)),
-                                //     color: AppTheme.nearlyWhite,
-                                //     onPressed: () {
-                                //       // _launchReport();
-                                //       Navigator.pop(context, '/dash');
-                                //     },
-                                //   ),
-                              ],
+                    for (var mark
+                        in transactionCollection['TransactionsCollection']) {
+                      print('Number of Markers: ${mark.length}');
+
+                      listMarkers.add(
+                        Marker(
+                          width: 45.0,
+                          height: 45.0,
+                          point: LatLng(
+                            double.parse(mark['location']['lat'].toString()),
+                            double.parse(mark['location']['lng'].toString()),
+                          ),
+                          builder: (context) => Container(
+                            child: IconButton(
+                              icon: FaIcon(FontAwesomeIcons.thumbtack),
+                              color: AppTheme.darkText,
+                              iconSize: 25.0,
+                              onPressed: () {
+                                print(TimeAgo.getTimeAgo(
+                                    int.parse(mark['scanTime'])));
+                              },
                             ),
                           ),
-                        ],
+                        ),
                       );
                     }
 
-                    if (memberCollection.isEmpty) {
-                      print('User Doesnt Exist!');
-                      return Center(
-                        child: Container(
-                          margin: EdgeInsets.all(10.0),
-                          padding: EdgeInsets.all(20.0),
-                          decoration: BoxDecoration(
-                            color: AppTheme.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: AppTheme.grey.withOpacity(0.2),
-//                                         offset: Offset(1.1, 1.1),
-                                  blurRadius: 10.0),
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          height: 400,
+                          child: FlutterMap(
+                            options: MapOptions(
+                              center: LatLng(
+                                locationServices.currentPosition == null
+                                    ? locationServices
+                                            .currentPosition.latitude ??
+                                        0
+                                    : widget.lat,
+                                locationServices.currentPosition == null
+                                    ? locationServices
+                                            .currentPosition.longitude ??
+                                        0
+                                    : widget.lng,
+                              ),
+                              zoom: 13.0,
+                            ),
+                            layers: [
+                              TileLayerOptions(
+                                urlTemplate:
+                                    "https://api.mapbox.com/styles/v1/sketchdm/ck9qg25gx052v1inok1euy0i6/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}",
+                                additionalOptions: {
+                                  'accessToken': '$mapToken',
+                                  'id': 'mapbox.mapbox-streets-v7',
+                                },
+                              ),
+                              MarkerLayerOptions(
+                                markers: listMarkers,
+                              ),
                             ],
                           ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(20.0),
+                          padding: EdgeInsets.all(20.0),
+//                           decoration: BoxDecoration(
+//                             color: AppTheme.white,
+//                             borderRadius:
+//                                 BorderRadius.all(Radius.circular(8.0)),
+//                             boxShadow: <BoxShadow>[
+//                               BoxShadow(
+//                                   color: AppTheme.grey.withOpacity(0.2),
+// //                                         offset: Offset(1.1, 1.1),
+//                                   blurRadius: 10.0),
+//                             ],
+//                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Wrap(
-                                alignment: WrapAlignment.center,
-                                runSpacing: 20,
-                                spacing: 20,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.report_problem,
-                                    size: 40,
-                                  ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: AutoSizeText(
-                                        "This Is Not A Homeless Beneficiary."
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    // Row(
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.center,
+                                    //   children: <Widget>[
+                                    //     AutoSizeText(
+                                    //         "${person['name']} ${person['surname']}",
+                                    //         style: TextStyle(
+                                    //           fontFamily: AppTheme.fontName,
+                                    //           fontWeight: FontWeight.w700,
+                                    //           fontSize: 25,
+                                    //           letterSpacing: 1,
+                                    //           color: AppTheme.darkerText,
+                                    //         )),
+
+                                    //     //Name & Age
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 5,
+                                    // ),
+                                    // SizedBox(
+                                    //   child: AutoSizeText(
+                                    //     "${person['location']['address']}",
+                                    //     textAlign: TextAlign.left,
+                                    //     style: TextStyle(
+                                    //       fontFamily: AppTheme.fontName,
+                                    //       fontWeight: FontWeight.w400,
+                                    //       fontSize: 15,
+                                    //       letterSpacing: 0.5,
+                                    //       color: AppTheme.deactivatedText,
+                                    //     ),
+                                    //   ),
+                                    //   width:
+                                    //       MediaQuery.of(context).size.width,
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 15,
+                                    // ),
+                                    AutoSizeText(
+                                        "Distance from usual location"
                                             .toUpperCase(),
-                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontName,
                                           fontWeight: FontWeight.w700,
+                                          fontSize: 15,
                                           letterSpacing: 1,
                                           color: AppTheme.deactivatedText,
                                         )),
-                                  )
-                                ],
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                color: AppTheme.white,
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    Navigator.popAndPushNamed(context, '/dash');
-                                  },
-                                  elevation: 8,
-                                  color: AppTheme.dark_grey,
-                                  textColor: AppTheme.notWhite,
-                                  child: AutoSizeText(
-                                    "Rescan",
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20,
-                                      letterSpacing: 1,
+                                    Row(
+                                      children: <Widget>[
+                                        FaIcon(
+                                          FontAwesomeIcons.streetView,
+                                          color: AppTheme.deactivatedText,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        AutoSizeText("${home.toString()} km",
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 35,
+                                              letterSpacing: 1,
+                                              color: AppTheme.darkerText,
+                                            )),
+                                      ],
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    AutoSizeText(
+                                        "Most Recent Scan".toUpperCase(),
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontName,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 15,
+                                          letterSpacing: 1,
+                                          color: AppTheme.deactivatedText,
+                                        )),
+                                    Row(
+                                      children: <Widget>[
+                                        FaIcon(FontAwesomeIcons.clock,
+                                            color: AppTheme.deactivatedText),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        //TODO: Find Error Handling Improvements with State Management
+                                        transactionCollection[
+                                                    'TransactionsCollection']
+                                                .isEmpty
+                                            ? AutoSizeText(" No Data",
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 35,
+                                                  letterSpacing: 1,
+                                                  color: AppTheme.darkerText,
+                                                ))
+                                            : AutoSizeText(
+                                                "${TimeAgo.getTimeAgo(int.parse(transactionCollection['TransactionsCollection'][0]['scanTime']))}",
+                                                style: TextStyle(
+                                                  fontFamily: AppTheme.fontName,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 35,
+                                                  letterSpacing: 1,
+                                                  color: AppTheme.darkerText,
+                                                )),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: MaterialButton(
-                                  onPressed: () {
-                                    // _launchReport();
-                                    Navigator.popAndPushNamed(context, '/dash');
-                                  },
-                                  elevation: 8,
-                                  textColor: Colors.red,
-                                  color: AppTheme.notWhite,
-                                  child: AutoSizeText(
-                                    "Report",
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20,
-                                      letterSpacing: 1,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              //   RaisedButton.icon(
+                              //     clipBehavior: Clip.antiAlias,
+                              //     icon: FaIcon(
+                              //         FontAwesomeIcons.exclamationTriangle,
+                              //         color: Colors.red),
+                              //     label: Text(
+                              //       'Report User',
+                              //       style: TextStyle(
+                              //         color: AppTheme.darkerText,
+                              //       ),
+                              //     ),
+                              //     shape: RoundedRectangleBorder(
+                              //         borderRadius:
+                              //             BorderRadius.circular(22.0)),
+                              //     color: AppTheme.nearlyWhite,
+                              //     onPressed: () {
+                              //       // _launchReport();
+                              //       Navigator.pop(context, '/dash');
+                              //     },
+                              //   ),
                             ],
                           ),
                         ),
-                      );
-                    }
+                      ],
+                    );
                   }
 
-                  return Container(
-                    margin: EdgeInsets.all(10.0),
-                    padding: EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      color: AppTheme.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: AppTheme.grey.withOpacity(0.2),
+                  if (memberCollection.isEmpty) {
+                    print('User Doesnt Exist!');
+                    return Center(
+                      child: Container(
+                        margin: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: AppTheme.grey.withOpacity(0.2),
 //                                         offset: Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          runSpacing: 20,
-                          spacing: 20,
+                                blurRadius: 10.0),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(
-                              Icons.report_problem,
-                              size: 40,
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              runSpacing: 20,
+                              spacing: 20,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.report_problem,
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: AutoSizeText(
+                                      "This Is Not A Homeless Beneficiary."
+                                          .toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 1,
+                                        color: AppTheme.deactivatedText,
+                                      )),
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: AutoSizeText("Unauthorised".toUpperCase(),
-                                  textAlign: TextAlign.center,
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              color: AppTheme.white,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  Navigator.popAndPushNamed(context, '/dash');
+                                },
+                                elevation: 8,
+                                color: AppTheme.dark_grey,
+                                textColor: AppTheme.notWhite,
+                                child: AutoSizeText(
+                                  "Rescan",
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w700,
+                                    fontSize: 20,
                                     letterSpacing: 1,
-                                    color: AppTheme.deactivatedText,
-                                  )),
-                            )
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  // _launchReport();
+                                  Navigator.popAndPushNamed(context, '/dash');
+                                },
+                                elevation: 8,
+                                textColor: Colors.red,
+                                color: AppTheme.notWhite,
+                                child: AutoSizeText(
+                                  "Report",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          color: AppTheme.white,
-                          child: MaterialButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            elevation: 8,
-                            color: AppTheme.dark_grey,
-                            textColor: AppTheme.notWhite,
-                            child: AutoSizeText(
-                              "Rescan",
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                letterSpacing: 1,
-                              ),
+                      ),
+                    );
+                  }
+                }
+
+                return Container(
+                  margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(20.0),
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.2),
+//                                         offset: Offset(1.1, 1.1),
+                          blurRadius: 10.0),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 20,
+                        spacing: 20,
+                        children: <Widget>[
+                          Icon(
+                            Icons.report_problem,
+                            size: 40,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: AutoSizeText("Unauthorised".toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 1,
+                                  color: AppTheme.deactivatedText,
+                                )),
+                          )
+                        ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        color: AppTheme.white,
+                        child: MaterialButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          elevation: 8,
+                          color: AppTheme.dark_grey,
+                          textColor: AppTheme.notWhite,
+                          child: AutoSizeText(
+                            "Rescan",
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1,
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: MaterialButton(
-                            onPressed: () {
-                              Navigator.popAndPushNamed(context, '/dash');
-                              // _launchReport();
-                            },
-                            elevation: 8,
-                            textColor: Colors.red,
-                            color: AppTheme.notWhite,
-                            child: AutoSizeText(
-                              "Report",
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                letterSpacing: 1,
-                              ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: MaterialButton(
+                          onPressed: () {
+                            Navigator.popAndPushNamed(context, '/dash');
+                            // _launchReport();
+                          },
+                          elevation: 8,
+                          textColor: Colors.red,
+                          color: AppTheme.notWhite,
+                          child: AutoSizeText(
+                            "Report",
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                }),
-          ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
         ),
       ),
     );

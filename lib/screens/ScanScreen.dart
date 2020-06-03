@@ -6,6 +6,7 @@ import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:homeless/screens/medicalHistory.dart';
 import 'package:homeless/screens/transactionHistoryScreen.dart';
 import 'package:homeless/screens/whereaboutsScreen.dart';
+import 'package:homeless/services/locationServices.dart';
 import 'package:soundpool/soundpool.dart';
 // import 'package:encrypt/encrypt.dart';
 
@@ -20,6 +21,7 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   AnimationController animationController;
   // Choose from any of these available methods
 
@@ -60,6 +62,7 @@ class _ScanScreenState extends State<ScanScreen> {
     // );
     // animationController.forward();
     // super.initState();
+    locationServices.getCurrentLocation();
   }
 
   @override
@@ -224,32 +227,13 @@ class _ScanScreenState extends State<ScanScreen> {
                                                                   .darkerText,
                                                             )),
 
-                                                    Spacer(),
-                                                    FaIcon(
-                                                      FontAwesomeIcons.trophy,
-                                                      color: AppTheme.grey,
-                                                      size: 15,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    AutoSizeText(
-                                                        "${userProfile['skillLevel']}",
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              AppTheme.fontName,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 25,
-                                                          letterSpacing: 1,
-                                                          color: AppTheme
-                                                              .darkerText,
-                                                        )), //Name & Age
+                                                    //Name & Age
                                                   ],
                                                 ),
                                                 SizedBox(
                                                   height: 1,
                                                 ),
+
                                                 Row(
                                                   children: <Widget>[
                                                     AutoSizeText(
@@ -279,6 +263,33 @@ class _ScanScreenState extends State<ScanScreen> {
                                                           color: AppTheme
                                                               .deactivatedText,
                                                         )), // Date Joined
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    FaIcon(
+                                                      FontAwesomeIcons.trophy,
+                                                      color: AppTheme.grey,
+                                                      size: 15,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    AutoSizeText(
+                                                        "${userProfile['skillLevel']}",
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              AppTheme.fontName,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 25,
+                                                          letterSpacing: 1,
+                                                          color: AppTheme
+                                                              .darkerText,
+                                                        )),
                                                   ],
                                                 ),
                                                 SizedBox(
