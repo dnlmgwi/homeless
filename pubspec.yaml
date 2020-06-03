@@ -1,7 +1,7 @@
 name: homeless
 description: The Idea we co-designed with the youth in Walvis Bay, aimed to sensitize the community towards the homeless living with in the Walvis Bay area. They had identified that there was a large number of homeless people and that they faced a lot of problems with regards to living area, and access to the basic needs of any human being.
 
-version: 3.1.0-Beta
+version: 3.1.1-Beta
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -53,12 +53,11 @@ dependencies:
 dev_dependencies:
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
-  
+
   flutter_test:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -67,8 +66,8 @@ flutter:
     - assets/sounds/insight.m4r
 
   fonts:
-     - family: Oswald
-       fonts:
-         - asset: assets/fonts/Oswald-Bold.ttf
-         - asset: assets/fonts/Oswald-Medium.ttf
-         - asset: assets/fonts/Oswald-Regular.ttf
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-Bold.ttf
+        - asset: assets/fonts/Oswald-Medium.ttf
+        - asset: assets/fonts/Oswald-Regular.ttf

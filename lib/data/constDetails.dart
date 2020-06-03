@@ -12,7 +12,7 @@ class ConstantDetails {
   static const String appStoreLink = 'https://ictechhub.com/inventions/';
   static const String email = 'design@sketchdm.co.za';
   static const String phone = '+27722326766';
-  static const String version = '3.0.20-Beta';
+  static const String version = '3.1.1-Beta';
   static const String bankDetails = 'Current Account \n'
       '00000123456 \n'
       'First National Bank \n'
