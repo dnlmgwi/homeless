@@ -1,8 +1,8 @@
 import 'package:homeless/packages.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:homeless/services/locationServices.dart';
 import 'package:intl/intl.dart';
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart';
-// import 'package:flutter_mapbox_autocomplete/flutter_mapbox_autocomplete.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String routeName = '/scanData';
@@ -24,53 +24,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String member_name = '';
   var calculatedAge;
 
-  Position _currentPosition;
-  String _currentAddress;
-
-  Future<Placemark> _getLatLngFromAddress({String address}) async {
-    try {
-      List<Placemark> placemark =
-          await Geolocator().placemarkFromAddress("$address");
-
-      Placemark place = placemark[0];
-
-      return place;
-    } catch (e) {
-      print(e);
-    }
-    ;
-  }
-
-  _getCurrentLocation() async {
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-      _getAddressFromLatLng();
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> p = await geolocator.placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = p[0];
-
-      setState(() {
-        _currentAddress =
-            // "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.name}";
-            "${place.country}, ${place.locality}, ${place.postalCode}, ${place.locality}, ${place.subLocality}, ${place.subAdministrativeArea}";
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
@@ -79,7 +32,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   initState() {
-    _getCurrentLocation();
+    locationServices.getCurrentLocation();
     super.initState();
     sharedPreferenceService.getMemberID().then((String memberID) {
       this.member_id = memberID;
@@ -180,16 +133,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 Queries.addMember(
                                   member_name: member_name,
                                   member_id: member_id,
-                                  registered_address: _currentAddress,
+                                  registered_address:
+                                      locationServices.currentAddress,
                                   join_Time: DateFormat("HH:mm:ss").format(now),
                                   joinedDate:
                                       DateFormat("yyyy-MM-dd").format(now),
-                                  registered_lat: _currentPosition == null
-                                      ? -0
-                                      : _currentPosition.latitude,
-                                  registered_lng: _currentPosition == null
-                                      ? 0
-                                      : _currentPosition.longitude,
+                                  registered_lat:
+                                      locationServices.currentPosition == null
+                                          ? -0
+                                          : locationServices
+                                              .currentPosition.latitude,
+                                  registered_lng:
+                                      locationServices.currentPosition == null
+                                          ? 0
+                                          : locationServices
+                                              .currentPosition.longitude,
                                   homeless_id: args.homeless_id,
                                   //TODO: Form Text Field Data
                                   homeless_name: _homelessMember.homeless_name,
@@ -228,7 +186,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               // or do something with the result.data on completion
                               onCompleted: (dynamic resultData) {
                                 print("resultData: $resultData");
-                                _navDash(context); //TODO: Show Pop Over
+                                _navDash(context);
                               },
                               onError: (error) {
                                 print(error);
@@ -250,6 +208,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       child: Wrap(
                                         runSpacing: 20,
                                         children: <Widget>[
+                                          //GENERAL
                                           FormBuilderTextField(
                                             attribute: "homeless_name",
                                             decoration: InputDecoration(
@@ -323,6 +282,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             onSaved: (value) => setState(() =>
                                                 _homelessMember.age = value),
                                           ),
+                                          //WHere Abouts
                                           MapBoxPlaceSearchWidget(
                                             apiKey: mapToken,
                                             searchHint: 'Usual Address',
@@ -331,11 +291,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             onSelected: (place) {
                                               _homelessMember.address =
                                                   place.placeName;
-
-                                              _getLatLngFromAddress(
+                                              locationServices
+                                                  .getLatLngFromAddress(
                                                 address:
                                                     _homelessMember.address,
-                                              ).then((Placemark onValue) {
+                                              )
+                                                  .then((Placemark onValue) {
                                                 _homelessMember.lat =
                                                     onValue.position.latitude;
                                                 _homelessMember.lng =
@@ -421,8 +382,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                                           FormBuilderRadio(
                                             decoration: InputDecoration(
-                                                labelText: "Select Race"),
-                                            attribute: "race",
+                                                labelText: "Select Ethnicity"),
+                                            attribute: "ethnicity",
                                             validators: [
                                               FormBuilderValidators.required()
                                             ],
@@ -452,6 +413,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                   labelText:
                                                       "Select Skill Level"),
                                               attribute: "skillLevel",
+                                              textStyle: TextStyle(
+                                                color: AppTheme.nearlyWhite,
+                                              ),
+                                              pressedColor: AppTheme.darkerText,
+                                              selectedColor:
+                                                  AppTheme.darkerText,
+                                              unselectedColor:
+                                                  AppTheme.deactivatedText,
+                                              validators: [
+                                                FormBuilderValidators.required()
+                                              ],
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: "Unskilled"),
+                                                FormBuilderFieldOption(
+                                                    value: "Semi-Skilled"),
+                                                FormBuilderFieldOption(
+                                                    value: "Skilled"),
+                                              ],
+                                              onChanged: (value) => setState(
+                                                    () => _homelessMember
+                                                        .skillLevel = value,
+                                                  ),
+                                              onSaved: (value) => setState(() =>
+                                                  _homelessMember.skillLevel =
+                                                      value)),
+                                          FormBuilderSegmentedControl(
+                                              decoration: InputDecoration(
+                                                  labelText:
+                                                      "Select Level of Education"),
+                                              attribute: "levelOfEducation",
                                               textStyle: TextStyle(
                                                 color: AppTheme.nearlyWhite,
                                               ),
