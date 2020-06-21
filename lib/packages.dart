@@ -11,6 +11,7 @@ export 'package:url_launcher/url_launcher.dart'; //Launches Texts, Calls and Url
 export 'package:font_awesome_flutter/font_awesome_flutter.dart'; //Cool Icons
 export 'package:share/share.dart'; //Shares Text to other apps
 // export 'package:flutter_rave/flutter_rave.dart'; //Payment Option - Testing
+export 'package:connectivity/connectivity.dart';
 export "package:flutter_swiper/flutter_swiper.dart"; //
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart'; //QR Code Scanner
